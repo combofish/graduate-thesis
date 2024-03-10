@@ -18,6 +18,7 @@
 \contentsline {subsection}{\numberline {2.2.2}TODO}{2}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}TODO}{2}{subsection.2.2.3}%
 \contentsline {section}{\numberline {2.3}TODO}{2}{section.2.3}%
+<<<<<<< HEAD
 \contentsline {chapter}{\numberline {3}TODO}{3}{chapter.3}%
 \contentsline {section}{\numberline {3.1}TODO}{3}{section.3.1}%
 \contentsline {section}{\numberline {3.2}TODO}{3}{section.3.2}%
@@ -98,3 +99,6 @@
 \contentsline {section}{\numberline {B.1}Basic Instructions for Using Latex}{25}{section.B.1}%
 \contentsline {chapter}{Achievements}{27}{appendix*.23}%
 \contentsline {chapter}{Acknowledgements}{29}{appendix*.24}%
+=======
+\contentsline {chapter}{References}{3}{chapter*.5}%
+>>>>>>> c4872b59f347da3dc4fadf818953686a8565ef60
