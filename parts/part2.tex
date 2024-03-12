@@ -318,11 +318,110 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 
 
 
+
 深度与多视角之间存在密切关系，根据这些关系建模是当前基于多视角图像的显著性目标检测的重要研究方向。一项具有代表性的工作是 MAC，该方法将微透镜图像阵列输入端到端的卷积神经网络中，首先对每个单视点图像的角度变化进行建模，然后将提取的特征输入到现有网络模型中，以捕获多尺度和长程空间依赖信息。此外，还有一些方法，如 DLSD，将光场显著性目标检测分解为两个子任务，合成多视角图像以定位显著性目标。通过利用视差与多视角图像的关系来完成合成光场的任务。
 
 
 \BiSubsection{基于焦点堆栈的显著性目标检测原理}{TODO}
+
+
+
+%
+%
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.80\linewidth]{figures/chapter2/model_of_fs_inputs}
+	\bicaption{基于微透镜阵列的光场相机成像原理}{TODO}  
+	\label{cpt2_fig9:model_of_fs_inputs}
+\end{figure}
+%
+%
+
+
+
+
 \BiSubsection{显著性目标检测性能评估指标}{TODO}
+%
+%
+为了全面评估各种显著性目标检测模型在不同数据集上的分割性能，
+本节将介绍显著性目标检测任务中广泛使用的五种评估指标。
+分别包括
+平均绝对误差（Mean Absolute Error，MAE）、
+精确率-召回率曲线（P-R曲线）
+F-measure\cite{achanta2009frequency}、
+加权的F-measure\cite{margolin2014evaluate}、
+E-measure~\cite{fan2018enhanced}和
+S-measure~\cite{fan2017structure}。\par
+%
+%
+%
+%
+%
+% 展开叙述
+%
+平均绝对误差\par
+平均绝对误差通过衡量显著性预测图与相应的真实值之间的平均每个像素点绝对差异来
+直观的评估显著性图的质量。
+它是评估预测质量的最简单有效的方式。
+该评估指标的公式如下：
+\begin{equation}
+	MAE=\frac{1}{W \times H}\sum_{i=1}^{W} \sum_{j=1}^{H} \left |  \hat{S} (i,j) - S(i,j)\right | 
+\end{equation}
+%
+%
+其中$\hat{S}(i,j)$和$S(i,j)$分别表示显著性预测图和相应真值图对应坐标的像素。
+值得一提的是，当该性能指标的值越低时，意味着预测图越接近真值图。\par
+%
+%
+%
+精确率-召回率曲线（P-R曲线）\par
+P-R曲线就是精确率和召回率的曲线，曲线以召回率作为横坐标轴，以精确率作为纵坐标轴。
+在评估二分类任务时，通常会构造混淆矩阵加以分析，
+精确率和召回率可以从混淆矩阵中计算而来，公式如下：
+%
+%
+\begin{equation}
+	Precision = \frac{TP}{TP + FP},~Recall = \frac{TP}{TP+FN}
+\end{equation}
+%
+%
+其中分类器把正例正确地分类为正例，表示为TP（true positive），
+把正例错误地分类为负例，表示为FN（false negative），
+把负例正确地分类为负例，表示为TN（true negative）,
+把负例错误分类为正例，表示为FP（false positive）。
+% 那么P-R曲线是怎么来的呢？
+算法对样本进行分类时，都会有置信度，即表示该样本是正样本的概率，
+比如0.99的概率认为样本Ａ是正例，0.01的概率认为样本B是正例。
+通过选择合适的阈值，比如以0.5为阈值对样本进行划分，
+预测置信度大于0.5的就认为是正例，小于0.5的就是负例。
+通过置信度就可以对所有样本进行排序，再逐个样本的选择阈值，
+在该样本之前的都属于正例，该样本之后的都属于负例。
+每一个样本作为划分阈值时，都可以计算对应的Precision和Recall，
+那么就可以以此绘制P-R曲线。\par
+%
+%
+%
+%
+F-measure\par
+F-measure是通过精确度和召回率的加权调和均值来计算的。
+
+
+P-R 曲线是用来评估预测图的精准率和召回率的工具。然而，这种评估分类精度的方法需要在对预测图的每个像素进行二值化后，根据不同的阈值进行比较。阈值的变化会导致评估精度出现波动。为了综合考虑精准率和召回率之间的关系，研究者提出了 F-measure，该指标同时考量了精准率与召回率。评估指标的公式如下：
+
+\begin{equation}
+	F_{\beta} = \frac{\left ( 1 + \beta^{2} \right ) \times Precision \times Recall }{\beta^{2} \times Precision + Recall } 
+\end{equation}
+
+加权的F-measure\par
+
+\begin{equation}
+	F_{\beta}^{w} = \frac{\left ( 1 + \beta^{2} \right ) \times Precision^{w}  \times Recall^{w} }{\beta^{2} \times Precision^{w} + Recall^{w} } 
+\end{equation}
+
+E-measure\par
+S-measure\par
+
+
 
 
 \BiSection{本章小节}{TODO}
