@@ -9,6 +9,11 @@
 \documentclass[twoside,doctor,hide]{DUT-thesis-grd}
 
 % 需要删除
+% 自定义宏
+\def\todo{\textcolor{red}{TODO}}
+% END 
+
+% 自己额外导入的包
 \usepackage{pifont}
 \usepackage{color}
 %\usepackage{cite}
@@ -71,10 +76,10 @@
 %% 各章正文内容
 \let\cleardoublepage\clearpage
 
-%\include{parts/part1}
-%\include{parts/part2}
+% \include{parts/part1}
+% \include{parts/part2}
 % \include{parts/part3}
- \include{parts/part4}
+\include{parts/part4}
 
 % \include{chapters/chapter1}
 % \include{chapters/chapter2}
