@@ -14,10 +14,55 @@
 % END 
 
 % 自己额外导入的包
+\usepackage{ulem}
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+%\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+%
+%\usepackage[colorlinks,
+%linkcolor=red,
+%anchorcolor=blue,
+%citecolor=green
+%]{hyperref}
+
+%\usepackage[dvipdfm,  %pdflatex,pdftex这里决定运行文件的方式不同
+%pdfstartview=FitH,
+%CJKbookmarks=true,
+%bookmarksnumbered=true,
+%bookmarksopen=true,
+%colorlinks, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder同时注释掉)
+%pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+%linkcolor=green,
+%anchorcolor=green,
+%citecolor=green
+%]{hyperref}  
+
+\usepackage{hyperref} 
+\hypersetup{
+	colorlinks=true,
+	citecolor=blue,
+	linkcolor=red,
+	urlcolor=green}
+
+
+%\usepackage[colorlinks]{hyperref}
 \usepackage{pifont}
 \usepackage{color}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{color}
+%\usepackage{subcaption}
 %\usepackage{cite}
 %\usepackage[numbers]{natbib}
+\usepackage{soul}
+% 针对\cite和\ref命令 （通常用下面两个）
+%\soulregister\cite
+%\soulregister\ref 
+% 针对其他命令
+%\soulregister\citep7 % 针对\citep命令
+%\soulregister\citet7 % 针对\citet命令
+%\soulregister\pageref7 % 针对\pageref命令
 
 %==============更改数学字体设置，Latin Modern Math 默认的的确有点细，看个人需要，下面提供一种方法，需要的可以取消注释=========%
 
@@ -78,8 +123,8 @@
 
 % \include{parts/part1}
 % \include{parts/part2}
-% \include{parts/part3}
-\include{parts/part4}
+ \include{parts/part3}
+%\include{parts/part4}
 
 % \include{chapters/chapter1}
 % \include{chapters/chapter2}
@@ -92,7 +137,7 @@
 %% 参考文献，五号字，使用 BibTeX，包含参考文献文件.bib
 
 %\bibliography{reference/chap1,reference/chap2} %多个章节的参考文献
-\bibliography{reference/chap1,reference/ref_chapter2,reference/lfsod_models}
+\bibliography{reference/lfsod,reference/chap1,reference/ref_chapter2,reference/lfsod_models}
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
