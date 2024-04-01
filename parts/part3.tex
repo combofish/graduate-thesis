@@ -191,7 +191,6 @@ Module，TCM）来加强信息交互并促进上下文特征感知。
 %
 %
 %
-%
 具体地，$ f_{0}^{0} $ 表示全焦点图像的特征输入。 
 $ \left \{ f_{i}^{0} \right \}_{i=1}^{N} $ 表示焦点堆栈的特征输入。 
 此外，为了总结补丁中的信息，引入了一组大小为 $ M \times C $ 的随机初始化的可学习嵌入，作为 { }N 个焦点相关标记，表示为 $ \left \{ m_{i}^{0} \right \}_{i=0}^{N} $ ，其中 $M$ 表示焦点相关标记的数量。 
@@ -201,40 +200,128 @@ $ \left \{ f_{i}^{0} \right \}_{i=1}^{N} $ 表示焦点堆栈的特征输入。
 %
 %
 %
+%
+\par
+%
+%
+与卷积网络使用不同的卷积步长来获得多尺度特征图不同，
+我们使用渐进收缩策略通过patch嵌入层来控制特征图的尺度。
+我们用$ l \in 1..T $ 表示阶段编号。 
+我们将第$l$个阶段补丁块大小表示为$P_{l}$，在第$l$阶段开始时，
+我们首先均匀划分输入特征图
+$F_{l-1} \in \mathbb{R}^{H_{l-1} \times W_{l-1} \times C_{l-1}}$
+为
+$ \frac{H_{l-1}W_{l-1}}{P_{l}^{2}} $
+个补丁块。
+
+然后，将每个补丁块展平并投影到$C_{l}$维度的嵌入表达。
+在线性投影之后，嵌入补丁的形状可以看做是
+$\frac{H_{l-1}}{P_{l}} \times \frac{W_{l-1}}{P_{l}} \times C_{l} $，
+其中高度和宽度比输入小了$P_{l}$倍。
+这样我们可以灵活调整每个阶段的特征图的尺度，
+使得可以构建基于Transformer的特征金字塔。
+%
+%
+%
+%
+第$l$阶段的Transformer编码器有 $ N_{i} \in [3,4,6,3] $ 个 Transformer 块。
+%
+%
+%
+%
+%
 %\par
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.90\linewidth]{figures/chapter3/fpe}
+	\includegraphics[width=0.95\linewidth]{figures/chapter3/sra}
 	\bicaption{
-		网络结构图.
+		令牌通信模块 (TCM) 的图示。
+		(a) 令牌交互（TI）。 
+		%		交叉注意力在全焦点和焦点堆栈的嵌入式令牌之间执行特征交互。 
+		(b) 令牌移位（TS）。 
+		%		仅将焦点堆栈流中与焦点相关的标记分成组（图中以2组为例），然后沿焦点深度轴以不同方向（左右）移位以交换切片级信息。
 	}{
-		\todo
+		An illustration of the Token Communication Module (TCM). 
+		(a) Token Interaction (TI). 
+		%	Cross-attention performs feature interactions between the all-focal and focal stack. 
+		(b) Token Shift (TS).
+		%	Only the focus-related tokens in the focus stack stream are split into groups (2 in the figure) and then circularly shifted along the focus-depth axis with different directions to exchange slice-level information.
 	}  
-	\label{cpt3_fig1:fpe}
+	\label{cpt3_fig1:sra}
 \end{figure}
 %
 %
 %
 %
+%
 %\par
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.95\linewidth]{figures/chapter3/ccm}
-	\bicaption{
-		网络结构图.
-	}{
-		\todo
-	}  
-	\label{cpt3_fig1:ccm}
-\end{figure}
+%
+%
+我们基于金字塔Transformer（Pyramid Vision Transformer，PVT）~\cite{wang2022pvt}~的主干网由 $T = 4$ 个阶段组成。 
+%
+%~
+%
+由于骨干网络需要处理高分辨率的特征图，我们采用空间缩减注意力（Spatial-Reduction Attention，SRA）来取代Transformer编码器中传统多头注意力（Multi-Head Attention）层。
+%
+%\\
+%
+%\\
+%
+\par 
+%
+%
+与多头注意力机制类似，空间缩减注意力接受查询$Q$、秘钥$K$和值$V$作为输入，并细化输出的特征。
+不同之处在于，仅需注意力操作之前缩减了$K$和$V$的空间尺度，如图~\ref{cpt3_fig1:sra}，
+能够在很大程度上减少计算和内存开销。
+第$l$阶段的空间缩减注意细节可以表述如下：
 %
 %
 %
+%
+\begin{equation}
+	SRA(Q,~K,~V) = Concat(head_{0},~ \cdots,~ head_{H_{l}})~W^{O}
+\end{equation}
+%
+%
+\begin{equation}
+	head_{j} = Attention(Q~W_{j}^{Q}, ~ SR(K)~W_{j}^{K},~ SR(V)~W_{j}^{V})
+\end{equation}
+%
+%
+%
+其中$Concat(\cdot)$是连接操作。
+$W_{j}^{Q} \in \mathbb{R}^{C_{i} \times d_{head}},~
+W_{j}^{K} \in \mathbb{R}^{C_{i} \times d_{head}},~
+W_{j}^{V} \in \mathbb{R}^{C_{i} \times d_{head}},~$
+和
+$W^{O} \in \mathbb{R}^{C_{i} \times C_{i}}~$
+是线性映射参数。
+$H_{l}$是每个阶段注意力层的头数。
+$SR(\cdot)$是减少输入序列空间维度的操作，它的公式是：
+%
+%
+%\\
+%
+\begin{equation}
+	SR(x) = Norm(Reshape(x, R_{l})W^{S})
+\end{equation}
+%
+%
+其中$x \in \mathbb{R}^{(H_{l}W_{l}) \times C_{l}} $
+表示输入序列，$R_{l}$表示每个阶段中的注意力层的缩减比例。
+$Reshape(x, R_{l})$ 表示将输入序列 $x$ 重塑大小为
+$\frac{H_{l}W_{l}}{R_{i}^{2}} \times (R_{i}^{2}C_{i})$。
+$W_{S} \in \mathbb{R}^{R_{i}^{2}C_{i}}$
+是一个线性投影，它将输入序列的维度减少到$C_{l}$。
+$Norm(\cdot)$指的是层归一化。
 %
 %
 \par
-我们基于金字塔视觉变换器（PVT）~\cite{wang2022pvt}~的主干网由 $T = 4$ 个阶段组成，每个阶段包含
-$ N_{i} \in [3,4,6,3] $ 变换器块。 如图 2 所示，每个 Transformer 块包括线性空间减少注意力 (SRA) 和前馈网络 (FFN)，以每个图像的方式作用于联合标记：
+%
+%
+与原始的Transformer中一样，
+我们的每个 Transformer 块包括线性空间减少注意力 (SRA) 和前馈网络 (FFN)，
+以每个图像的方式作用于联合注意学习：
 %%
 %%
 \begin{equation}
@@ -242,7 +329,16 @@ $ N_{i} \in [3,4,6,3] $ 变换器块。 如图 2 所示，每个 Transformer 块
 \end{equation}
 %%
 %%
-其中$ l \in 1..T $ 表示阶段编号 。 每个Transformer编码器后面都布置了令牌通信模块（TCM），用于特征通信。 
+每个Transformer编码器后面都布置了令牌通信模块（TCM），用于特征通信。 
+%
+%
+%
+%
+%
+%
+%
+%
+%
 %
 %
 %
@@ -440,6 +536,37 @@ $ Q_{out}^{1} $ 移出。 这种设计的目的是随着网络的深入，保持
 %
 %
 %
+
+%
+%
+%\par
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.90\linewidth]{figures/chapter3/fpe}
+	\bicaption{
+		网络结构图.
+	}{
+		\todo
+	}  
+	\label{cpt3_fig1:fpe}
+\end{figure}
+%
+%
+%
+%
+%\par
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.95\linewidth]{figures/chapter3/ccm}
+	\bicaption{
+		网络结构图.
+	}{
+		\todo
+	}  
+	\label{cpt3_fig1:ccm}
+\end{figure}
+%
+%
 %
 \par
 %
@@ -573,7 +700,7 @@ VST-$rgb$ \cite{liu2021visual}，
 PFSNet \cite{ma2021pyramidal}，
 ITSD \cite{zhou2020interactive}，
 LDF \cite{wei2020label}，
-MINet \cite{pang2020multi}, 
+MINet \cite{pang2020multi}，
 F$^{3}$Net  \cite{wei2020f3net}， 
 EGNet   \cite{zhao2019egnet}，
 CPD  \cite{wu2019cascaded}，
