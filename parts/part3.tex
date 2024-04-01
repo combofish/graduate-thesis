@@ -33,8 +33,8 @@
 %		光场焦点堆栈的成像原理和成像效果。
 %		光场焦点堆栈的成像原理和不同切片的成像效果。
 		光场焦点堆栈的成像过程和不同切片的成像效果。
-		\textbf{(a)} 远处视角包含一个清晰的汽车。
-		\textbf{(b)} 近处视角包含一个清晰的标志。
+%		\textbf{(a)} 远处视角包含一个清晰的汽车。
+%		\textbf{(b)} 近处视角包含一个清晰的标志。
 		\textcolor{red}{$\bullet$} 表示清晰的部分。
 %		焦点堆栈的光场数据结构和焦点堆栈的成像效果的图示。 焦点切片具有随空间透视深度的不同而变化的聚焦部分。
 %		远处的景色里有一辆清晰的汽车。
@@ -55,8 +55,8 @@
 %		The imaging principle and imaging effect of light field focus stack.
 %		The imaging principle of light field focus stack and the imaging effects of different slices.
 		The imaging process of the light field focus stack and the imaging effects of different slices.
-		\textbf{(a)} The distant view contains a clear car.
-		\textbf{(b)} The close view draws a clear sign.
+%		\textbf{(a)} The distant view contains a clear car.
+%		\textbf{(b)} The close view draws a clear sign.
 		\textcolor{red}{$\bullet$} indicates the clear parts.  
 	}
 	\label{figure:cpt3:idea}
@@ -169,6 +169,22 @@ Module，TCM）来加强信息交互并促进上下文特征感知。
 %
 %
 %
+%\par
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.95\linewidth]{figures/chapter3/overview_1}
+	\bicaption{
+		整体网络结构图。
+	}{
+		\todo
+	}  
+	\label{cpt3_fig1:overview}
+\end{figure}
+%
+%
+%
+%
+%
 我们提出的 FPT 的整体架构如图 2 所示。给定 $N + 1$ 个分辨率为 $ H \times W $ 的图像，包括一个全焦点图像和 $N$ 个焦点堆栈图像，我们将每个图像划分为补丁区块作为输入。 
 将展平的 $N$ 个 patch 输入到线性投影中，得到嵌入的 patch $ \left \{ f_{i}^{0} \right \}_{i=0}^{N} $，其形状为$ \left ( N + 1 \right ) \times \frac{HW}{P^{2}} \times C  $，其中 $P$ 表示每个 patch 的大小，$C$ 表示每个 patch 的大小。 
 渠道维度。 
@@ -181,6 +197,36 @@ $ \left \{ f_{i}^{0} \right \}_{i=1}^{N} $ 表示焦点堆栈的特征输入。
 此外，为了总结补丁中的信息，引入了一组大小为 $ M \times C $ 的随机初始化的可学习嵌入，作为 { }N 个焦点相关标记，表示为 $ \left \{ m_{i}^{0} \right \}_{i=0}^{N} $ ，其中 $M$ 表示焦点相关标记的数量。 
 我们将每个 patch 与焦点相关的标记连接起来，
 并得到 $ \left \{ \left [ f_{i}^{0},m_{i}^{0}  \right ]  \right \}_{i=0}^{N} $ 作为特征提取器的输入。 
+%
+%
+%
+%
+%\par
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.90\linewidth]{figures/chapter3/fpe}
+	\bicaption{
+		网络结构图.
+	}{
+		\todo
+	}  
+	\label{cpt3_fig1:fpe}
+\end{figure}
+%
+%
+%
+%
+%\par
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.95\linewidth]{figures/chapter3/ccm}
+	\bicaption{
+		网络结构图.
+	}{
+		\todo
+	}  
+	\label{cpt3_fig1:ccm}
+\end{figure}
 %
 %
 %
@@ -506,7 +552,7 @@ $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个�
 \BiSubsection{实验设置}{TODO}
 \BiSubsection{消融实验}{TODO}
 
-定量比较：为了进行全面比较，我们将我们的方法与 20 个最先进的模型进行比较，
+定量比较：为了进行全面比较，我们将我们的方法与 27 个最先进的模型进行比较，
 包括7个光场显著性分割方法：
 DLGLRG \cite{liu2021light}, RENet \cite{piao2020exploit}, LFNet \cite{zhang2020lfnet},
 MAC \cite{zhang2020light}, MoLF \cite{zhang2019memory}, and DLSD \cite{piao2019deep};
@@ -522,10 +568,23 @@ BBS-Net     \cite{fan2020bbs}, SSF     \cite{zhang2020select} and S2MA    \cite{
 %
 %
 %
-和7个2D显著性检测方法：
-VST-$rgb$ \cite{liu2021visual}, PFSNet \cite{ma2021pyramidal}, ITSD \cite{zhou2020interactive},
-LDF \cite{wei2020label}, MINet \cite{pang2020multi}, 
-F$^{3}$Net  \cite{wei2020f3net} and EGNet   \cite{zhao2019egnet}。
+和14个2D显著性检测方法：
+VST-$rgb$ \cite{liu2021visual}，
+PFSNet \cite{ma2021pyramidal}，
+ITSD \cite{zhou2020interactive}，
+LDF \cite{wei2020label}，
+MINet \cite{pang2020multi}, 
+F$^{3}$Net  \cite{wei2020f3net}， 
+EGNet   \cite{zhao2019egnet}，
+CPD  \cite{wu2019cascaded}，
+PoolNet \cite{liu2019simple}，
+PiCANet \cite{liu2018picanet}，
+PAGRN \cite{wang2018detect}，
+C2S   \cite{li2018contour}，
+R3Net  \cite{deng2018r3net}
+和
+Amulet \cite{zhang2017amulet}
+。
 %
 %
 %包括 7 个 LFSOD 方法：DLGLRG [21]、RENet [31]、LFNet [50]、MAC [47]、MoLF [51]和DLSD[30]； 6种RGB-D SOD方法：DCF [13]、CIR-Net [4]、VST-rgbd [20]、BBS-Net [10]、SSF [52]和S2MA [19]； 和 7RGB 方法：VST-rgb [20]、PFSNet [23]、ITSD [58]、LDF [44]、MINet [24]、F3 Net [43] 和 EGNet [56]。 
@@ -555,460 +614,885 @@ F$^{3}$Net  \cite{wei2020f3net} and EGNet   \cite{zhao2019egnet}。
 %
 定性比较：为了更直观地观察，图4中可视化了所提出的方法和其他排名靠前的方法生成的一些代表性结果。可以看出，我们提出的方法的结果与地面事实更加一致。 当面对这些具有挑战性的场景时，包括多个对象（第 4、5 行）和复杂场景（第 6,7 行），大多数 RGB 和 RGB-D SOD 方法无法准确检测显着对象。 相比之下，所提出的方法可以成功生成准确且稳健的显着图。 与这些基于 CNN 的 LFSOD 方法相比，所提出的方法获得了更一致的预测结果和更精细的细节。
 
+%
+%\begin{table*}[]
+%	%
+%	%---------------------------------------------------------------------> 大表 
+%	%
+%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+%		%
+%		% denote the best and the second-best results,
+%		%
+%		The best three results are shown in 
+%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+%		% '-' indicates the code or outcome is not available.
+%	}
+%	\centering
+%	\label{table:comp_with_sota_1}
+%%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{crcccc}
+%			\toprule  %添加表格头部粗线
+%			
+%			% title
+%			\multirow{2}*{Type} & \multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
+%			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } \\
+%
+%			
+%			% next line
+%			\cmidrule(r){3-6} 
+%			
+%			% subtitle
+%			& & 
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%		
+%			
+%			% line line
+%			\midrule
+%			
+%			\multirow{8}*{\textit{Light field}}
+%			
+%			% 开始填数据
+%			
+%			& Ours	 &  {\textbf{0.973}} & \textbf{ {0.946}} 
+%			& \textbf{ {0.954}} & \textbf{ {0.020}} 
+%			\\
+%			
+%			& DLGLRG \cite{liu2021light} 
+%			& {\textcolor{red}{0.958}} & {\textcolor{red}{0.928}} 
+%			& {\textcolor{red}{0.934}} & {\textcolor{red}{0.029}} 
+%			\\
+%			
+%			& ERNet \cite{piao2020exploit}
+%			& 0.947 & 0.899 & 0.908 & 0.039  \\
+%			
+%			& PANet \cite{piao2021panet} 
+%			% & 0.9390 & 0.9080 & 0.9029 & 0.0383 & 0.8449 & 0.7949 & 0.7383 & 0.0743 & 0.8922 & 0.8487 & 0.8494 & 0.0761 
+%			& 0.939 & 0.908 & 0.903 & 0.038
+%			\\
+%			
+%			& LFNet	 \cite{zhang2020lfnet} 
+%			& 0.929 & 0.878 & 0.890 & 0.053 	 \\
+%			
+%			& MAC	 \cite{zhang2020light} 
+%			& 0.863	& 0.804	& 0.792	& 0.102	    \\
+%			
+%			& MoLF	 \cite{zhang2019memory} 
+%			& 0.938 & 0.887 & 0.902 & 0.051 	 \\
+%			
+%			& DLSD	\cite{piao2019deep}
+%			& 0.891	& 0.841	& 0.801	& 0.076	    \\
+%			
+%			\midrule % end lfsod
+%			
+%			% start rgb-d
+%			\multirow{6}*{\textit{RGB-D}}
+%			
+%			% & 001& Male & 001& Male& 001& Male& 001& Male& 001& Male & 001& Male  & 001& Male \\
+%			
+%			& DCF \cite{ji2021calibrated} 
+%			& \textcolor{blue}{0.954} & \textcolor{blue}{0.921} & \textcolor{blue}{0.927} & \textcolor{blue}{0.031} 
+%		 	\\
+%			
+%			& CIR-Net \cite{cong2022cir}
+%			& 0.950 & 0.916 & 0.921 & 0.038 
+%		    \\ 
+%			
+%			& VST-$rgbd$  \cite{liu2021visual} 
+%			& 0.952 & 0.920 & 0.921 & 0.036 
+%			\\
+%			
+%			
+%			& BBS-Net     \cite{fan2020bbs} 
+%			& 0.900 & 0.865 & 0.852 & 0.066 
+%			\\ 
+%			
+%			& SSF     \cite{zhang2020select} 
+%			& 0.922 & 0.879 & 0.887 & 0.050 
+%			\\ 
+%			
+%			& S2MA    \cite{liu2020learning} 
+%			& 0.839 & 0.787 & 0.754 & 	0.102 
+%			\\
+%			
+%			\midrule % end rgb-d
+%			
+%			\multirow{7}*{\textit{RGB}}
+%			
+%			& VST-$rgb$ \cite{liu2021visual} 
+%			& 0.939 & 0.910 & 0.911 & 0.047  \\ 
+%			
+%			& PFSNet \cite{ma2021pyramidal}
+%			& 0.912 & 0.883 & 0.879 & 0.057  \\ 
+%			
+%			& ITSD \cite{zhou2020interactive} & 
+%			0.930 & 0.899 & 0.899 & 0.052  \\ 
+%			
+%			
+%			
+%			& LDF \cite{wei2020label} &
+%			0.898 & 0.873 & 0.861 & 0.061 \\ 
+%			
+%			
+%			& MINet \cite{pang2020multi} &
+%			0.916 & 0.890 & 0.882 & 0.050  \\ 
+%			
+%			& F$^{3}$Net  \cite{wei2020f3net}
+%			& 0.900 & 0.888 & 0.882 & 0.057  \\ 
+%			
+%			& EGNet   \cite{zhao2019egnet}
+%			& 0.914 & 0.886 & 0.870 & 0.053 \\ 
+%			
+%			\bottomrule % end
+%	\end{tabular}
+%%}
+%\end{table*}
+%
+%
+%
+%\begin{table*}[]
+%	%
+%	%---------------------------------------------------------------------> 大表 
+%	%
+%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+%		%
+%		% denote the best and the second-best results,
+%		%
+%		The best three results are shown in 
+%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+%		% '-' indicates the code or outcome is not available.
+%	}
+%	\centering
+%	\label{table:comp_with_sota_2}
+%%	\label{table:comp-with-sota}
+%%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{crcccc}
+%			\toprule  %添加表格头部粗线
+%			
+%			% title
+%			\multirow{2}*{Type} & \multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
+%			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } \\
+%			
+%			% next line
+%			\cmidrule(r){3-6} 
+%			
+%			% subtitle
+%			& & 
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			
+%			% line line
+%			\midrule
+%			
+%			\multirow{8}*{\textit{Light field}}
+%			
+%			% 开始填数据
+%			
+%			& Ours	 
+%			& \textbf{ {0.871}} &	\textbf{ {0.828}} 
+%			&\textbf{	 {0.784}} & {\textcolor{red}{0.064}} 
+%		    \\
+%			
+%			& DLGLRG \cite{liu2021light} 
+%			&	0.839 &	0.766 &	0.698 &	0.070 
+%	        \\
+%			
+%			& ERNet \cite{piao2020exploit}
+%			&	0.841 &	0.778 &	0.722 &	0.082 \\
+%			
+%			& PANet \cite{piao2021panet} 
+%			% & 0.9390 & 0.9080 & 0.9029 & 0.0383 & 0.8449 & 0.7949 & 0.7383 & 0.0743 & 0.8922 & 0.8487 & 0.8494 & 0.0761 
+%			& 0.845 & 0.795 & 0.738 & 0.074 
+%			\\
+%			
+%			& LFNet	 \cite{zhang2020lfnet} 
+%			&	0.846 &	0.782 &	0.718 &	0.073 \\
+%			
+%			& MAC	 \cite{zhang2020light} 
+%			&   0.797 & 0.731 & 0.667 & 0.107 
+%			\\
+%			
+%			& MoLF	 \cite{zhang2019memory} 
+%			&	0.852 &	0.789 &	0.729 &	0.075 \\
+%			
+%			& DLSD	\cite{piao2019deep}
+%			&   0.783 & 0.741 & 0.615 & 0.098 \\
+%			
+%			
+%			\midrule % end lfsod
+%			
+%			\multirow{6}*{\textit{RGB-D}}
+%
+%			
+%			& DCF \cite{ji2021calibrated} 
+%			& \textcolor{blue}{0.856} & {\textcolor{red}{0.812}} & {\textcolor{red}{0.768}} & \textcolor{blue}{0.065} 
+%			\\
+%			
+%			& CIR-Net \cite{cong2022cir}
+%			& {\textcolor{red}{0.862}} & 0.800 
+%			& 0.742 & \textbf{ {0.062}} 
+%			\\ 
+%			
+%			& VST-$rgbd$  \cite{liu2021visual} 
+%			& 0.843 & 0.807 & 0.754 & 0.086  \\
+%
+%			
+%			& BBS-Net     \cite{fan2020bbs} 
+%			& 0.801 & 0.751 & 0.676 & 0.073 
+%			\\ 
+%			
+%			& SSF     \cite{zhang2020select} 
+%			& 0.816 & 0.725 & 0.647 & 0.090 
+%		    \\ 
+%			
+%			& S2MA    \cite{liu2020learning} 
+%		    & 0.777 & 0.729 & 0.650 & 0.112 \\
+%			
+%			
+%			%			& TriTransNet	&  & \\
+%			%			& DCFNet  & \\
+%			
+%			\midrule % end rgb-d
+%			
+%			% start rgb sod
+%			\multirow{7}*{\textit{RGB}}
+%			
+%			& VST-$rgb$ \cite{liu2021visual} 
+%			& 0.831 & \textcolor{blue}{0.808} & \textcolor{blue}{0.763} & 0.093 \\ 
+%			
+%			& PFSNet \cite{ma2021pyramidal}
+%			&  0.835 & 0.800 & 0.752 & 0.088  \\ 
+%			
+%			%			& - & \\
+%			
+%			& ITSD \cite{zhou2020interactive} & 
+%			 0.839 & 0.805 & 0.759 & 0.089  \\ 
+%			
+%			
+%			
+%			& LDF \cite{wei2020label} &
+%			 0.804 & 0.780 & 0.708 & 0.093  \\ 
+%			
+%			
+%			& MINet \cite{pang2020multi} 
+%			 & 0.816 & 0.792 & 0.720 & 0.086  \\ 
+%			
+%			& F$^{3}$Net  \cite{wei2020f3net}
+%			& 0.815 & 0.777 & 0.718 & 0.095  \\ 
+%
+%			
+%			& EGNet   \cite{zhao2019egnet}
+%			 & 0.794 & 0.772 & 0.672 & 0.094  \\ 
+%			
+%			\bottomrule % end
+%	\end{tabular}
+%%}
+%\end{table*}
+
+
+%
+%\begin{table*}[]
+%	%
+%	%---------------------------------------------------------------------> 大表 
+%	%
+%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+%		%
+%		% denote the best and the second-best results,
+%		%
+%		The best three results are shown in 
+%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+%		% '-' indicates the code or outcome is not available.
+%	}
+%	\centering
+%	\label{table:comp_with_sota_3}
+%%	\label{table:comp-with-sota}
+%%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{crcccc}
+%			\toprule  %添加表格头部粗线
+%			
+%%			\multirow{2}*{Type} & 
+%			\multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
+%			% \multirow{2}*{Years} &
+%			% \multicolumn{1}{c}{Type} & \multicolumn{1}{c}{Methods} & \multicolumn{1}{c}{Years} & 
+%			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } &
+%			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } &
+%			\multicolumn{4}{c}{LFSD \cite{li2014saliency} } \\
+%			
+%			% next line
+%			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
+%			
+%			% subtitle
+%			& 
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ &
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  &
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			
+%			
+%			% line line
+%			\midrule
+%			
+%			\multirow{8}*{\textit{Light field}}
+%			
+%			% 开始填数据
+%			
+%			& Ours	 
+%%			&  {\textbf{0.973}} & \textbf{ {0.946}} 	& \textbf{ {0.954}} & \textbf{ {0.020}} 
+%%			& \textbf{ {0.871}} &	\textbf{ {0.828}} 			&\textbf{	 {0.784}} & {\textcolor{red}{0.064}} 
+%			& \textbf{ {0.919}} &	\textcolor{blue}{0.860} 			&	\textbf{ {0.873}} &	\textbf{ {0.064}} 
+%			\\
+%			
+%			& DLGLRG \cite{liu2021light} 
+%%			& {\textcolor{red}{0.958}} & {\textcolor{red}{0.928}} 			& {\textcolor{red}{0.934}} & {\textcolor{red}{0.029}} 
+%%			&	0.839 &	0.766 &	0.698 &	0.070 
+%			&	{\textcolor{red}{0.906}} &	\textbf{ {0.866}} 			&	{\textcolor{red}{0.870}} &	\textcolor{blue}{0.069} 
+%			\\
+%			
+%			& ERNet \cite{piao2020exploit}
+%%			& 0.947 & 0.899 & 0.908 & 0.039 
+%%			&	0.841 &	0.778 &	0.722 &	0.082 
+%			&	0.888 &	0.834 &	0.850 &	0.082 
+%			\\
+%			
+%			& PANet \cite{piao2021panet} 
+%%			& 0.939 & 0.908 & 0.903 & 0.038 
+%%			& 0.845 & 0.795 & 0.738 & 0.074 
+%			& 0.892 & 0.849 & 0.849 & 0.076
+%			\\
+%			
+%			& LFNet	 \cite{zhang2020lfnet} 
+%%			& 0.929 & 0.878 & 0.890 & 0.053
+%%			 &	0.846 &	0.782 &	0.718 &	0.073 
+%			 &	0.885 &	0.820 &	0.824 &	0.092 \\
+%			
+%			& MAC	 \cite{zhang2020light} 
+%%			& 0.863	& 0.804	& 0.792	& 0.102	
+%%			&   0.797 & 0.731 & 0.667 & 0.107 
+%			& 0.832 & 0.782 & 0.776 & 0.127 \\
+%			
+%			& MoLF	 \cite{zhang2019memory} 
+%%			& 0.938 & 0.887 & 0.902 & 0.051 
+%%			&	0.852 &	0.789 &	0.729 &	0.075 
+%			&	0.888 &	0.830 &	0.834 &	0.089 \\
+%			
+%			& DLSD	\cite{piao2019deep}
+%%			& 0.891	& 0.841	& 0.801	& 0.076	
+%%			&   0.783 & 0.741 & 0.615 & 0.098 
+%			& 0.806 & 0.737 & 0.715 & 0.147 \\
+%			
+%			\midrule % end lfsod
+%			
+%			% start rgb-d
+%			\multirow{6}*{\textit{RGB-D}}
+%			
+%			& DCF \cite{ji2021calibrated} 
+%%			& \textcolor{blue}{0.954} & \textcolor{blue}{0.921} & \textcolor{blue}{0.927} & \textcolor{blue}{0.031} 
+%%			& \textcolor{blue}{0.856} & {\textcolor{red}{0.812}} & {\textcolor{red}{0.768}} & \textcolor{blue}{0.065} 
+%			& 0.881 & 0.809 & 0.821 & 0.096 \\
+%			
+%			& CIR-Net \cite{cong2022cir}
+%%			& 0.950 & 0.916 & 0.921 & 0.038 
+%%			& {\textcolor{red}{0.862}} & 0.800  			& 0.742 & \textbf{ {0.062}} 
+%			& 0.874 & 0.820 & 0.816 & 0.098 \\ 
+%			
+%			& VST-$rgbd$  \cite{liu2021visual} 
+%%			& 0.952 & 0.920 & 0.921 & 0.036 
+%%			& 0.843 & 0.807 & 0.754 & 0.086 
+%			& 0.851 & 0.792 & 0.786 & 0.110 
+%			\\
+%			
+%			%			& -  & 2022  & \\
+%			%			& -  & 2022  & \\
+%			
+%			& BBS-Net     \cite{fan2020bbs} 
+%%			& 0.900 & 0.865 & 0.852 & 0.066 
+%%			& 0.801 & 0.751 & 0.676 & 0.073 
+%			& \textcolor{blue}{0.901} & {\textcolor{red}{0.864}} & 0.858 & 0.072 \\ 
+%			
+%			& SSF     \cite{zhang2020select} 
+%%			& 0.922 & 0.879 & 0.887 & 0.050 
+%%			& 0.816 & 0.725 & 0.647 & 0.090 
+%			& \textcolor{blue}{0.901} & 0.859 & \textcolor{blue}{0.868} & {\textcolor{red}{0.067}} \\ 
+%			
+%			& S2MA    \cite{liu2020learning} 
+%%			& 0.839 & 0.787 & 0.754 & 	0.102 
+%%			& 0.777 & 0.729 & 0.650 & 0.112 
+%			& 0.873 & 0.837 &	0.835 & 0.094 \\
+%
+%			
+%			\midrule % end rgb-d
+%			\multirow{7}*{\textit{RGB}}
+%			
+%			& VST-$rgb$ \cite{liu2021visual} 
+%%			& 0.939 & 0.910 & 0.911 & 0.047
+%%			& 0.831 & \textcolor{blue}{0.808} & \textcolor{blue}{0.763} & 0.093 
+%			& 0.865 & 0.797 & 0.817 & 0.123 
+%			\\ 
+%			
+%			& PFSNet \cite{ma2021pyramidal}
+%%			& 0.912 & 0.883 & 0.879 & 0.057 
+%%			& 0.835 & 0.800 & 0.752 & 0.088 
+%			& 0.805 & 0.749 & 0.727 & 0.145 
+%			\\ 
+%
+%			
+%			& ITSD \cite{zhou2020interactive} 
+%%			& 0.930 & 0.899 & 0.899 & 0.052 
+%%			& 0.839 & 0.805 & 0.759 & 0.089 
+%			& 0.879 & 0.847 & 0.840 & 0.088 
+%			\\ 
+%			
+%			
+%			
+%			& LDF \cite{wei2020label} 
+%%			& 0.898 & 0.873 & 0.861 & 0.061 
+%%			& 0.804 & 0.780 & 0.708 & 0.093 
+%			& 0.843 & 0.821 & 0.803 & 0.096 
+%			\\ 
+%			
+%			
+%			& MINet \cite{pang2020multi} 
+%%			& 0.916 & 0.890 & 0.882 & 0.050 
+%%			& 0.816 & 0.792 & 0.720 & 0.086 
+%			& 0.861 & 0.834 & 0.828 & 0.091 
+%			\\ 
+%			
+%			& F$^{3}$Net  \cite{wei2020f3net}
+%%			& 0.900 & 0.888 & 0.882 & 0.057 
+%%			& 0.815 & 0.777 & 0.718 & 0.095 
+%			& 0.824 & 0.806 & 0.797 & 0.106 
+%			\\ 
+%			
+%			
+%			& EGNet   \cite{zhao2019egnet}
+%%			& 0.914 & 0.886 & 0.870 & 0.053 
+%%			& 0.794 & 0.772 & 0.672 & 0.094 
+%			& 0.776 & 0.784 & 0.762 & 0.118 
+%			\\ 
+%			
+%			\bottomrule % end
+%	\end{tabular}
+%%}
+%\end{table*}
+
+
+
+
+%
+%\begin{table*}[]
+%	%
+%	%---------------------------------------------------------------------> 大表 
+%	%
+%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+%		%
+%		% denote the best and the second-best results,
+%		%
+%		The best three results are shown in 
+%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+%		% '-' indicates the code or outcome is not available.
+%	}
+%	\centering
+%	\label{table:comp_with_sota_3}
+%	%	\label{table:comp-with-sota}
+%		\resizebox{\textwidth}{!}{
+%		\begin{tabular}{rcccccccccccc}
+%			\toprule  %添加表格头部粗线
+%			
+%			% title
+%%			\multirow{2}*{Type} & 
+%			\multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
+%			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } &
+%			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } &
+%			\multicolumn{4}{c}{LFSD \cite{li2014saliency} } \\
+%			
+%			% next line
+%			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
+%			
+%			% subtitle
+%			& 
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ &
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  &
+%			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			
+%			
+%			
+%			% line line
+%			\midrule
+%			
+%%			\multirow{8}*{\textit{Light field}}
+%			
+%			% 开始填数据
+%			
+%			 Ours	 
+%						&  {\textbf{0.973}} & \textbf{ {0.946}} 	& \textbf{ {0.954}} & \textbf{ {0.020}} 
+%						& \textbf{ {0.871}} &	\textbf{ {0.828}} 			&\textbf{	 {0.784}} & {\textcolor{red}{0.064}} 
+%			& \textbf{ {0.919}} &	\textcolor{blue}{0.860} 			&	\textbf{ {0.873}} &	\textbf{ {0.064}} 
+%			\\
+%			
+%			 DLGLRG \cite{liu2021light} 
+%						& {\textcolor{red}{0.958}} & {\textcolor{red}{0.928}} 			& {\textcolor{red}{0.934}} & {\textcolor{red}{0.029}} 
+%						&	0.839 &	0.766 &	0.698 &	0.070 
+%			&	{\textcolor{red}{0.906}} &	\textbf{ {0.866}} 			&	{\textcolor{red}{0.870}} &	\textcolor{blue}{0.069} 
+%			\\
+%			
+%			 ERNet \cite{piao2020exploit}
+%						& 0.947 & 0.899 & 0.908 & 0.039 
+%						&	0.841 &	0.778 &	0.722 &	0.082 
+%			&	0.888 &	0.834 &	0.850 &	0.082 
+%			\\
+%			
+%			 PANet \cite{piao2021panet} 
+%						& 0.939 & 0.908 & 0.903 & 0.038 
+%						& 0.845 & 0.795 & 0.738 & 0.074 
+%			& 0.892 & 0.849 & 0.849 & 0.076
+%			\\
+%			
+%			 LFNet	 \cite{zhang2020lfnet} 
+%						& 0.929 & 0.878 & 0.890 & 0.053
+%						 &	0.846 &	0.782 &	0.718 &	0.073 
+%			&	0.885 &	0.820 &	0.824 &	0.092 \\
+%			
+%			 MAC	 \cite{zhang2020light} 
+%						& 0.863	& 0.804	& 0.792	& 0.102	
+%						&   0.797 & 0.731 & 0.667 & 0.107 
+%			& 0.832 & 0.782 & 0.776 & 0.127 \\
+%			
+%			 MoLF	 \cite{zhang2019memory} 
+%						& 0.938 & 0.887 & 0.902 & 0.051 
+%						&	0.852 &	0.789 &	0.729 &	0.075 
+%			&	0.888 &	0.830 &	0.834 &	0.089 \\
+%			
+%			 DLSD	\cite{piao2019deep}
+%						& 0.891	& 0.841	& 0.801	& 0.076	
+%						&   0.783 & 0.741 & 0.615 & 0.098 
+%			& 0.806 & 0.737 & 0.715 & 0.147 \\
+%			
+%			\midrule % end lfsod
+%			
+%			% start rgb-d
+%%			\multirow{6}*{\textit{RGB-D}}
+%			
+%			 DCF \cite{ji2021calibrated} 
+%						& \textcolor{blue}{0.954} & \textcolor{blue}{0.921} & \textcolor{blue}{0.927} & \textcolor{blue}{0.031} 
+%						& \textcolor{blue}{0.856} & {\textcolor{red}{0.812}} & {\textcolor{red}{0.768}} & \textcolor{blue}{0.065} 
+%			& 0.881 & 0.809 & 0.821 & 0.096 \\
+%			
+%			 CIR-Net \cite{cong2022cir}
+%						& 0.950 & 0.916 & 0.921 & 0.038 
+%						& {\textcolor{red}{0.862}} & 0.800  			& 0.742 & \textbf{ {0.062}} 
+%			& 0.874 & 0.820 & 0.816 & 0.098 \\ 
+%			
+%		 VST-$rgbd$  \cite{liu2021visual} 
+%						& 0.952 & 0.920 & 0.921 & 0.036 
+%						& 0.843 & 0.807 & 0.754 & 0.086 
+%			& 0.851 & 0.792 & 0.786 & 0.110 
+%			\\
+%			
+%			%			& -  & 2022  & \\
+%			%			& -  & 2022  & \\
+%			
+%			 BBS-Net     \cite{fan2020bbs} 
+%						& 0.900 & 0.865 & 0.852 & 0.066 
+%						& 0.801 & 0.751 & 0.676 & 0.073 
+%			& \textcolor{blue}{0.901} & {\textcolor{red}{0.864}} & 0.858 & 0.072 \\ 
+%			
+%			 SSF     \cite{zhang2020select} 
+%						& 0.922 & 0.879 & 0.887 & 0.050 
+%						& 0.816 & 0.725 & 0.647 & 0.090 
+%			& \textcolor{blue}{0.901} & 0.859 & \textcolor{blue}{0.868} & {\textcolor{red}{0.067}} \\ 
+%			
+%			 S2MA    \cite{liu2020learning} 
+%						& 0.839 & 0.787 & 0.754 & 	0.102 
+%						& 0.777 & 0.729 & 0.650 & 0.112 
+%			& 0.873 & 0.837 &	0.835 & 0.094 \\
+%			
+%			
+%			\midrule % end rgb-d
+%%			\multirow{7}*{\textit{RGB}}
+%			
+%			 VST-$rgb$ \cite{liu2021visual} 
+%						& 0.939 & 0.910 & 0.911 & 0.047
+%						& 0.831 & \textcolor{blue}{0.808} & \textcolor{blue}{0.763} & 0.093 
+%			& 0.865 & 0.797 & 0.817 & 0.123 
+%			\\ 
+%			
+%			 PFSNet \cite{ma2021pyramidal}
+%						& 0.912 & 0.883 & 0.879 & 0.057 
+%						& 0.835 & 0.800 & 0.752 & 0.088 
+%			& 0.805 & 0.749 & 0.727 & 0.145 
+%			\\ 
+%			
+%			
+%			 ITSD \cite{zhou2020interactive} 
+%						& 0.930 & 0.899 & 0.899 & 0.052 
+%						& 0.839 & 0.805 & 0.759 & 0.089 
+%			& 0.879 & 0.847 & 0.840 & 0.088 
+%			\\ 
+%			
+%			
+%			
+%			LDF \cite{wei2020label} 
+%						& 0.898 & 0.873 & 0.861 & 0.061 
+%						& 0.804 & 0.780 & 0.708 & 0.093 
+%			& 0.843 & 0.821 & 0.803 & 0.096 
+%			\\ 
+%			
+%			
+%			MINet \cite{pang2020multi} 
+%						& 0.916 & 0.890 & 0.882 & 0.050 
+%						& 0.816 & 0.792 & 0.720 & 0.086 
+%			& 0.861 & 0.834 & 0.828 & 0.091 
+%			\\ 
+%			
+%			F$^{3}$Net  \cite{wei2020f3net}
+%						& 0.900 & 0.888 & 0.882 & 0.057 
+%						& 0.815 & 0.777 & 0.718 & 0.095 
+%			& 0.824 & 0.806 & 0.797 & 0.106 
+%			\\ 
+%			
+%			
+%			EGNet   \cite{zhao2019egnet}
+%						& 0.914 & 0.886 & 0.870 & 0.053 
+%						& 0.794 & 0.772 & 0.672 & 0.094 
+%			& 0.776 & 0.784 & 0.762 & 0.118 
+%			\\ 
+%			
+%			\bottomrule % end
+%		\end{tabular}
+%		}
+%\end{table*}
+
+
 
 \begin{table*}[]
 	%
 	%---------------------------------------------------------------------> 大表 
 	%
-	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
-		$ \uparrow \& \downarrow $ denote larger and smaller is better.
-		%
-		% denote the best and the second-best results,
-		%
-		The best three results are shown in 
-		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
-		% '-' indicates the code or outcome is not available.
-	}
+%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+%		%
+%		% denote the best and the second-best results,
+%		%
+%		The best three results are shown in 
+%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+%		% '-' indicates the code or outcome is not available.
+%	}
+	\bicaption{
+	在 3 个公开数据集上的定量比较
+	}{Quantitative comparisons on three light field datasets}
+	\renewcommand{\arraystretch}{1.5}
+	
 	\centering
-	\label{table:comp_with_sota_1}
-%	\resizebox{\textwidth}{!}{
-		\begin{tabular}{crcccc}
+	\label{table:comp_with_sota_3_1}
+	%	\label{table:comp-with-sota}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{rcccccccccccc}
 			\toprule  %添加表格头部粗线
 			
 			% title
-			\multirow{2}*{Type} & \multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
-			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } \\
-
-			
-			% next line
-			\cmidrule(r){3-6} 
-			
-			% subtitle
-			& & 
-			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
-		
-			
-			% line line
-			\midrule
-			
-			\multirow{8}*{\textit{Light field}}
-			
-			% 开始填数据
-			
-			& Ours	 &  {\textbf{0.973}} & \textbf{ {0.946}} 
-			& \textbf{ {0.954}} & \textbf{ {0.020}} 
-			\\
-			
-			& DLGLRG \cite{liu2021light} 
-			& {\textcolor{red}{0.958}} & {\textcolor{red}{0.928}} 
-			& {\textcolor{red}{0.934}} & {\textcolor{red}{0.029}} 
-			\\
-			
-			& ERNet \cite{piao2020exploit}
-			& 0.947 & 0.899 & 0.908 & 0.039  \\
-			
-			& PANet \cite{piao2021panet} 
-			% & 0.9390 & 0.9080 & 0.9029 & 0.0383 & 0.8449 & 0.7949 & 0.7383 & 0.0743 & 0.8922 & 0.8487 & 0.8494 & 0.0761 
-			& 0.939 & 0.908 & 0.903 & 0.038
-			\\
-			
-			& LFNet	 \cite{zhang2020lfnet} 
-			& 0.929 & 0.878 & 0.890 & 0.053 	 \\
-			
-			& MAC	 \cite{zhang2020light} 
-			& 0.863	& 0.804	& 0.792	& 0.102	    \\
-			
-			& MoLF	 \cite{zhang2019memory} 
-			& 0.938 & 0.887 & 0.902 & 0.051 	 \\
-			
-			& DLSD	\cite{piao2019deep}
-			& 0.891	& 0.841	& 0.801	& 0.076	    \\
-			
-			\midrule % end lfsod
-			
-			% start rgb-d
-			\multirow{6}*{\textit{RGB-D}}
-			
-			% & 001& Male & 001& Male& 001& Male& 001& Male& 001& Male & 001& Male  & 001& Male \\
-			
-			& DCF \cite{ji2021calibrated} 
-			& \textcolor{blue}{0.954} & \textcolor{blue}{0.921} & \textcolor{blue}{0.927} & \textcolor{blue}{0.031} 
-		 	\\
-			
-			& CIR-Net \cite{cong2022cir}
-			& 0.950 & 0.916 & 0.921 & 0.038 
-		    \\ 
-			
-			& VST-$rgbd$  \cite{liu2021visual} 
-			& 0.952 & 0.920 & 0.921 & 0.036 
-			\\
-			
-			
-			& BBS-Net     \cite{fan2020bbs} 
-			& 0.900 & 0.865 & 0.852 & 0.066 
-			\\ 
-			
-			& SSF     \cite{zhang2020select} 
-			& 0.922 & 0.879 & 0.887 & 0.050 
-			\\ 
-			
-			& S2MA    \cite{liu2020learning} 
-			& 0.839 & 0.787 & 0.754 & 	0.102 
-			\\
-			
-			\midrule % end rgb-d
-			
-			\multirow{7}*{\textit{RGB}}
-			
-			& VST-$rgb$ \cite{liu2021visual} 
-			& 0.939 & 0.910 & 0.911 & 0.047  \\ 
-			
-			& PFSNet \cite{ma2021pyramidal}
-			& 0.912 & 0.883 & 0.879 & 0.057  \\ 
-			
-			& ITSD \cite{zhou2020interactive} & 
-			0.930 & 0.899 & 0.899 & 0.052  \\ 
-			
-			
-			
-			& LDF \cite{wei2020label} &
-			0.898 & 0.873 & 0.861 & 0.061 \\ 
-			
-			
-			& MINet \cite{pang2020multi} &
-			0.916 & 0.890 & 0.882 & 0.050  \\ 
-			
-			& F$^{3}$Net  \cite{wei2020f3net}
-			& 0.900 & 0.888 & 0.882 & 0.057  \\ 
-			
-			& EGNet   \cite{zhao2019egnet}
-			& 0.914 & 0.886 & 0.870 & 0.053 \\ 
-			
-			\bottomrule % end
-	\end{tabular}
-%}
-\end{table*}
-
-
-
-\begin{table*}[]
-	%
-	%---------------------------------------------------------------------> 大表 
-	%
-	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
-		$ \uparrow \& \downarrow $ denote larger and smaller is better.
-		%
-		% denote the best and the second-best results,
-		%
-		The best three results are shown in 
-		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
-		% '-' indicates the code or outcome is not available.
-	}
-	\centering
-	\label{table:comp_with_sota_2}
-%	\label{table:comp-with-sota}
-%	\resizebox{\textwidth}{!}{
-		\begin{tabular}{crcccc}
-			\toprule  %添加表格头部粗线
-			
-			% title
-			\multirow{2}*{Type} & \multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
-			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } \\
-			
-			% next line
-			\cmidrule(r){3-6} 
-			
-			% subtitle
-			& & 
-			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
-			
-			% line line
-			\midrule
-			
-			\multirow{8}*{\textit{Light field}}
-			
-			% 开始填数据
-			
-			& Ours	 
-			& \textbf{ {0.871}} &	\textbf{ {0.828}} 
-			&\textbf{	 {0.784}} & {\textcolor{red}{0.064}} 
-		    \\
-			
-			& DLGLRG \cite{liu2021light} 
-			&	0.839 &	0.766 &	0.698 &	0.070 
-	        \\
-			
-			& ERNet \cite{piao2020exploit}
-			&	0.841 &	0.778 &	0.722 &	0.082 \\
-			
-			& PANet \cite{piao2021panet} 
-			% & 0.9390 & 0.9080 & 0.9029 & 0.0383 & 0.8449 & 0.7949 & 0.7383 & 0.0743 & 0.8922 & 0.8487 & 0.8494 & 0.0761 
-			& 0.845 & 0.795 & 0.738 & 0.074 
-			\\
-			
-			& LFNet	 \cite{zhang2020lfnet} 
-			&	0.846 &	0.782 &	0.718 &	0.073 \\
-			
-			& MAC	 \cite{zhang2020light} 
-			&   0.797 & 0.731 & 0.667 & 0.107 
-			\\
-			
-			& MoLF	 \cite{zhang2019memory} 
-			&	0.852 &	0.789 &	0.729 &	0.075 \\
-			
-			& DLSD	\cite{piao2019deep}
-			&   0.783 & 0.741 & 0.615 & 0.098 \\
-			
-			
-			\midrule % end lfsod
-			
-			\multirow{6}*{\textit{RGB-D}}
-
-			
-			& DCF \cite{ji2021calibrated} 
-			& \textcolor{blue}{0.856} & {\textcolor{red}{0.812}} & {\textcolor{red}{0.768}} & \textcolor{blue}{0.065} 
-			\\
-			
-			& CIR-Net \cite{cong2022cir}
-			& {\textcolor{red}{0.862}} & 0.800 
-			& 0.742 & \textbf{ {0.062}} 
-			\\ 
-			
-			& VST-$rgbd$  \cite{liu2021visual} 
-			& 0.843 & 0.807 & 0.754 & 0.086  \\
-
-			
-			& BBS-Net     \cite{fan2020bbs} 
-			& 0.801 & 0.751 & 0.676 & 0.073 
-			\\ 
-			
-			& SSF     \cite{zhang2020select} 
-			& 0.816 & 0.725 & 0.647 & 0.090 
-		    \\ 
-			
-			& S2MA    \cite{liu2020learning} 
-		    & 0.777 & 0.729 & 0.650 & 0.112 \\
-			
-			
-			%			& TriTransNet	&  & \\
-			%			& DCFNet  & \\
-			
-			\midrule % end rgb-d
-			
-			% start rgb sod
-			\multirow{7}*{\textit{RGB}}
-			
-			& VST-$rgb$ \cite{liu2021visual} 
-			& 0.831 & \textcolor{blue}{0.808} & \textcolor{blue}{0.763} & 0.093 \\ 
-			
-			& PFSNet \cite{ma2021pyramidal}
-			&  0.835 & 0.800 & 0.752 & 0.088  \\ 
-			
-			%			& - & \\
-			
-			& ITSD \cite{zhou2020interactive} & 
-			 0.839 & 0.805 & 0.759 & 0.089  \\ 
-			
-			
-			
-			& LDF \cite{wei2020label} &
-			 0.804 & 0.780 & 0.708 & 0.093  \\ 
-			
-			
-			& MINet \cite{pang2020multi} 
-			 & 0.816 & 0.792 & 0.720 & 0.086  \\ 
-			
-			& F$^{3}$Net  \cite{wei2020f3net}
-			& 0.815 & 0.777 & 0.718 & 0.095  \\ 
-
-			
-			& EGNet   \cite{zhao2019egnet}
-			 & 0.794 & 0.772 & 0.672 & 0.094  \\ 
-			
-			\bottomrule % end
-	\end{tabular}
-%}
-\end{table*}
-
-
-
-\begin{table*}[]
-	%
-	%---------------------------------------------------------------------> 大表 
-	%
-	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
-		$ \uparrow \& \downarrow $ denote larger and smaller is better.
-		%
-		% denote the best and the second-best results,
-		%
-		The best three results are shown in 
-		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
-		% '-' indicates the code or outcome is not available.
-	}
-	\centering
-	\label{table:comp_with_sota_3}
-%	\label{table:comp-with-sota}
-%	\resizebox{\textwidth}{!}{
-		\begin{tabular}{crcccc}
-			\toprule  %添加表格头部粗线
-			
-			% title
-			\multirow{2}*{Type} & \multicolumn{1}{c}{ \multirow{2}*{Methods} } & 
+			%			\multirow{2}*{Type} & 
+			\multicolumn{1}{c}{ \multirow{2}*{方法} } & 
+			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } &
+			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } &
 			\multicolumn{4}{c}{LFSD \cite{li2014saliency} } \\
 			
 			% next line
-			\cmidrule(r){3-6} 
-%			\cmidrule(r){7-10} \cmidrule(r){11-14}
+			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
 			
-			% subtitle
-			& & 
-			$E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			 subtitle
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+
+%			& E & S & F & MAE 
+%			& E & S & F & MAE 
+%			& E & S & F & MAE \\
+			
 			
 			% line line
 			\midrule
 			
-			\multirow{8}*{\textit{Light field}}
+			%			\multirow{8}*{\textit{Light field}}
 			
 			% 开始填数据
 			
-			& Ours	 
-%			&  {\textbf{0.973}} & \textbf{ {0.946}} 	& \textbf{ {0.954}} & \textbf{ {0.020}} 
-%			& \textbf{ {0.871}} &	\textbf{ {0.828}} 			&\textbf{	 {0.784}} & {\textcolor{red}{0.064}} 
-			& \textbf{ {0.919}} &	\textcolor{blue}{0.860} 			&	\textbf{ {0.873}} &	\textbf{ {0.064}} 
+			Ours	 
+			&  {\textbf{.973}} & \textbf{ {.946}} 	& \textbf{ {.954}} & \textbf{ {.020}} 
+			& \textbf{ {.871}} &	\textbf{ {.828}} 			&\textbf{	 {.784}} & {\textcolor{red}{.064}} 
+			& \textbf{ {.919}} &	\textcolor{blue}{.860} 			&	\textbf{ {.873}} &	\textbf{ {.064}} 
 			\\
 			
-			& DLGLRG \cite{liu2021light} 
-%			& {\textcolor{red}{0.958}} & {\textcolor{red}{0.928}} 			& {\textcolor{red}{0.934}} & {\textcolor{red}{0.029}} 
-%			&	0.839 &	0.766 &	0.698 &	0.070 
-			&	{\textcolor{red}{0.906}} &	\textbf{ {0.866}} 			&	{\textcolor{red}{0.870}} &	\textcolor{blue}{0.069} 
+			DLGLRG \cite{liu2021light} 
+			& {\textcolor{red}{.958}} & {\textcolor{red}{.928}} 			& {\textcolor{red}{.934}} & {\textcolor{red}{.029}} 
+			&	.839 &	.766 &	.698 &	.070 
+			&	{\textcolor{red}{.906}} &	\textbf{ {.866}} 			&	{\textcolor{red}{.870}} &	\textcolor{blue}{.069} 
 			\\
 			
-			& ERNet \cite{piao2020exploit}
-%			& 0.947 & 0.899 & 0.908 & 0.039 
-%			&	0.841 &	0.778 &	0.722 &	0.082 
-			&	0.888 &	0.834 &	0.850 &	0.082 
+			ERNet \cite{piao2020exploit}
+			& .947 & .899 & .908 & .039 
+			&	.841 &	.778 &	.722 &	.082 
+			&	.888 &	.834 &	.850 &	.082 
 			\\
 			
-			& PANet \cite{piao2021panet} 
-%			& 0.939 & 0.908 & 0.903 & 0.038 
-%			& 0.845 & 0.795 & 0.738 & 0.074 
-			& 0.892 & 0.849 & 0.849 & 0.076
+			PANet \cite{piao2021panet} 
+			& .939 & .908 & .903 & .038 
+			& .845 & .795 & .738 & .074 
+			& .892 & .849 & .849 & .076
 			\\
 			
-			& LFNet	 \cite{zhang2020lfnet} 
-%			& 0.929 & 0.878 & 0.890 & 0.053
-%			 &	0.846 &	0.782 &	0.718 &	0.073 
-			 &	0.885 &	0.820 &	0.824 &	0.092 \\
+			LFNet	 \cite{zhang2020lfnet} 
+			& .929 & .878 & .890 & .053
+			&	.846 &	.782 &	.718 &	.073 
+			&	.885 &	.820 &	.824 &	.092 \\
 			
-			& MAC	 \cite{zhang2020light} 
-%			& 0.863	& 0.804	& 0.792	& 0.102	
-%			&   0.797 & 0.731 & 0.667 & 0.107 
-			& 0.832 & 0.782 & 0.776 & 0.127 \\
+			MAC	 \cite{zhang2020light} 
+			& .863	& .804	& .792	& .102	
+			&   .797 & .731 & .667 & .107 
+			& .832 & .782 & .776 & .127 \\
 			
-			& MoLF	 \cite{zhang2019memory} 
-%			& 0.938 & 0.887 & 0.902 & 0.051 
-%			&	0.852 &	0.789 &	0.729 &	0.075 
-			&	0.888 &	0.830 &	0.834 &	0.089 \\
+			MoLF	 \cite{zhang2019memory} 
+			& .938 & .887 & .902 & .051 
+			&	.852 &	.789 &	.729 &	.075 
+			&	.888 &	.830 &	.834 &	.089 \\
 			
-			& DLSD	\cite{piao2019deep}
-%			& 0.891	& 0.841	& 0.801	& 0.076	
-%			&   0.783 & 0.741 & 0.615 & 0.098 
-			& 0.806 & 0.737 & 0.715 & 0.147 \\
+			DLSD	\cite{piao2019deep}
+			& .891	& .841	& .801	& .076	
+			&   .783 & .741 & .615 & .098 
+			& .806 & .737 & .715 & .147 \\
 			
 			\midrule % end lfsod
 			
 			% start rgb-d
-			\multirow{6}*{\textit{RGB-D}}
+			%			\multirow{6}*{\textit{RGB-D}}
 			
-			& DCF \cite{ji2021calibrated} 
-%			& \textcolor{blue}{0.954} & \textcolor{blue}{0.921} & \textcolor{blue}{0.927} & \textcolor{blue}{0.031} 
-%			& \textcolor{blue}{0.856} & {\textcolor{red}{0.812}} & {\textcolor{red}{0.768}} & \textcolor{blue}{0.065} 
-			& 0.881 & 0.809 & 0.821 & 0.096 \\
+			DCF \cite{ji2021calibrated} 
+			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
+			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+			& .881 & .809 & .821 & .096 \\
 			
-			& CIR-Net \cite{cong2022cir}
-%			& 0.950 & 0.916 & 0.921 & 0.038 
-%			& {\textcolor{red}{0.862}} & 0.800  			& 0.742 & \textbf{ {0.062}} 
-			& 0.874 & 0.820 & 0.816 & 0.098 \\ 
+			CIR-Net \cite{cong2022cir}
+			& .950 & .916 & .921 & .038 
+			& {\textcolor{red}{.862}} & .800  			& .742 & \textbf{ {.062}} 
+			& .874 & .820 & .816 & .098 \\ 
 			
-			& VST-$rgbd$  \cite{liu2021visual} 
-%			& 0.952 & 0.920 & 0.921 & 0.036 
-%			& 0.843 & 0.807 & 0.754 & 0.086 
-			& 0.851 & 0.792 & 0.786 & 0.110 
+			VST-$rgbd$  \cite{liu2021visual} 
+			& .952 & .920 & .921 & .036 
+			& .843 & .807 & .754 & .086 
+			& .851 & .792 & .786 & .110 
 			\\
 			
 			%			& -  & 2022  & \\
 			%			& -  & 2022  & \\
 			
-			& BBS-Net     \cite{fan2020bbs} 
-%			& 0.900 & 0.865 & 0.852 & 0.066 
-%			& 0.801 & 0.751 & 0.676 & 0.073 
-			& \textcolor{blue}{0.901} & {\textcolor{red}{0.864}} & 0.858 & 0.072 \\ 
+			BBS-Net     \cite{fan2020bbs} 
+			& .900 & .865 & .852 & .066 
+			& .801 & .751 & .676 & .073 
+			& \textcolor{blue}{.901} & {\textcolor{red}{.864}} & .858 & .072 \\ 
 			
-			& SSF     \cite{zhang2020select} 
-%			& 0.922 & 0.879 & 0.887 & 0.050 
-%			& 0.816 & 0.725 & 0.647 & 0.090 
-			& \textcolor{blue}{0.901} & 0.859 & \textcolor{blue}{0.868} & {\textcolor{red}{0.067}} \\ 
+			SSF     \cite{zhang2020select} 
+			& .922 & .879 & .887 & .050 
+			& .816 & .725 & .647 & .090 
+			& \textcolor{blue}{.901} & .859 & \textcolor{blue}{.868} & {\textcolor{red}{.067}} \\ 
 			
-			& S2MA    \cite{liu2020learning} 
-%			& 0.839 & 0.787 & 0.754 & 	0.102 
-%			& 0.777 & 0.729 & 0.650 & 0.112 
-			& 0.873 & 0.837 &	0.835 & 0.094 \\
-
+			S2MA    \cite{liu2020learning} 
+			& .839 & .787 & .754 & 	.102 
+			& .777 & .729 & .650 & .112 
+			& .873 & .837 &	.835 & .094 \\
+			
 			
 			\midrule % end rgb-d
-			\multirow{7}*{\textit{RGB}}
+			%			\multirow{7}*{\textit{RGB}}
 			
-			& VST-$rgb$ \cite{liu2021visual} 
-%			& 0.939 & 0.910 & 0.911 & 0.047
-%			& 0.831 & \textcolor{blue}{0.808} & \textcolor{blue}{0.763} & 0.093 
-			& 0.865 & 0.797 & 0.817 & 0.123 
+			VST-$rgb$ \cite{liu2021visual} 
+			& .939 & .910 & .911 & .047
+			& .831 & \textcolor{blue}{.808} & \textcolor{blue}{.763} & .093 
+			& .865 & .797 & .817 & .123 
 			\\ 
 			
-			& PFSNet \cite{ma2021pyramidal}
-%			& 0.912 & 0.883 & 0.879 & 0.057 
-%			& 0.835 & 0.800 & 0.752 & 0.088 
-			& 0.805 & 0.749 & 0.727 & 0.145 
-			\\ 
-
-			
-			& ITSD \cite{zhou2020interactive} 
-%			& 0.930 & 0.899 & 0.899 & 0.052 
-%			& 0.839 & 0.805 & 0.759 & 0.089 
-			& 0.879 & 0.847 & 0.840 & 0.088 
+			PFSNet \cite{ma2021pyramidal}
+			& .912 & .883 & .879 & .057 
+			& .835 & .800 & .752 & .088 
+			& .805 & .749 & .727 & .145 
 			\\ 
 			
 			
-			
-			& LDF \cite{wei2020label} 
-%			& 0.898 & 0.873 & 0.861 & 0.061 
-%			& 0.804 & 0.780 & 0.708 & 0.093 
-			& 0.843 & 0.821 & 0.803 & 0.096 
+			ITSD \cite{zhou2020interactive} 
+			& .930 & .899 & .899 & .052 
+			& .839 & .805 & .759 & .089 
+			& .879 & .847 & .840 & .088 
 			\\ 
 			
 			
-			& MINet \cite{pang2020multi} 
-%			& 0.916 & 0.890 & 0.882 & 0.050 
-%			& 0.816 & 0.792 & 0.720 & 0.086 
-			& 0.861 & 0.834 & 0.828 & 0.091 
-			\\ 
 			
-			& F$^{3}$Net  \cite{wei2020f3net}
-%			& 0.900 & 0.888 & 0.882 & 0.057 
-%			& 0.815 & 0.777 & 0.718 & 0.095 
-			& 0.824 & 0.806 & 0.797 & 0.106 
+			LDF \cite{wei2020label} 
+			& .898 & .873 & .861 & .061 
+			& .804 & .780 & .708 & .093 
+			& .843 & .821 & .803 & .096 
 			\\ 
 			
 			
-			& EGNet   \cite{zhao2019egnet}
-%			& 0.914 & 0.886 & 0.870 & 0.053 
-%			& 0.794 & 0.772 & 0.672 & 0.094 
-			& 0.776 & 0.784 & 0.762 & 0.118 
+			MINet \cite{pang2020multi} 
+			& .916 & .890 & .882 & .050 
+			& .816 & .792 & .720 & .086 
+			& .861 & .834 & .828 & .091 
 			\\ 
+			
+			F$^{3}$Net  \cite{wei2020f3net}
+			& .900 & .888 & .882 & .057 
+			& .815 & .777 & .718 & .095 
+			& .824 & .806 & .797 & .106 
+			\\ 
+			
+			
+			EGNet   \cite{zhao2019egnet}
+			& .914 & .886 & .870 & .053 
+			& .794 & .772 & .672 & .094 
+			& .776 & .784 & .762 & .118 
+			\\ 
+			
+			CPD  \cite{wu2019cascaded}
+			& .867 & .911 & .866 & .058 
+			& .772 & .82  & .701 & .086 
+			& .759 & .82  & .759 & .126 \\
+			
+			PoolNet \cite{liu2019simple}
+			& .889 & .919 & .868 & .051 
+			& .776 & .802 & .683 & .092 
+			& .789 & .8   & .769 & .118 \\
+			
+			PiCANet \cite{liu2018picanet}
+			& .829 & .892 & .821 & .083 
+			& .726 & .781 & .618 & .115 
+			& .729 & .78  & .671 & .158 \\
+			
+			PAGRN \cite{wang2018detect}
+			& .822 & .878 & .828 & .084 
+			& .717 & .773 & .635 & .114 
+			& .727 & .805 & .725 & .147 \\
+			
+			C2S   \cite{li2018contour}
+			& .844 & .874 & .791 & .084 
+			& .763 & .786 & .65  & .111 
+			& .806 & .82  & .749 & .113 \\
+			
+			R3Net  \cite{deng2018r3net}
+			& .833 & .819 & .783 & .113 
+			& .727 & .728 & .625 & .151 
+			& .789 & .838 & .781 & .128 \\
+			
+			Amulet \cite{zhang2017amulet}
+			& .847 & .882 & .805 & .030 
+			& .767 & .76  & .636 & .110  
+			& .773 & .821 & .757 & .135 \\
+			
 			
 			\bottomrule % end
-	\end{tabular}
-%}
+		\end{tabular}
+	}
 \end{table*}
+
+
 
 	%------------------------------ figure: comparison
 %\begin{figure*}
