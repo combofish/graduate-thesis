@@ -347,6 +347,7 @@ footskip=1.47cm% 页脚 1.47cm %
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
 \newcolumntype{d}[1]{D{.}{.}{#1}}% or D{.}{,}{#1} or D{.}{\cdot}{#1}
+\renewcommand{\arraystretch}{1.5}
 
 
 %% 定义几个常用的数学常量符号
