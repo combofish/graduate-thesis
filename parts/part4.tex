@@ -37,7 +37,13 @@
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter4/task2_ins.drawio}
-	\bicaption{光场模型范例}{TODO}  
+	\bicaption{
+		光场显著性检测网络中不同的Transformer注意力机制
+%		光场模型范例
+	}{
+		Different Transformer attention mechanisms in light field saliency detection network
+%		TODO
+	}  
 	\label{cpt4_fig1:task2_ins}
 \end{figure}
 %
@@ -94,7 +100,8 @@
 % 
 % 
 本节将对本章提出的光场显著性目标检测网络模型进行详细介绍。
-整体网络架构如图\textcolor{red}{TODO}所示。
+整体网络架构如图~\ref{cpt4_fig1:chpt4_overview}
+~所示。
 本章采用了在显著性目标检测任务中经常被使用的PVT-v2作为骨干网络。
 具体来说，给定一个尺寸为$W \times H$的RGB图像$I_{0}$和
 焦点堆栈$\left \{  I_{1},I_{2},I_{3},\cdots,I_{12} \right \} $，
@@ -113,6 +120,29 @@ $F_{i}^{j}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{j}$�
 
 %
 %
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.95\linewidth]{figures/chapter4/chpt4_overview}
+	\bicaption{基于视角增强的光场显著性检测网络}{
+		Light field saliency detection network based on perspective enhancement
+	}  
+	\label{cpt4_fig1:chpt4_overview}
+\end{figure}
+%
+%
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.95\linewidth]{figures/chapter4/view_enhance}
+	\bicaption{
+		视角增强注意力模块
+	}
+	{Perspective Enhanced Attention Module}  
+	\label{cpt4_fig1:view_enhance}
+\end{figure}
+%
+%
+
 %
 %
 \BiSubsection{视角增强模块}{TODO}
