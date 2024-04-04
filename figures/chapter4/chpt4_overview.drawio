@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-04-02T12:44:07.188Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.0.4 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="JXKNe3rEZd-KyjWUzGTr" version="24.0.4" type="device">
+<mxfile host="Electron" modified="2024-04-04T01:51:11.638Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.0.4 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="1NTv3L2y856rTYpW8QWx" version="24.0.4" type="device">
   <diagram id="A4b9VSvAurynX6zqo_iu" name="Page-1">
-    <mxGraphModel dx="11399" dy="4596" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="1" shadow="0">
+    <mxGraphModel dx="11437" dy="4596" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -2434,7 +2434,7 @@
         <mxCell id="p54HhnHqA-fBV0O8QsfN-118" value="显著性分割头" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;direction=south;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="-6650" y="-1180" width="130" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="p54HhnHqA-fBV0O8QsfN-119" value="辅助显著性&lt;div&gt;分割头&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
+        <mxCell id="p54HhnHqA-fBV0O8QsfN-119" value="感知对比&lt;div&gt;表示头&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="-6650" y="-1040" width="130" height="100" as="geometry" />
         </mxCell>
         <mxCell id="p54HhnHqA-fBV0O8QsfN-69" value="" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;direction=north;size=20;" parent="1" vertex="1">
@@ -2734,11 +2734,23 @@
         <mxCell id="p54HhnHqA-fBV0O8QsfN-199" value="监督" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="-6385" y="-560" width="70" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="p54HhnHqA-fBV0O8QsfN-200" value="对比学习监督" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
+        <mxCell id="p54HhnHqA-fBV0O8QsfN-200" value="像素对比监督" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="-6185" y="-560" width="135" height="40" as="geometry" />
         </mxCell>
         <mxCell id="p54HhnHqA-fBV0O8QsfN-202" value="视角增强注意力模块" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=宋体;fontSize=20;" parent="1" vertex="1">
           <mxGeometry x="-6400.98" y="-960" width="240.98" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Df6gt6L_LPOhV302zSsm-1" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="p54HhnHqA-fBV0O8QsfN-86" target="p54HhnHqA-fBV0O8QsfN-186">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-6480" y="-1250" as="sourcePoint" />
+            <mxPoint x="-6430" y="-1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Df6gt6L_LPOhV302zSsm-2" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="p54HhnHqA-fBV0O8QsfN-132" target="p54HhnHqA-fBV0O8QsfN-186">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-6480" y="-770" as="sourcePoint" />
+            <mxPoint x="-6430" y="-820" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>

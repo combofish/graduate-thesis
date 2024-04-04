@@ -20,7 +20,7 @@
 %
 %
 %
-光场技术可以完整地记录场景的几何信息。在其中，焦点堆栈数据是光场数据的关键表达形式之一。现有研究表明，光场数据在显著性目标检测方面具有优势。
+光场技术可以完整地记录场景的几何信息。在其中，焦点堆栈数据是光场数据的关键表达形式之一。现有研究表明，光场数据在显著性目标检测方面具有优势\cite{piao2019saliency,zhang2020light,wang2019deep,zhang2019memory,zhang2020lfnet,piao2021panet}。
 随着基于Transformer架构的模型在各种视觉任务上取得超越性的性，
 基于Transformer架构的光场显著性检测网络也逐渐出现\cite{wang2023tenet,liu2023lftransnet}。
 然而，直接应用Transformer架构到光场显著性检测任务中，
@@ -34,7 +34,9 @@
 %
 %
 \par
-\begin{figure}[!ht]
+%
+%
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter4/task2_ins.drawio}
 	\bicaption{
@@ -51,10 +53,11 @@
 %
 %
 王等人~\cite{wang2023tenet}通过拼接焦点堆栈和全聚焦图特征，
-一并送入Transformer编码器来，建立光场整体结构的感知模型。
+一并送入Transformer编码器来建立光场整体结构的感知模型。
 如图~\ref{cpt4_fig1:task2_ins}~(a)~所示，
-但是这种方式弱化了全聚焦图片特征和散焦图片特征之间的模态差异，两个模态之间的融合依然依赖后续的融合模块。
-刘等人~\cite{liu2023lftransnet}只在焦点堆栈支路使用了Transformer结构。该方法聚合多尺度的焦点堆栈特征构造注意力矩阵，用一个可学习的权重来作为查询矩阵。通过注意力运算来汇总不同切片对显著性检测的贡献。如图~\ref{cpt4_fig1:task2_ins}~(b)~所示。
+但是，这种方式弱化了全聚焦图片特征和散焦图片特征之间的模态差异，两个模态之间的融合依然依赖后续的融合模块。
+刘等人~\cite{liu2023lftransnet}只在焦点堆栈支路使用了Transformer结构。该方法聚合多尺度的焦点堆栈特征构造注意力矩阵，用一个可学习的权重来作为查询矩阵。通过注意力运算来汇总不同切片对显著性检测的贡献。
+网络结构如图~\ref{cpt4_fig1:task2_ins}~(b)~所示。
 %
 %
 这种方法没有充分考虑两个模态之间的差异，仅在单焦点堆栈模态起到特征强化效果，只能考虑有限的特征表达。
@@ -63,15 +66,21 @@
 % 
 % 
 \par
+%
+%
 针对上述问题，本章提出一种基于视角增强的光场显著性目标检测方法。
-此方法致力于从焦点堆栈和全聚焦图的协同感知入手，结合Transformer强大的注意力机制，提出了视角增强的注意力方法。
+此方法致力于从焦点堆栈和全聚焦图的协同感知入手，结合Transformer强大的注意力机制，提出了视角增强的注意力方法，网络结构如图~\ref{cpt4_fig1:task2_ins}~(c)~所示。
 我们在一个简单的骨干网络之上，添加了视角增强编码器，
-将全聚焦图的特征注入到焦点堆栈特征来增强每一张焦点堆栈图像的视角表达。
+首先两个支路先进行交叉注意力计算，进行一个初步的互感知；
+再用从焦点堆栈特征提取共有的显著性视角表达，注入到以全聚焦图为主的交叉注意力模块内，促进对全聚焦图的注意力权重向共有显著性表达迁移。
+之后将全聚焦图的特征注入到焦点堆栈特征来增强每一张焦点堆栈图像的视角表达。
 通过使用掩码注意力，注意力被限制在以全聚焦预测片段为中心的显著性特征上。
 与标准的Transformer解码器中使用的交叉注意力（关注图像中的所有位置）相比，
 被屏蔽的注意力能够达到更快的收敛效果和性能提高。
-其次，为了进一并提高网络的表达能力，探索了使用基于跨图片像素的对比学习策略，
-来引导网络学习统一的显著性语义和背景语义信息。
+其次，为了进一并提高网络的表达能力，探索了使用基于图片像素的对比学习策略，
+来引导网络学习差异化的显著性语义和背景语义信息。
+%
+%
 \par
 % 
 % 
@@ -99,25 +108,9 @@
 \BiSection{方法介绍}{TODO}
 % 
 % 
-本节将对本章提出的光场显著性目标检测网络模型进行详细介绍。
-整体网络架构如图~\ref{cpt4_fig1:chpt4_overview}
-~所示。
-本章采用了在显著性目标检测任务中经常被使用的PVT-v2作为骨干网络。
-具体来说，给定一个尺寸为$W \times H$的RGB图像$I_{0}$和
-焦点堆栈$\left \{  I_{1},I_{2},I_{3},\cdots,I_{12} \right \} $，
-输入到编码器中以提取分辨率为$\frac{W}{2^{j}} \times \frac{H}{2^{j}} $
-的特征$\left \{ F_{i}^{j},~j=1,2,3,4,5 \right \}$，
-其中，$F_{i}^{j}$表示图像$I_{i}$在编码器第$j$层的特征，当$i=0$时，
-$F_{i}^{j}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{j}$表示焦点堆栈图像的特征。
-参考CPD的建议，低阶特征由于太简单而无法做出有效且可靠的预测，
-本章只在高阶特征（即$F_{i}^{j},~j=2,3,4,5$）上执行解码操作。
-
-\textcolor{red}{TODO}
-
-本章工作提出的视角增强模块和跨图的像素对比学习策略将
-分别在~\ref{chap:part4_view_enh}~以及~\ref{chap:part4_cons}~节进行详细介绍。
-
-
+%
+%
+%
 %
 %
 \begin{figure}[!ht]
@@ -130,7 +123,53 @@ $F_{i}^{j}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{j}$�
 \end{figure}
 %
 %
-
+%
+%
+%
+本节将对本章提出的光场显著性目标检测网络模型进行详细介绍。
+整体网络架构如图~\ref{cpt4_fig1:chpt4_overview}
+~所示。
+本章采用了在显著性目标检测任务中经常被使用的PVT-v2作为骨干网络。
+具体来说，给定一个尺寸为$W \times H$的RGB图像$I_{0}$和
+焦点堆栈$\left \{  I_{1},I_{2},I_{3},\cdots,I_{12} \right \} $，
+分别输入编码器中以提取分辨率为$\frac{W}{2 \times 2^{l}} \times \frac{H}{2  \times 2^{l}} $ 
+的特征$\left \{ F_{i}^{l},~l=1,2,3,4 \right \}$，
+其中，$F_{i}^{l}$表示图像$I_{i}$在编码器第$l$层的特征，当$i=0$时，
+$F_{i}^{l}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{l}$表示焦点堆栈图像的特征。
+两个支路的编码器共享权重。由于使用注意力计算是图像尺寸的平方级复杂度，
+我们只在特征尺度$\left \{ F_{i}^{l},~ l = 2, 3, 4\right \}$进行视角增强注意力计算。
+增强后的全聚焦特征$ E_{0}^{l} $ 和焦点堆栈特征 $\left \{ E_{i}^{l},~i=1,~2,~ \cdots,~12 \right \}$
+被送入特征融合模块，进行特征整合。
+为了增强模型对显著性物体的辨识能力，我们采用了一个辅助显著性目标检测头，
+用来生成对输入图片中不同像素位置的特征表示。并通过放大显著性前景区域与背景区域的差异，来辅助训练。
+之后显著性分割头利用整合后的特征和骨干网络输出的第一层多尺度
+特征$\left \{ F_{i}^{1},~i=0,~1,~ \cdots, ~12 \right \}$进行融合，并生成最终的显著性预测。
+%
+%
+%
+%
+%参考CPD的建议，低阶特征由于太简单而无法做出有效且可靠的预测，
+%本章只在高阶特征（即$F_{i}^{l},~j=2,3,4,5$）上执行解码操作。
+%
+%\textcolor{red}{TODO}
+%
+本章工作提出的视角增强模块和跨图的像素对比学习策略将
+分别在~\ref{chap:part4_view_enh}~以及~\ref{chap:part4_cons}~节进行详细介绍。
+%
+%
+%
+%
+\BiSubsection{视角增强模块}{TODO}
+%
+%
+%
+%
+\label{chap:part4_view_enh}
+% 
+% 
+% 
+%
+%
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter4/view_enhance}
@@ -142,304 +181,83 @@ $F_{i}^{j}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{j}$�
 \end{figure}
 %
 %
+%
+%
+\par 
+%
+%
+%
+%
+视角增强模块综合考虑全聚焦图片的整体清晰视角和每一张焦点堆栈图片的局部清晰视角，
+利用协同注意力的方式寻找全聚焦特征和焦点堆栈特征中对显著性目标检测最有效的语义信息。
+视角增强注意最理想的情况是协同注意力权重往有效区域分布。
+本节工作的目的是生成显著性视角表示，并对两个模态的互注意力权重进行加权以突出
+显著性区域表示。
 
-%
-%
-\BiSubsection{视角增强模块}{TODO}
-\label{chap:part4_view_enh}
-% 
-% 
-% 
-% 
-上下文特征已经被证明对图像分割很重要\textcolor{red}{TODO}.
-然而，最近的研究表面，基于Transformer的模型收敛缓慢是由于交叉注意力层中的全局上下文，
-因为交叉注意力需要许多训练周期才能学会关注局部对象区域。
-假设局部特征足以更新查询特征，并且可以通过自注意力收集上下文信息，。
-本节提出掩码注意力，可以看做是交叉注意力机制的一种变体，
-仅关注每个查询的预测掩码的前景区域内。
-\par
-% 
-% 
-% 
-% 
-标准的交叉注意力（带残差路径）计算公式如下：
-\begin{equation}
-	X_{l}=softmax(Q_{l}K_{l}^{T})V_{l} + X_{l-1}
-\end{equation}
-其中，$l$是层索引，$X_{l} \in \mathbb{R}^{N\times C}$
-是指$NC$在$l^{th}$层和
-$ Q_{l} = f_{Q} \left ( X_{l-1} \right ) \in \mathbb{R}^{N \times C} $
-的维度查询特征。$X_{0}$表示Transformer解码器的输入查询特征。
-$K_{l},V_{l} \in \mathbb{R}^{H_{l}W_{l} \times C}$分别表示变换后的
-输入图像特征$f_{K}(\cdot) $和$ f_{V}( \cdot )$，
-$H_{l}$和$W_{l}$是图像特征的空间分辨率。
-$f_{Q},~f_{K} $和$ f_{V} $是线性变换。
-\par
-% 
-% 
-% 
-% 
-掩码注意力通过以下方式调节注意力矩阵：
-\begin{equation}
-	X_{l}=softmax(M_{l-1} ~+~Q_{l}K_{l}^{T})V_{l} + X_{l-1}
-\end{equation}
-% 
-% 
-此外，在特征位置$(x,~y)$的掩码注意力掩码$M_{l-1}$是：
-\begin{equation}
-	M_{l-1}(x,~y)=\begin{cases}
-		0  & \text{ if } M_{l-1}(x,~y)= 1\\
-		-\infty & \text{ otherwise } 
-	  \end{cases}
-\end{equation}
-% 
-% 
-在这里，$M_{l-1} \in \left \{  0,1\right \} ^{N \times H_{l}W_{l}} $是前一个
-$l-1$层和
-\textcolor{red}{TODO}
-$M_{0}$是在将查询特征输入Transformer解码器之前，从全聚焦支路获得的二进制掩码预测。
-\par
-% 
-% 
-% 
-% 
-语义分割任务中，高分辨率的语义特征对提高模型性能具有显著帮助，特别是小物体的分割。
-然而，使用越低级的语义信息，会带来更高的计算复杂度。
-因此，引入了一种有效的多尺度策略，在控制计算量增加的同时，引入高分辨率特征。
-首先，由最高层分辨率特征和下两层较低的分辨率特征组成特征金字塔，
-并一次将多尺度的特征的一个分辨率特征传递给一个Transformer解码器层。
-\par
-% 
-% 
-% 
-% 
-具体来说，我们使用原始图像分辨率为$1/32,~1/16$和$1/8$的像素编码器产生的特征金字塔。
-对于每一个分辨率，在输入到Transformer解码器之前他家正弦位置嵌入
+
+增强两个模态的特征表示，
+一个直接的方式是使用全聚焦图和焦点堆栈的特征输入交叉注意力模块来强化特征，
+但是，光场数据有限，模型容易陷入局部优化区。
+并且，散焦区域特征和聚焦区域特征都是拍摄的同一场景，在特征层面相差不大，
+互注意力模型在训练过程中往往迭代缓慢，且易生成较差的权重矩阵~\cite{piao2021panet}。
+本章提出视角增强模块，通过在进行全聚焦特征和焦点堆栈特征
+的交叉注意力权重时，使注意力限制在共有显著区域内部，
+从而在特征整合中突出有效的聚焦显著性区域。
+
+
+具体来说，
+从共享权重的骨干网络中获取到四层特征$\left \{ F_{i}^{l},~l=1,2,3,4 \right \}$后，
+考虑到Transformer块对于图像尺寸是一个平方级的计算复杂度，
+使用越低级的语义信息，会带来更高的计算复杂度。
+我们采取一种折中的办法，
+只使用原始图像分辨率为$1/32,~1/16$和$1/8$的像素编码器产生的特征金字塔。
+对于每一个分辨率，在输入到Transformer解码器之前加入正弦位置嵌入
 $ e_{pos}\in \mathbb{R}^{H_{l}W_{l}\times C} $。
-使用的Transformer解码器层，从最低分辨率到最高分辨率，如图所示。\textcolor{red}{TODO}。
+使用的Transformer解码器层，使用从次低分辨率到最高分辨率的三层特征，
+如图~\ref{cpt4_fig1:chpt4_overview}~所示。
 网络总共重复这个3层的Transformer解码器$L$次。因此，网络最终的Transformer解码器层有$3L$层。
 更具体的说，前三层介绍分辨率$H_{1}=H/32,H_{2}=H/16,H_{3}=H/8$
 和$W_{1}=W/32,W_{2}=W/16,W_{3}=W/8$的特征图，其中$H$和$W$是原始图像分辨率。
 之后的所有层都以循环的方式重复此模式。
 
-\BiSubsection{感知对比学习策略}{TODO}
-\label{chap:part4_cons}
-% 
-% 
-% 
-% 
-对比学习常用于无监督中视觉表示学习。
-无监督对比学习旨在学习CNN编码器$f_{CNN}$将每个训练图像转换为特征向量表示$v=f_{CNN}(I) \in \mathbb{R}^{D}$，
-使得$v$能够描述图片$I$。
-为了实现这一目标，
-对比学习通过区分正样本（一个增强版本的图像$I$）
-和多个负样本（从训练集中随机挑选的图像，但是不包括$I$）来进行训练。
-在对比学习中，会集成使用InfoNCE损失函数，其公式如下：
-\begin{equation}
-	\mathcal{L} _{I}^{NCE}=-log \frac{exp(v \cdot v^{+ }/\tau )}
-{exp(v \cdot v^{+}/\tau )+ \sum_{v^{-}\in N_{I}} exp(v \cdot v^{-}/\tau )} 
-\end{equation}
-其中$v^{+}$是正样本图像$I$的嵌入，$N_{I}$是包含负样本的嵌入，$\cdot$表示内（点）积，
-$\tau >0$是温度超参数。损失函数在计算前，还需要对所有嵌入进行$\ell_{2}$归一化。
-\par
-% 
-% 
-% 
-% 
-另一个需要解释的概念是知识库。
-一些最近的研究表明，大量的负样本（即$N_{I}$）在无监督对比学习中至关重要
-\cite{wu2018unsupervised,chen2020improved,he2020momentum}。
-但是负样本的数量受到小批量（mini-batch）大小的限制，
-最近的对比学习方法利用大型外部存储器来储存更多的负样本。
-具体来说，一些方法\cite{wu2018unsupervised}直接将所有训练样本的嵌入表示存储在内存中，
-但是很容易受到异步更新的影响。
-其他一些人选择用一个队列保存最后几个批次的的嵌入\cite{wang2020cross,chen2020improved,he2020momentum}。
-在\cite{chen2020improved,he2020momentum}中，
-存储的嵌入表示还可以通过编码器网络$f_{CNN}$的动量更新而进行动态更新。
-\par
-% 
-% 
-% 
-% 
-像素级交叉熵损失。
-在显著性分割的背景下，图像$I$的每个像素$i$需要被分类为显著性的前景类或者背景类。
-当前的方法通常将此任务视为逐像素分类问题。具体来说，
-令$f_{FCN}$作为FCN编码器（例如ResNet\cite{he2016deep}），它为图像$I$生成密集特征预测
-$I\in \mathbb{R}^{ H \times W \times D}$，
-从中可以导出每个像素的嵌入$i \in  \mathbb{R}^{D}$。
-之后分割头$f_{SEG}$把图像$I$映射到分类激活图
-$Y=f_{SEG}(I) \in \mathbb{R}^{H\times H \times |C|}$。
-进一步设$y=\left [ y_{1},\dots, y_{C} \right ] \in\mathbb{R}^{C}$
-是像素$i$的非归一化得分向量（称为logit），可以从$Y$导出，
-即$y \in Y$。
-给定像素$i$的真实标签$\bar{c} \in C$，交叉熵使用softmax进行优化：
-\begin{equation}
-	\mathcal{L}_{i}^{CE}=-1_{\bar{c}}^{\top } log(softmax(y))
-	\label{chpt4:eq:loss_softmax}
-\end{equation}
-% 
-% 
-% 
-% 
-其中，$1_{\bar{c}}$表示$\bar{c}$的one-hot编码，
-其中的对数算法是逐元素计算的:
-\begin{equation}
-softmax(y_{c}) = \frac
-{exp(y_{c})}
-{ 
-\sum_{{c}'=1 }^{|C|} 
-exp(y_{{c}'}) 
-} 
-\end{equation}
-% 
-% 
-% 
-% 
-这种独立训练目标的设计有两个主要限制。
-1)它独立的乘法像素级预测，但忽略像素之间的关系~\cite{zhao2019region}。
-2)由于使用了softmax，损失仅取决于logits之间的相对关系，
-不能直接得到监督学习的表示~\cite{pang2019rethinking}。
-这两个问题很少被注意到；只有少数结构感知损失被设计来解决1)，
-通过考虑像素亲和力~\cite{ke2018adaptive}，
-优化交叉测量~\cite{berman2018lovasz}，
-或者最大化真值和预测图之间的互信息~\cite{zhao2019region}。然而，
-这些替代损失仅考虑图像内像素之间的依赖性（即全局上下文），
-而不考虑图像不同像素之间的语义相关性（即全局结构）
-\par
-% 
-% 
-% 
-% 
-在这项工作中，我们构造了一种逐像素对比学习的方法，通过规范嵌入空间并探索训练数据的全局结构来解决
-问题1)和问题2)。
-我们首先扩展了公式。去适配我们有监督的密集图像预测任务。
-总的来说，我们的对比损失函数计算的是数据样本中每张图像的像素。
-此外，对于具有真实语义标签的像素$i$，正样本也属于类的其他像素，
-而负样本是属于其他类的像素。
-我们的有监督形式的逐像素对比损失定义为：
-\begin{equation}
-\mathcal{L} _{I}^{NCE}= 
-\frac{1}{|P_{i}|}
-\sum_{i^{+}\in P_{i}}^{}  
--log \frac
-{exp(i \cdot i^{+ }/\tau )}
-{exp(i \cdot i^{+}/\tau )+ \sum_{i^{-}\in N_{I}} exp(i \cdot i^{-}/\tau )} 
-\label{chpt4:eq:con_loss}
-\end{equation}
-% 
-% 
-% 
-% 
-其中$P_{i}$和$N_{i}$分别表示像素$i$的正样本和负样本的像素嵌入集合。
-并且，正负样本和锚点$i$不局限于统一图像。如公式~\ref{chpt4:eq:con_loss}~所示，
-这种基于像素到像素对比度的损失设计的目的是通过
-将同一类像素样本拉进
-并
-将不同类样本推开来学习其隐含的嵌入表示。
-\par
-% 
-% 
-% 
-% 
-公式~\ref{chpt4:eq:loss_softmax}~中的像素交叉熵损失以及
-在公式~\ref{chpt4:eq:con_loss}~中的对比损失是互补的。
-前者能让显著性分割网络学习对前背景分类有意义的判别性像素特征，
-而后者通过显示探索像素样本之间的全局语义关系，
-有助于规范嵌入空间，
-提高类内紧凑性和类间可分离性。
-因此总体训练目标是：
-\begin{equation}
-	\mathcal{L}^{SEG}=\sum_{i}\left ( 
-		\mathcal{L}_{i}^{CE} + 
-		\lambda \mathcal{L}_{i}^{NCE}  
-	\right ) 
-\end{equation}
-% 
-% 
-% 
-% 
-其中$\lambda > 0 $是系数，$\mathcal{L}^{SEG}$
-学习到的像素嵌入变得更加紧凑且分离良好。
-这表明，通过利用一元交叉熵损失和成对比度量损失的优势，
-显著性分割网络可以生成更具辨别力的特征，
-从而产生更有希望的结果。
-
-稍后在\todo 和\todo 中提供了定量分析。
 
 
-像素与区域的对比。
-如\todo 所述，记忆是一项关键技术，
-有助于对比学习利用海量数据来学习良好的表示。
-然而，由于我们的密集预测设置中有大量的像素样本，
-并且其中大多数是冗余的（即从相似对象区域采样），
-因此像传统存储器一样直接存储所有训练像素样本\todo ，
-会大大减慢学习过程。
-\par
-% 
-% 
-% 
-% 
-在队列中维护最后几个批次，例如\todo，
-也不是一个最优的选择，
-因为最近的批次仅包含有限数量的图像，
-降低了像素样本的多样性。
-因此，我们选择分别为前景类和背景类维护一个像素队列。
-对于每个类别，仅从最新小批量中的每个图像中随机选择少量像素$V$，
-并将其拉如队列，大小为$T \gg  V$。
-% 
-% 
-% 
-% 
-在实践中，我们发现这种策略非常高效并且有效，但是欠采样像素嵌入
-太稀疏，无法完全捕获图像内容。
-因此，我们进一步构建了一个区域存储库，用于存储从图像片段（即语义区域）
-吸收的更具代表性的嵌入。
-
-
-具体来说，对于总共有$N$个训练图像和$|C|=2$个分割类，
-我们的区域内存的大小为$|C|\times N \times D$，
-其中$D$是像素嵌入的维度。区域内存中的第$(\bar{c},~n)$
-个元素是通过平均池化第n个图像中标记为$c$类别的像素的所有嵌入而获得的
-$D$维特征向量。
-使用区域内存有两个优点：
-
-1)以较低的内存消耗存储更具代表性的像素样本；
-2)允许我们的像素对比损失~\ref{chpt4:eq:con_loss}~进一步探索像素与区域的关系。
-关于2)，当计算属于$\bar{c}$类别的锚像素$i$时，计算公式~\ref{chpt4:eq:con_loss}~时，
-具有相同类别$\bar{c}$的存储区域嵌入被视为正例，
-而具有其他类别$C/ \bar{c}$ 的区域嵌入被视为负例。
-% 
-% 
-% 
-% 
-\par
-对于像素存储器，大小为$|C|\times T \times D$。
-因此，对于整个内存（记为 $M$ ）来说，总大小为$|C| \times (N+T) \times D$。
-在\todo 中检查了$M$ 中的像素嵌入和区域嵌入。
-
-
-
-
-\todo 
-
-
-Transformer 中的多头注意力。
-Transformer最早用于机器翻译的，是一种基于注意力机制的网络架构。
-给定一个查询元素（例如，输出句子中的目标单词）和
-一组关键元素（例如，输入句子中的源单词），
-多头注意力模块根据衡量查询密钥对兼容性的注意力自适应地聚合关键内容。
-为了让模型关注来自不同子空间和不同位置的内容，不同注意力头的输出与科学系的权重进行线性聚合。
+对全聚焦特征$ F_{0}^{4} $和
+焦点堆栈特征$ \left \{ F_{i}^{4}, i=1,2, \cdots, 12 \right \}$
+进行自注意力计算以增强其模态内的特征表示。
+自注意力最早来源于Transformer架构~\cite{vaswani2017attention}，
+给定一个查询元素（例如,输出句子中的目标单词）和一组关
+键元素（例如,输入句子中的源单词）,多头注意力模块根据衡量查询密钥对兼容性
+的注意力自适应地聚合关键内容。
+为了使模型能够关注来自不同表示子空间和不同位置的内容，不同注意力头的输出与可学习的权重进行线性聚合。
+%
+%
+%
+%为了让模型关注来自不同子空间和不同位置的内
+%容,不同注意力头的输出与科学系的权重进行线性聚合。
+%
+%
+%
+%Transformer 中的多头注意力。
+%Transformer最早用于机器翻译的，是一种基于注意力机制的网络架构。
+%给定一个查询元素（例如，输出句子中的目标单词）和
+%一组关键元素（例如，输入句子中的源单词），
+%多头注意力模块根据衡量查询密钥对兼容性的注意力自适应地聚合关键内容。
+%为了让模型关注来自不同子空间和不同位置的内容，不同注意力头的输出与科学系的权重进行线性聚合。
+%
+%
+%
 令$q\in \Omega_{q}$索引具有表示特征$z_{q} \in \mathbb{R}^{C}$的查询元素，
 $k\in \Omega_{k}$索引具有表示特征$x_{k} \in \mathbb{R}^{C}$的关键元素，
 其中$C$是特征维度，$\Omega_{q}$和$\Omega_{k}$分别指定查询元素和关键元素的集合。
-然后计算多头注意力特征：
+然后计算多头注意力特征的公式如下：
 % 
 % 
 % 
 % 
 \begin{equation}
-MultiHeadAttn(z_{q},~x)=\sum_{m=1}^{M}
-W_{m}\left [ ~~\sum_{k\in \Omega_{k}}^{}A_{mqk} ~\cdot~ W_{m}^{'} x_{k}  ~~\right ]  
+	MultiHeadAttn(z_{q},~x)=\sum_{m=1}^{M}
+	W_{m}\left [ ~~\sum_{k\in \Omega_{k}}^{}A_{mqk} ~\cdot~ W_{m}^{'} x_{k}  ~~\right ]  
 \end{equation}
 % 
 % 
@@ -451,143 +269,412 @@ $ W_{k}^{{}' } \in \mathbb{R}^{C_{v} \times C} $
 是可学习的权重（默认情况下$C_{v}=C/M$）。
 注意力权重 
 $A_{mqk} \propto exp \left \{ 
-	\frac{
+\frac{
 	z_{q}^{T} U_{m}^{T} V_{m} x_{k}
-	}{ \sqrt{C_{v}}
-	}  \right \} $
+}{ \sqrt{C_{v}}
+}  \right \} $
 % 
 % 
 % 
 归一化为$ {\textstyle \sum_{k\in\Omega_{k}}^{}} A_{mqk} = 1$，
 其中$U_{m},~V_{m} \in \mathbb{R}^{C_{v}\times C}$也是可学习权重。
 为了消除不同空间位置的歧义，表示特征$z_{q}$和$x_{k}$通常是元素内容和位置嵌入的串联求和。
-
-Transformer有两个已知的问题。
-一是Transformer需要很长的训练时间才能收敛。
-假设查询和关键元素的数量分别为$N_{q}$和$N_{k}$，
-通过适当的参数初始化，$U_{m}z_{q}$和$ V_{m}x_{k}$遵循均值为0，方差为1的分布，
-这使得当$N_{k}$很大时，
-注意力权重$A_{mqk} \approx \frac{1}{N_{k}} $。
-它将导致输入特征的梯度不明确。
-因此，需要很长的训练计划，以便注意力权重可以集中在特定的键上。
-在图像领域中，关键元素通常是图像像素，$N_{k}$可能非常大，并且很难收敛。
-% 
-% 
-% 
-% 
+%
+%
+%
+%
+%
+%
 \par
 %
-% 
-% 
-% 
-另一方面，由于存在大量查询和关键元素，多头注意力的计算和内存复杂度可能非常高。
-方程的计算复杂度为$O\left ( N_{q}C^{2} + N_{k}C^{2}+N_{q}N_{k}C \right ) $。
-在图像领域中，查询元素和关键元素都是像素，$N_{q}=N_{k} \gg C$，
-复杂度由第三项主导，即$O(N_{q}N_{k}C) $。
-因此，多头注意力模块的复杂度随着特征图大小呈二次方增长。
-
-
-可变形注意力模块。
-
-在图像特征图上应用Transformer的核心问题是让它会查看所有可能得空间位置。
-为了解决这个问题，我们采用了一个可变形的注意力模块。
-受可变形卷积的启发，
-可变形注意力模块仅关注参考点周围的一小组关键采样点，
-而不管特征图的空间大小，
-通过为每个查询仅分配少量固定数量的键，可以环节收敛和特征空间分辨率的问题。
-
-
-给定输入特征图$x \in \mathbb{R}^{C\times H \times W}$，
-令$q$用作为内容特征$z_{q}$和二维参考点$p_{q}$的索引查询元素，可变性卷积特征
-通过以下方式计算，
-% 
-% 
-% 
-% 
+%
+%
+%
+但是，只进行模态内部的自注意计算，无法感知到隐含在焦点堆栈内部的三维场景信息。
+还需要焦点堆栈和全聚焦图像进行互相的特征增强，其他的特征融合增强的范式可以见图~\ref{cpt4_fig1:task2_ins}。
+最近的研究~\cite{gao2021fast,sun2021rethinking}~表明，
+基于Transformer的模型收敛缓慢是由于交叉注意力层中的全局上下文，
+因为交叉注意力需要许多训练周期才能学会关注局部对象区域~\cite{sun2021rethinking}。
+局部特征足以更新查询特征，并且可以通过自注意力收集上下文信息~\cite{cheng2022masked}。
+标准的交叉注意力（带残差路径）计算公式如下：
 \begin{equation}
-DeformAttn(z_{q},~p_{q},x)=
-\sum_{m=1}^{M}
-W_{m}\left [ 
-\sum_{k=1}^{K}A_{mqk}~\cdot~
- W_{m}^{'}x\left ( p_{q} + \bigtriangleup p_{mqk} \right ) 
-~~\right ]  
+	X_{l}=Softmax(Q_{l}K_{l}^{T})V_{l} + X_{l-1}
+\end{equation}
+其中，$l$是层索引，$X_{l} \in \mathbb{R}^{N\times C}$
+是指在$l^{th}$层和
+$ Q_{l} = f_{Q} \left ( X_{l-1} \right ) \in \mathbb{R}^{N \times C} $
+的维度查询特征。$X_{0}$表示Transformer解码器的输入查询特征。
+$K_{l},V_{l} \in \mathbb{R}^{H_{l}W_{l} \times C}$
+分别表示经过$f_{K}(\cdot) $和$ f_{V}( \cdot )$变换后的
+输入图像特征，
+$H_{l}$和$W_{l}$是图像特征的空间分辨率。
+$f_{Q} (\cdot),~f_{K}(\cdot) $和$ f_{V}(\cdot) $是线性变换。
+$ Softmax(\cdot) $ 函数将输入的权重矩阵映射为 $(0,~1)$之间的分布，
+并且使得输出值的累计和为1，从而满足概率性质，即对概率最大的元素加强注意。
+%
+%
+%
+%
+%
+\par
+%
+%
+%
+%
+这些问题在光场中会更加严重。
+在光场中应用交叉注意力机制，
+会使得注意力权重往散焦图片中清晰的部分偏移，
+因为散焦图片中既有前景清晰的部分，也有背景清晰的部分，
+网络很容易被背景清晰的部分误导，从而产生错误的显著性预测结果。
+且网络需要更多的迭代训练才能对是否是前景显著物体有一个很好的辨识度。
+%
+%
+%
+%
+%
+\par
+%
+%
+%
+%
+针对上述注意力弥散的问题，
+本节提出掩码交叉注意力，可以看做是交叉注意力机制的一种变体，
+仅关注每个查询的预测掩码的前景区域内。
+% 
+% 
+% 
+% 
+掩码注意力通过以下方式调节注意力矩阵：
+\begin{equation}
+	X_{l}=softmax(M_{l-1} ~+~Q_{l}K_{l}^{T})V_{l} + X_{l-1}
+\end{equation}
+% 
+% 
+此外，在特征位置$(x,~y)$的注意力掩码$M_{l-1}$是从另一个模态的特征提取的共有表示。
+%
+%
+%
+%
+%
+%
+\par 
+%
+%
+%
+%
+根据交叉注意力的方式不同，注意力掩码有两个生成方式，
+对于全聚焦图特征$F_{0}^{l}$与焦点堆栈特征的交叉注意力，
+使用来自焦点堆栈的共有表示来强化注意力权重。
+对于给定焦点堆栈特征$\left \{ F_{i}^{l}, i=1,2,\cdots, 12 \right \}$，
+进行如下变换：
+%
+%
+%
+%
+\begin{equation}
+\begin{aligned}
+	\hat{F} &= Concat(\left [  F_{1}^{l}, F_{2}^{l}, \cdots, F_{12}^{l} \right ] ) \\
+	M_{a}^{l} &= \bar{f}
+	\left (  \sigma \left ( f^{1 \times 1}\left [  
+	AvgPool\left ( \hat{F} \right ) ,~ MaxPool\left ( \hat{F} \right ) 
+	\right ]  \right )  \right )
+\end{aligned}
+\end{equation}
+%
+%
+%
+其中$Concat(\cdot)$表示在通道维度进行拼接操作，
+$\sigma(\cdot)$表示RELU激活函数，
+$f^{1\times 1}$表示$1\times 1$通道卷积操作，
+$AvgPool(\cdot)$
+和$MaxPool(\cdot)$
+分别表示通道维度上的平均池化和最大池化操作。
+$\bar{f}$表示将得到的掩码进行阈值化处理，公式如下：
+%
+%
+%
+%
+%
+%
+%
+\begin{equation}
+M^{l}\left ( F\left ( x, ~y \right )  \right ) =
+\begin{cases}
+	0  & \text{ if } ~~ F(x,~y)>  \alpha \\
+	-\infty & \text{ otherwise } 
+\end{cases}
+\end{equation}
+%%
+%
+%
+%
+其中$\alpha$是超参数，是对特征进行二值化的阈值，一般设为0.5。
+%
+%
+%
+%
+%
+%
+\par
+%
+%
+%
+%
+%
+而对于焦点堆栈支路的掩码交叉注意力计算，
+掩码使用来自全聚焦特征支路的特征表示来生成共有表示，其公式如下：
+%
+%
+%
+%
+\begin{equation}
+	M_{fs}^{l} = \bar{f}   \left ( \sigma \left ( 
+	f^{1\times 1}
+	\left ( 
+%	\hat{F}
+	F_{0}^{l}
+	\right ) 
+	\right )   \right ) 
+\end{equation}
+%
+%
+%
+%
+其注意力计算的的 $Q_{l}$ 是  $ \hat{F}$，
+$K_{l}$ 
+和
+$V_{l}$是来自全聚焦支路的特征 $F_{0}^{l}$。
+%
+%
+%
+%
+%
+\par
+%
+%
+%
+%
+语义分割任务中，上下文特征已经被证明对图像分割很重要
+~\cite{chen2017deeplab,chen2017rethinking,zhao2017pyramid}，
+高分辨率的语义特征对提高模型性能具有显著帮助，特别是小物体的分割。
+我们在特征融合阶段对于骨干网络中获取的最低尺度特征$\left \{ F_{i}^{0}, i = 0, 1, \cdots, 12 \right \}$加以考虑。
+特征融合模块获取
+视角增强模块的输出$\left \{ E_{i}^{l}, i = 0, 1, \cdots, 12 \right \}$
+和最高分辨率的语义特征。具体的融合过程如下：
+%
+%
+%
+%
+\begin{equation}
+	\begin{aligned}
+		E^{l+1} &= 
+		Concat\left ( \left [ E_{0}^{l+1},E_{1}^{l+1},\cdots, E_{12}^{l+1} \right ]  \right )  
+		\\  
+		F^{l} &= 
+		Concat\left ( \left [ F_{0}^{l},F_{1}^{l},\cdots, F_{12}^{l} \right ]  \right )  
+		\\  
+		{O^{l}}  &= Conv\left (  Upsample\left ( f^{3 \times 3} \left ( E^{l+1} \right )  \right ) + F_{0}^{l} \right )  \\
+	\end{aligned}
+\end{equation}
+%
+%
+%
+%
+其中，$Concat(\cdot)$是通道拼接操作，
+$f^{3 \times 3}$ 是 $3 \times 3 $ 卷积操作，
+$ Upsample(\cdot) $ 是2倍上采样过程，
+$ Conv $ 是一个组合操作，包含 $3\times 3$卷积、批归一化和RELU激活函数。
+特征融合模块从高层语义特征汇总到低层语义信息，
+层级表示$i$的取值依次为$\left \{ 3,2,1 \right \}$。
+%
+%
+%
+%
+%
+\par 
+%
+%
+最后将获取到的融合模块的输出特征$\left \{ O^{l}, l = 1,2,3 \right \}$
+送到显著性分割头进行最终的分割预测 $P$，
+同时，为了增强网络的表示，我们采用多尺度监督，
+分别在图像尺寸为1/16、1/8和1/4的原图像尺寸上预测显著性图
+$\left \{ P^{l}, l = 1,2,3 \right \}$。
+具体来说，采用如下公式：
+%
+%
+%
+%
+\begin{equation}
+	P^{l} = \sigma \left ( Conv\left ( MaxPool \left (  
+	O^{l} \right )  \right )  \right ) 
+	\times 
+	O^{l} + O^{l},~ l = 1,2,3
+\end{equation}
+%
+%
+%
+%
+其中,$MaxPool(\cdot)$是通道维度的最大池化操作，
+$ Conv $ 表示 $ 3\times 3 $卷积操作，
+$ \sigma $ 代表的是 RELU 激活函数。
+获取到的三个显著性预测图分别以真值图进行监督训练，
+显著性分割损失
+$ \mathcal{L}_{sal} $
+定义为：
+%
+%
+%
+%
+\begin{equation}
+	\mathcal{L}_{sal} = \sum_{l = 1}^{3}  
+	\mathcal{L}_{bce} \left ( P^{l}, DownSample_{j}\left (  GT \right ) 
+	\right ), ~ j = 2\times 2^l
+	\label{chpt4:eq:loss_sal}
+\end{equation}
+%
+%
+%
+%
+其中$\mathcal{L}_{bce}$ 表示二值交叉熵损失函数，
+$DownSample_{j}(\cdot)$ 表示将输入下采样$j$ 倍。
+%
+%
+%
+%
+%
+\BiSubsection{感知对比学习策略}{TODO}
+\label{chap:part4_cons}
+% 
+% 
+% 
+% 
+显著性目标检测网络一般使用$sigmoid$ 作为输出结果的映射头，
+这种通过阈值化分割前景和背景的方式，
+虽然能够通过交叉熵损失优化前景和背景中每个像素点与真值预测图之间的距离，
+但忽略了像素之间的关系~\cite{zhao2019region}，
+在一些置信度低的区域，比如前背景相似的像素区域，
+网络容易产生错误的预测，或者在学习不到位时，会预测出虚影。
+%
+%
+%
+%
+虽然显著性分割是一个像素级的分类任务，但是每张图像的前景区域内部和背景区域内部也是有差异所在。
+
+在本章工作中，我们构造了一种逐像素对比学习的方法，
+通过规范嵌入空间并探索训练数据的全局结构来解决上述问题。
+使得网络能够在做出像素级显著性分割预测时，也能够考虑同类像素之间的关系，
+学习显著性区域内部的一致性表达，
+和背景区域内部的一致性表达，我们在光场显著性检测领域引入了
+感知对比学习。
+
+
+
+对比学习常用于无监督中视觉表示学习。
+无监督对比学习旨在学习CNN编码器$f_{CNN}$将每个训练图像转换为特征向量表示$v=f_{CNN}(I) \in \mathbb{R}^{D}$，
+使得$v$能够描述图片$I$。
+为了实现这一目标，
+对比学习通过区分正样本（一个增强版本的图像$I$）
+和多个负样本（从训练集中随机挑选的图像，但是不包括$I$）来进行训练。
+在对比学习中，会集成使用InfoNCE损失函数，其公式如下：
+\begin{equation}
+	\mathcal{L} _{NCE}^{I}=-log \frac{exp(v \cdot v^{+ }/\tau )}
+{exp(v \cdot v^{+}/\tau )+ \sum_{v^{-}\in N_{I}} exp(v \cdot v^{-}/\tau )} 
+\label{chpt4_equ_nce}
+\end{equation}
+其中$v^{+}$是正样本图像$I$的嵌入，$N_{I}$是包含负样本的嵌入，$\cdot$表示内（点）积，
+$\tau >0$是温度超参数。损失函数在计算前，还需要对所有嵌入进行$\ell_{2}$归一化。
+\par
+% 
+% 
+% 
+%% 
+%另一个需要解释的概念是知识库。
+%一些最近的研究表明，大量的负样本（即$N_{I}$）在无监督对比学习中至关重要
+%\cite{wu2018unsupervised,chen2020improved,he2020momentum}。
+%但是负样本的数量受到小批量（mini-batch）大小的限制，
+%最近的对比学习方法利用大型外部存储器来储存更多的负样本。
+%具体来说，一些方法\cite{wu2018unsupervised}直接将所有训练样本的嵌入表示存储在内存中，
+%但是很容易受到异步更新的影响。
+%其他一些人选择用一个队列保存最后几个批次的的嵌入\cite{wang2020cross,chen2020improved,he2020momentum}。
+%在\cite{chen2020improved,he2020momentum}中，
+%存储的嵌入表示还可以通过编码器网络$f_{CNN}$的动量更新而进行动态更新。
+%\par
+% 
+% 
+% 
+% 
+
+在显著性分割的背景下，图像$I$的每个像素$i$需要被分类为显著性的前景类或者背景类。
+当前的方法通常将此任务视为逐像素分类问题。具体来说，
+令$f_{FCN}$作为图像特征编码器（例如ResNet\cite{he2016deep}），它为图像$I$生成密集特征预测
+$I\in \mathbb{R}^{ H \times W \times D}$，
+从中可以导出每个像素的嵌入$i \in  \mathbb{R}^{D}$。
+
+
+
+我们首先扩展了公式~\ref{chpt4_equ_nce}，
+去适配我们有监督的密集图像预测任务。
+总的来说，我们的对比损失函数计算的是数据样本中每张图像的像素。
+对于具有真实语义标签的像素$i$，正样本是也属于该类的其他像素，
+而负样本是属于其他类的像素。
+我们的有监督形式的逐像素对比损失定义为：
+\begin{equation}
+	\mathcal{L} _{NCE}^{I}= 
+	\frac{1}{|P_{i}|}
+	\sum_{i^{+}\in P_{i}}^{}  
+	-log \frac
+	{exp(i \cdot i^{+ }/\tau )}
+	{exp(i \cdot i^{+}/\tau )+ \sum_{i^{-}\in N_{I}} exp(i \cdot i^{-}/\tau )} 
+	\label{chpt4:eq:con_loss}
 \end{equation}
 % 
 % 
 % 
 % 
-其中$m$索引注意力头，$k$索引采样键，
-$K$是采样键的总数（$K \ll HW$），
-$\bigtriangleup p_{mqk} $和$A_{mqk}$分别表示
-第$m^{th}$个注意力头中第$k^{th}$个采样点的采样偏移量和注意力权重。
-标量注意力权重$A_{mqk}$位于$\left [ 0,~1 \right ] $范围内，
-通过$ {\textstyle \sum_{k=1}^{K}} A_{mqk}=1$进行归一化。
-$\bigtriangleup p_{mqk} \in \mathbb{R}^{2}$
-是范围不受约束的二维实数。
-由于$p_{q} + \bigtriangleup p_{mqk}$是分数，如等人所述，
-$x\left ( p_{q} + \bigtriangleup p_{mqk} \right ) $在计算时应用双线性插值。
-$\bigtriangleup p_{mqk}   $和$A_{mqk}$都是通过查询特征$z_{q}$上的线性投影获得的。
-在具体实现中，查询特征$z_{q}$被馈送到$3MK$通道的线性投影算子，
-其中前$2MK$通道对采样偏移量$\bigtriangleup p_{mqk}$进行编码，
-其余$MK$通道通过被馈送到$softmax$算子以获得注意力权重$A_{mqk}$。
+其中$P_{i}$和$N_{i}$分别表示像素$i$的正样本和负样本的像素嵌入集合。
+并且，正负样本和锚点$i$不局限于统一图像。如公式~\ref{chpt4:eq:con_loss}~所示，
+这种基于像素到像素对比度的损失设计的目的是通过
+将同一类像素样本拉进
+并
+将不同类像素样本推开来学习其隐含的嵌入表示。
 
 
 
 
-
-可变形注意力模块旨在将卷积特征图作为关键元素进行处理。
-
-设 为查询元素的数量，当较小时，可变形注意力模块的复杂度为。
-当应用于DETR编码器时，其中，复杂度变为，
-起复杂度与空间大小呈线性关系。
-当它作为DETR解码器中的交叉注意力模块应用时，
-其中，是对象查询的数量，复杂度变为，
-这与空间大小无关。
-
-
-多尺度可变形注意力模型。
-大多数现代目标检测框架都受益于多尺度特征图。
-我们提出的可变形注意力模块可以自然地扩展到多尺度特征图。
-令为输入多尺度特征图，
-其中。
-令为每个查询元素的参考点的归一化坐标，
-然后应用多尺度可变形注意力采样点。
-分别表示第几个特征层和第几个注意力头中第几个采样点的采样偏移和注意力权重。
-标量注意力权重通过进行归一化。
-
-这里，为了尺度公式的清晰性，我们使用归一化坐标，
-其中归一化坐标分别表示图像的左上角和右下角。
-方程中的函数将归一化坐标重新放缩到第几层的输入特征图。
-
-
-多尺度可变形注意力与之前的单尺度版本非常相似，只是它从多尺度特征图中采样点，
-而不是从单尺度特征图中采样k个点。
-当且固定为单位矩阵时，所提出的注意力模块将退化为可变形卷积。
-可变形卷积是针对单尺度输入而设计的，每个注意力头仅关注一个采样点。
-然而，我们的多尺度可变形注意力会关注来自多尺度输入的多个采样点。
-所提出的（多尺度）可变形注意模块也可以被视为
-Transformer 注意的有效变体，其中通过可变形采样位置引入预过滤机制。
-当采样点遍历所有可能得位置时，所提出的注意力模块相当于Transformer注意力。
+% 
+% 
+公式~\ref{chpt4:eq:loss_sal}~中的像素二元交叉熵损失
+$\mathcal{L}_{sal} $
+以及
+在公式~\ref{chpt4:eq:con_loss}~中的对比损失
+$\mathcal{L}_{NCE} $
+是互补的。
+前者能让显著性分割网络学习对前背景分类有意义的判别性像素特征，
+而后者通过显示探索像素样本之间的全局语义关系，
+有助于规范嵌入空间，
+提高类内紧凑性和类间可分离性。
+因此总体训练目标是：
+\begin{equation}
+	\mathcal{L}_{total} = \sum_{i}^{} \mathcal{L}_{sal}^{i} + \mathcal{L}_{NCE}^{i}
+%	\mathcal{L}^{SEG}=\sum_{i}\left ( 
+%	\mathcal{L}_{i}^{CE} + 
+%	\lambda \mathcal{L}_{i}^{NCE}  
+%	\right ) 
+\end{equation}
+% 
+% 
+% 
+% 
+其中$\lambda > 0 $是系数，$\mathcal{L}^{total}$
+学习到的像素嵌入变得更加紧凑且分离良好。
+这表明，通过利用二元交叉熵损失和成对比度量损失的优势，
+显著性分割网络可以生成更具辨别力的特征，
+从而产生更有希望的结果。
 
 
-可变形Transformer 编码器。
-
-我们将网络中处理特征图的Transformer注意模块替换为所提出的多尺度可变形注意模块。
-编码器的输入和输出都是具有相同分辨率的多尺度特征图。
-
-在编码器中，我们从骨干网络中提取多尺度特征图，通过卷积，
-其中的分辨率比输入图像低。
-最低分辨率特征图是通过最后阶段的步长卷积获得的。
-
-所有多尺度特征图均为个通道，
-像FPN网络结构中，没有使用自上而下的结构，因为我们提出的多尺度可变形注意力本身可以在多尺度特征图之间交换信息。
-
-
-
-
-
-
-
+%
+%
+%\todo 
 
 
 
@@ -600,6 +687,17 @@ Transformer 注意的有效变体，其中通过可变形采样位置引入预�
 \BiSubsection{训练过程}{TODO}
 
 
+
+本文中提到的
+感知对比表示头，如图~\ref{cpt4_fig1:chpt4_overview}~中所示，
+和对比损失 $\mathcal{L}_{NCE}$
+只在训练过程中存在。
+在测试阶段，使用显著性分割头预测的最后一个预测 $P^{1}$， 再通过双线性插值到原图大小后，
+经过$sigmoid(\cdot)$激活后作为最终的显著性分割预测。
+
+
+
+
 %\\
 %\\
 %\\
@@ -607,14 +705,540 @@ Transformer 注意的有效变体，其中通过可变形采样位置引入预�
 \BiSection{实验结果与分析}{TODO}
 
 \BiSubsection{实验设置}{TODO}
+（1）数据集
+
+本章在 3 个公开的光场数据集：
+DUT-LFSD~\cite{zhang2019memory}、
+HFUT-LFSD~\cite{zhang2017saliency}以及 
+LFSD~\cite{li2014saliency}上
+进行了大量的实验。DUT-LFSD 包含 1462 张光场样本,HFUT-LFSD 包含 255 个样本,
+LFSD 包含 100 个光场样本。每个样本包含一个 RGB(全聚焦)图像,焦点堆栈以及一
+个像素级的显著性真值。本章采用了与 ERNet~\cite{piao2020exploit}~ 相同的训练集。具体来说,本章从
+DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本作为训练集。
+
+（2）实现细节
+
+本章的方法是在 Pytorch 框架上实现的,并使用单个 GTX2080Ti 的显卡进行训练。在训
+练过程中,本章使用 AdamW 优化器,并将优化器中的动量以及权重衰减参数设置为 0.9
+以及 0.00005。
+优化器的学习率设置为 3e-5，并在前 5 万次迭代过程中逐渐衰减并最终
+衰减为原学习率的 1/10。
+小批量尺寸大小设定为 2,并将网络中批量归一化（BatchNorm, BN）修改为组
+归一化 （GroupNorm，GN）。
+最大迭代次数设置为 10 万次,所有光场数据大小均调整到 256×256后进行训练和测试。
+
+（3）评价指标
+
+为了公平的比较不同网络的性能，本章采用了 S-measure、E-measure、F-measure、绝对平均误差MAE作为评
+估模型性能的指标。
 
 \BiSubsection{消融实验}{TODO}
 
+在本小节，对提出的各个模块进行消融实验，
+分析每个组件或者策略对于显著性分割性能的影响。
+定量的消融实验结果展示在表，
+定性的消融实验结果展示在图。
+
+（1）
+验证视角增强模块的有效性
+
+
+
+
+（2）验证像素对比监督的有效性
+
+
+
+
+
 \BiSubsection{对比实验}{TODO}
 
+本节将本章方法与其他数据增强方法进行了比较：
 
-%\\
-%\\
-%\\
-%\\
+	%------------------------------ figure: comparison
+\begin{figure*}
+	\centering
+	% \setlength{\abovecaptionskip}{-5mm}
+	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+	%	\caption{
+		%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+		%	}
+	\bicaption{
+		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
+	}{
+		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+	}
+	\label{chpt4:fig:comparison_3}
+	\vspace{-0.2cm}
+\end{figure*}
+% 
+%
+
+（1）定性比较
+
+
+图~\ref{chpt4:fig:comparison_3}~展示来本章方法与目前最先进的显著性目标检测方法在
+不同场景的显著性预测的可视化效果。
+\todo 
+在1-3行中，显著性目标在不同深度范围中表现突出；4-5行描述了多变的背景情况；6-7行展示了显著性目标与背景相近的挑战。我们的方法可以准确且完整地预测这些复杂场景中的显著性目标。举例来说，EAR、LFNet和MOD等光场显著性检测算法可以准确定位目标，但无法完整预测；CPFP和PCA等RGB-D方法在有高质量深度图的场景中表现良好，但容易受到低质量深度图的干扰；CPD和PoolNet等RGB方法由于缺乏空间信息，在复杂场景中难以准确预测。
+%
+%
+%
+%
+%
+这些结果显示出我们提出的视角增强模块的光场数据探索方法更有效地利用多焦点数据，准确定位显著区域，
+并在特征整合中突出显著区域、抑制非显著区域。
+
+
+\begin{table}
+	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
+		%		The best results are marked in \textbf{boldface}.
+		%	}
+	\bicaption{
+		DUTLF-FS 数据集上每个组件的消融分析。
+	}{
+		Ablation analyses of each component on the DUTLF-FS dataset.
+	}
+	\centering
+	\label{chpt4:tab:abl_1}
+	%	\resizebox{0.82\linewidth}{!}{
+		\begin{tabular}{lcccccccc}
+			\toprule  %添加表格头部粗线
+			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
+			
+			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
+			
+%			\cmidrule(r){2-9} 
+			
+			\cmidrule(r){2-5} \cmidrule(r){6-9} 
+			
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$
+			\\
+			
+			\midrule
+			
+%			% 开始填写数据
+%			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+%			
+%			\midrule
+		
+			
+			+自注意力 
+			& 0.964 & 0.926 & 0.935 & 0.031 
+			& 0.881 & 0.833 & 0.797 & 0.065   \\
+			
+			+交叉注意力
+			& 0.965 & 0.931 & 0.943 & 0.027 
+			& 0.881 & 0.833 & 0.795 & 0.060   \\
+			
+			+自掩码注意力  
+			& 0.965 & 0.935 & 0.944 & 0.025 
+			& 0.894 & 0.849 & 0.821 & 0.058   \\
+			
+			+掩码注意力   
+			& 0.971 & 0.94  & 0.949 & 0.022 
+			& 0.902 & 0.852 & 0.823 & 0.052  \\
+			
+			\bottomrule
+		\end{tabular}
+		% }
+\end{table}
+
+\begin{table}
+	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
+		%		The best results are marked in \textbf{boldface}.
+		%	}
+	\bicaption{
+		DUTLF-FS 数据集上每个组件的消融分析。
+	}{
+		Ablation analyses of each component on the DUTLF-FS dataset.
+	}
+	\centering
+	\label{chpt4:tab:abl_2}
+	%	\resizebox{0.82\linewidth}{!}{
+		\begin{tabular}{llcccc}
+			\toprule  %添加表格头部粗线
+			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
+			
+			\multicolumn{2}{c}{ \multirow{2}*{Settings}}	& \multicolumn{4}{c}{DUTLF-FS} \\ %& \multicolumn{3}{c}{HFUT} \\ 
+			
+			\cmidrule(r){3-6} 
+			
+			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+			\midrule
+			
+			% 开始填写数据
+			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+			
+			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
+			
+			\midrule
+			
+			\multicolumn{1}{c}{ \multirow{2}*{+TCM}}	
+			
+			& +TI		& 0.961 & 0.923 & 0.932 & 0.034 \\ 
+			& ++TS & 0.968 & 0.933 & 0.944 & 0.027 \\
+			\midrule
+			
+			\multicolumn{2}{l}{++FPE} 		& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
+			\multicolumn{2}{l}{+++CCM} 		& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
+			
+			
+			\bottomrule
+		\end{tabular}
+		% }
+\end{table}
+
+\begin{table}
+	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
+		%		The best results are marked in \textbf{boldface}.
+		%	}
+	\bicaption{
+		DUTLF-FS 数据集上每个组件的消融分析。
+	}{
+		Ablation analyses of each component on the DUTLF-FS dataset.
+	}
+	\centering
+	\label{chpt4:tab:abl_3}
+	%	\resizebox{0.82\linewidth}{!}{
+		\begin{tabular}{llcccc}
+			\toprule  %添加表格头部粗线
+			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
+			
+			\multicolumn{2}{c}{ \multirow{2}*{Settings}}	& \multicolumn{4}{c}{DUTLF-FS} \\ %& \multicolumn{3}{c}{HFUT} \\ 
+			
+			\cmidrule(r){3-6} 
+			
+			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+			\midrule
+			
+			% 开始填写数据
+			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+			
+			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
+			
+			\midrule
+			
+			\multicolumn{1}{c}{ \multirow{2}*{+TCM}}	
+			
+			& +TI		& 0.961 & 0.923 & 0.932 & 0.034 \\ 
+			& ++TS & 0.968 & 0.933 & 0.944 & 0.027 \\
+			\midrule
+			
+			\multicolumn{2}{l}{++FPE} 		& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
+			\multicolumn{2}{l}{+++CCM} 		& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
+			
+			
+			\bottomrule
+		\end{tabular}
+		% }
+\end{table}
+
+
+
+
+
+（2）定量比较
+
+%
+%
+\begin{table*}[!ht]
+	%
+	%---------------------------------------------------------------------> 大表 
+	%
+	%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+		%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+		%		%
+		%		% denote the best and the second-best results,
+		%		%
+		%		The best three results are shown in 
+		%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+		%		% '-' indicates the code or outcome is not available.
+		%	}
+	\bicaption{
+		在 3 个公开数据集上的定量比较
+	}{Quantitative comparisons on three light field datasets}
+	%	\renewcommand{\arraystretch}{1.5}
+	
+	\centering
+	\label{chpt4:table:comp_with_sota_3_1}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{rcccccccccccc}
+			\toprule  %添加表格头部粗线
+			
+			% title
+			%			\multirow{2}*{Type} & 
+			\multicolumn{1}{c}{ \multirow{2}*{方法} } & 
+			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } &
+			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } &
+			\multicolumn{4}{c}{LFSD \cite{li2014saliency} } \\
+			
+			% next line
+			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
+			
+			%			 subtitle
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+			
+			%			& E & S & F & MAE 
+			%			& E & S & F & MAE 
+			%			& E & S & F & MAE \\
+			
+			
+			% line line
+			\midrule
+			
+			%			\multirow{8}*{\textit{Light field}}
+			
+			% 开始填数据
+			
+			Ours	 
+			&  {\textbf{.973}} & \textbf{ {.946}} 	& \textbf{ {.954}} & \textbf{ {.020}} 
+			& \textbf{ {.871}} &	\textbf{ {.828}} 			&\textbf{	 {.784}} & {\textcolor{red}{.064}} 
+			& \textbf{ {.919}} &	\textcolor{blue}{.860} 			&	\textbf{ {.873}} &	\textbf{ {.064}} 
+			\\
+			
+			DLGLRG \cite{liu2021light} 
+			& {\textcolor{red}{.958}} & {\textcolor{red}{.928}} 			& {\textcolor{red}{.934}} & {\textcolor{red}{.029}} 
+			&	.839 &	.766 &	.698 &	.070 
+			&	{\textcolor{red}{.906}} &	\textbf{ {.866}} 			&	{\textcolor{red}{.870}} &	\textcolor{blue}{.069} 
+			\\
+			
+			ERNet \cite{piao2020exploit}
+			& .947 & .899 & .908 & .039 
+			&	.841 &	.778 &	.722 &	.082 
+			&	.888 &	.834 &	.850 &	.082 
+			\\
+			
+			PANet \cite{piao2021panet} 
+			& .939 & .908 & .903 & .038 
+			& .845 & .795 & .738 & .074 
+			& .892 & .849 & .849 & .076
+			\\
+			
+			LFNet	 \cite{zhang2020lfnet} 
+			& .929 & .878 & .890 & .053
+			&	.846 &	.782 &	.718 &	.073 
+			&	.885 &	.820 &	.824 &	.092 \\
+			
+			MAC	 \cite{zhang2020light} 
+			& .863	& .804	& .792	& .102	
+			&   .797 & .731 & .667 & .107 
+			& .832 & .782 & .776 & .127 \\
+			
+			MoLF	 \cite{zhang2019memory} 
+			& .938 & .887 & .902 & .051 
+			&	.852 &	.789 &	.729 &	.075 
+			&	.888 &	.830 &	.834 &	.089 \\
+			
+			DLSD	\cite{piao2019deep}
+			& .891	& .841	& .801	& .076	
+			&   .783 & .741 & .615 & .098 
+			& .806 & .737 & .715 & .147 \\
+			
+			\midrule % end lfsod
+			
+			% start rgb-d
+			%			\multirow{6}*{\textit{RGB-D}}
+			
+			DCF \cite{ji2021calibrated} 
+			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
+			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+			& .881 & .809 & .821 & .096 \\
+			
+			CIR-Net \cite{cong2022cir}
+			& .950 & .916 & .921 & .038 
+			& {\textcolor{red}{.862}} & .800  			& .742 & \textbf{ {.062}} 
+			& .874 & .820 & .816 & .098 \\ 
+			
+			VST-$rgbd$  \cite{liu2021visual} 
+			& .952 & .920 & .921 & .036 
+			& .843 & .807 & .754 & .086 
+			& .851 & .792 & .786 & .110 
+			\\
+			
+			%			& -  & 2022  & \\
+			%			& -  & 2022  & \\
+			
+			BBS-Net     \cite{fan2020bbs} 
+			& .900 & .865 & .852 & .066 
+			& .801 & .751 & .676 & .073 
+			& \textcolor{blue}{.901} & {\textcolor{red}{.864}} & .858 & .072 \\ 
+			
+			SSF     \cite{zhang2020select} 
+			& .922 & .879 & .887 & .050 
+			& .816 & .725 & .647 & .090 
+			& \textcolor{blue}{.901} & .859 & \textcolor{blue}{.868} & {\textcolor{red}{.067}} \\ 
+			
+			S2MA    \cite{liu2020learning} 
+			& .839 & .787 & .754 & 	.102 
+			& .777 & .729 & .650 & .112 
+			& .873 & .837 &	.835 & .094 \\
+			
+			
+			\midrule % end rgb-d
+			%			\multirow{7}*{\textit{RGB}}
+			
+			VST-$rgb$ \cite{liu2021visual} 
+			& .939 & .910 & .911 & .047
+			& .831 & \textcolor{blue}{.808} & \textcolor{blue}{.763} & .093 
+			& .865 & .797 & .817 & .123 
+			\\ 
+			
+			PFSNet \cite{ma2021pyramidal}
+			& .912 & .883 & .879 & .057 
+			& .835 & .800 & .752 & .088 
+			& .805 & .749 & .727 & .145 
+			\\ 
+			
+			
+			ITSD \cite{zhou2020interactive} 
+			& .930 & .899 & .899 & .052 
+			& .839 & .805 & .759 & .089 
+			& .879 & .847 & .840 & .088 
+			\\ 
+			
+			
+			
+			LDF \cite{wei2020label} 
+			& .898 & .873 & .861 & .061 
+			& .804 & .780 & .708 & .093 
+			& .843 & .821 & .803 & .096 
+			\\ 
+			
+			
+			MINet \cite{pang2020multi} 
+			& .916 & .890 & .882 & .050 
+			& .816 & .792 & .720 & .086 
+			& .861 & .834 & .828 & .091 
+			\\ 
+			
+			F$^{3}$Net  \cite{wei2020f3net}
+			& .900 & .888 & .882 & .057 
+			& .815 & .777 & .718 & .095 
+			& .824 & .806 & .797 & .106 
+			\\ 
+			
+			
+			EGNet   \cite{zhao2019egnet}
+			& .914 & .886 & .870 & .053 
+			& .794 & .772 & .672 & .094 
+			& .776 & .784 & .762 & .118 
+			\\ 
+			
+			CPD  \cite{wu2019cascaded}
+			& .867 & .911 & .866 & .058 
+			& .772 & .82  & .701 & .086 
+			& .759 & .82  & .759 & .126 \\
+			
+			PoolNet \cite{liu2019simple}
+			& .889 & .919 & .868 & .051 
+			& .776 & .802 & .683 & .092 
+			& .789 & .8   & .769 & .118 \\
+			
+			PiCANet \cite{liu2018picanet}
+			& .829 & .892 & .821 & .083 
+			& .726 & .781 & .618 & .115 
+			& .729 & .78  & .671 & .158 \\
+			
+			PAGRN \cite{wang2018detect}
+			& .822 & .878 & .828 & .084 
+			& .717 & .773 & .635 & .114 
+			& .727 & .805 & .725 & .147 \\
+			
+			C2S   \cite{li2018contour}
+			& .844 & .874 & .791 & .084 
+			& .763 & .786 & .65  & .111 
+			& .806 & .82  & .749 & .113 \\
+			
+			R3Net  \cite{deng2018r3net}
+			& .833 & .819 & .783 & .113 
+			& .727 & .728 & .625 & .151 
+			& .789 & .838 & .781 & .128 \\
+			
+			Amulet \cite{zhang2017amulet}
+			& .847 & .882 & .805 & .030 
+			& .767 & .76  & .636 & .110  
+			& .773 & .821 & .757 & .135 \\
+			
+			
+			\bottomrule % end
+		\end{tabular}
+	}
+\end{table*}
+%
+%
+
+
+为了进行全面比较，我们将我们的方法与 26 个最先进的模型进行比较，
+包括6个光场显著性分割方法：
+DLGLRG \cite{liu2021light}, RENet \cite{piao2020exploit}, LFNet \cite{zhang2020lfnet},
+MAC \cite{zhang2020light}, MoLF \cite{zhang2019memory}, and DLSD \cite{piao2019deep};
+%
+%
+%
+%
+6个RGB-D显著性分割方法：
+DCF \cite{ji2021calibrated}, CIR-Net \cite{cong2022cir}, VST-$rgbd$  \cite{liu2021visual},
+BBS-Net     \cite{fan2020bbs}, SSF     \cite{zhang2020select} and S2MA    \cite{liu2020learning};
+%
+%
+%
+%
+%
+和14个2D显著性检测方法：
+VST-$rgb$ \cite{liu2021visual}，
+PFSNet \cite{ma2021pyramidal}，
+ITSD \cite{zhou2020interactive}，
+LDF \cite{wei2020label}，
+MINet \cite{pang2020multi}，
+F$^{3}$Net  \cite{wei2020f3net}， 
+EGNet   \cite{zhao2019egnet}，
+CPD  \cite{wu2019cascaded}，
+PoolNet \cite{liu2019simple}，
+PiCANet \cite{liu2018picanet}，
+PAGRN \cite{wang2018detect}，
+C2S   \cite{li2018contour}，
+R3Net  \cite{deng2018r3net}
+和
+Amulet \cite{zhang2017amulet}。
+
+为了保证公平比较，我们使用他们提供的显着性预测图或预训练的权重来生成比较数据，
+并利用~\cite{liu2021visual}~中提供的相同评估代码。 
+如表~\ref{chpt4:table:comp_with_sota_3_1}~所示，
+很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了比当前最先进的方法更优越的性能。
+%
+%
+
 \BiSection{本章总结}{TODO}
+
+本章提出了一种视角增强的光场显著性目标检测方法。
+此方法主要包含一个视角增强模块和一个像素对比学习策略，
+通过端到端的网络训练得到显著性预测图。
+具体来说：
+（1）
+%
+%
+本章方法所提出的视角增强注意力模块，
+能够充分提取隐含在全聚焦图和焦点堆栈
+内部的场景显著信息，并促进两种不同光场场景表示的融合。
+（2）
+%
+%
+提出的像素对比监督，
+能够考虑显著区域和非显著区域的内在联系，
+使得网络对于显著区域有更为鲁棒的辨别能力。
+%
+%
+广泛的实验结果表明，
+本章方法相比现有的光场显著性分割方法，具有更优越的显著性分割性能。
+
+
+
+
+
+
+
+
