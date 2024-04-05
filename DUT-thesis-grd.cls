@@ -654,7 +654,7 @@ footskip=1.47cm% 页脚 1.47cm %
  \vskip 3pt
  \indent{\songti\zihao{-4}\DUT@label@authorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/hand_self}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2024}年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
  \vskip 3pt
- \indent{\songti\zihao{-4}\DUT@label@Supervisorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/figure1}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2024}~年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
+ \indent{\songti\zihao{-4}\DUT@label@Supervisorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/hand_teacher_piao}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2024}~年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
  \vskip 3pt
  %\indent{\songti\zihao{-4}\DUT@label@originalchairman} \DUTunderline[9.65em]{}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]~年~\DUTunderline[2em]~月~\DUTunderline[2em]~日~
   \clearpage

@@ -18,7 +18,7 @@
 \contentsline {subsection}{\numberline {2.2.2}Principles of Salient Object Detection via Focus Stack}{13}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}Performance Evaluation Metrics for Salient Object Detection}{14}{subsection.2.2.3}%
 \contentsline {section}{\numberline {2.3}The Chapter’s Conclusion}{17}{section.2.3}%
-\contentsline {chapter}{\numberline {3}TODO}{18}{chapter.3}%
+\contentsline {chapter}{\numberline {3}Light Field Salient Object Detection Based on Focus Perception}{18}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Research Motivation}{18}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Method Introduction}{20}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Token Interaction Module}{23}{subsection.3.2.1}%
@@ -29,7 +29,7 @@
 \contentsline {subsection}{\numberline {3.3.2}Ablation Experiment}{29}{subsection.3.3.2}%
 \contentsline {subsection}{\numberline {3.3.3}Comparative Experiment}{29}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}The Chapter’s Conclusion}{35}{section.3.4}%
-\contentsline {chapter}{\numberline {4}TODO}{36}{chapter.4}%
+\contentsline {chapter}{\numberline {4}Light Field Salient Object Detection Based on Perspective Enhancement }{36}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Research Motivation}{36}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Method Introduction}{37}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Viewpoint Enhancement Module}{38}{subsection.4.2.1}%
