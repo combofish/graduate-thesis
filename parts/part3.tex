@@ -1,3 +1,23 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\BiSection{研究动机}{Research Motivation}
+%
+%
+%\BiSection{方法介绍}{Method Introduction}
+%\BiSubsection{令牌交互模块}{Token Interaction Module}
+%\BiSubsection{聚焦感知增强策略}{Focus Perception Enhancement Strategy}
+%\BiSubsection{训练过程}{Training Process}
+%
+%
+%\BiSection{实验结果与分析}{Experimental Results and Analysis}
+%\BiSubsection{实验设置}{Experimental Setup}
+%\BiSubsection{消融实验}{Ablation Experiment}
+%\BiSubsection{对比实验}{Comparative Experiment}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \BiChapter{基于焦点感知的光场显著性目标检测}{TODO}
 \label{chap:part3}
@@ -6,11 +26,13 @@
 光场显着物体检测（LFSOD）由于光场中包含丰富的空间信息而引起了广泛的关注。
 与 2D (RGB) 和 3D (RGBD) 数据不同，光场本质上捕获结构化 4D 表示，包括多视图图像、深度图和焦点切片。 其中，通过眼球运动顺序观察切片的焦点堆栈，
 以及迎合人类视觉感知的可见注意力转移~\cite{piao2020dut}，做出适合显着性对象检测。
-%
-%
-%
-%
-\BiSection{研究动机}{TODO}
+
+
+
+
+
+
+\BiSection{研究动机}{Research Motivation}
 %
 %
 %
@@ -160,11 +182,16 @@ ViT 由 Dosovitskiy 等人提出~\cite{dosovitskiy2020image}~，首先将Transfo
 王等人~\cite{wang2021mutualformer}~提出了一种基于Transformer的多模态融合模块来增强和融合RGB和深度图像特征。
 受益于Transformer的使用，这些方法可以获得更准确的场景上下文特征，并在复杂场景中表现出更好的检测性能。 然而，如何将Transformer应用于 LFSOD 尚未得到全面探讨。 考虑Transformer在建立长期依赖方面的优势，适合总结图像特定特征并通过附加标记传达信息。 在本文中，我们提出了一种令牌通信模块（Token Communication
 Module，TCM）来加强信息交互并促进上下文特征感知。
-%
-%
-%
-%
-\BiSection{方法介绍}{TODO}
+
+
+
+
+
+
+
+
+
+\BiSection{方法介绍}{Method Introduction}
 %
 %
 %
@@ -360,12 +387,25 @@ $\left \{ f_{i}^{1},f_{i}^{2},f_{i}^{3},f_{i}^{4} \right \}_{i=0}^{N}$ 。
 %%
 %%
 其中 $Up$ 贡献 $2 \times $ 上采样 操作时，$CBR$ 表示一个卷积块，包括 Conv+ BN+ RELU 层。 对于解码器，提出的焦点感知增强（FPE）策略增强了焦点堆栈的特征表示。 增强的焦点堆栈和全焦点特征融合在特征融合模块（FFM）中。 最后，采用掩模解码器来生成显着图。
-%
-%
-%
-%
-%
-\BiSubsection{令牌交互模块}{TODO}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\BiSubsection{令牌交互模块}{Token Interaction Module}
 %
 %
 %
@@ -503,7 +543,7 @@ $ Q_{out}^{l} $ 移出。
 值得一提的是，令牌移位操作几乎是无参数的，带来的计算成本可以忽略不计。
 
 
-\BiSubsection{聚焦感知增强策略}{TODO}
+\BiSubsection{聚焦感知增强策略}{Focus Perception Enhancement Strategy}
 %
 %
 %
@@ -650,7 +690,16 @@ $ Q_{out}^{l} $ 移出。
 %
 %
 %\BiSubsection{损失函数}{TODO}
-\BiSubsection{训练过程}{TODO}
+
+
+
+
+
+
+
+
+
+\BiSubsection{训练过程}{Training Process}
 %
 %
 本文所提出的网络模型使用一个混合损失函数来训练。
@@ -699,22 +748,30 @@ $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个�
 %
 %
 其中 $ G $ 表示真值图。$ \mathcal L $代表我们用来逐渐优化预测的混合损失。 $ \lambda $是用于辅助控制监督项权重的超参数。
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
-%
 
-\BiSection{实验结果与分析}{TODO}
 
-\BiSubsection{实验设置}{TODO}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\BiSection{实验结果与分析}{Experimental Results and Analysis}
+
+\BiSubsection{实验设置}{Experimental Setup}
 %
 %
 %
@@ -786,7 +843,7 @@ $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个�
 
 
 
-\BiSubsection{消融实验}{TODO}
+\BiSubsection{消融实验}{Ablation Experiment}
 
 定量比较：为了进行全面比较，我们将我们的方法与 26 个最先进的模型进行比较，
 包括6个光场显著性分割方法：
@@ -1279,7 +1336,17 @@ Amulet \cite{zhang2017amulet}
 
 
 
-\BiSubsection{对比实验}{TODO}
+
+
+
+
+
+
+
+
+
+
+\BiSubsection{对比实验}{Comparative Experiment}
 
 \textbf{不同模型组件的有效性。}
 我们首先在表~\ref{table:abl_total}~中验证不同模型组件的有效性。我们首先构建一个基线模型。 具体来说，它使用共享权重编码器来提取全焦点和焦点堆栈特征，然后直接连接它们并预测显着性图。 
@@ -1483,6 +1550,6 @@ Amulet \cite{zhang2017amulet}
 为了验证不同焦点感知增强设置的有效性，我们在随机、卷积和基于 SSIM 的选择方法之间进行了比较实验。 所有实验将 $K$ 数设置为 5。表~\ref{table:abl_methods}~表明我们使用基于卷积方式进行感知增强的方法已经达到了与其他 LFSOD 方法相当的性能，证明了我们提出的方法的优越性。
 
 
-\BiSection{本章小结}{TODO}
+\BiSection{本章小结}{The Chapter’s Conclusion}
 
 在本文中，我们提出了一种用于精确光场显着物体检测的焦点感知Transformer（FPT）。 我们引入与焦点相关的令牌来收集图像特定的特征，并提出令牌通信模块（TCM）来传播信息并促进空间上下文建模。 为了增强焦点堆栈的空间特征表示，我们提出了一种焦点感知增强（FPE）策略来帮助抑制噪声背景信息。 实验结果表明，我们提出的方法可以在大多数光场显著性分割数据集上实现最先进的性能。

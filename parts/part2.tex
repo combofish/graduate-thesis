@@ -1,8 +1,33 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\BiChapter{相关理论}{Related Theories}
+%\BiSection{光场技术基本理论}{Basic Theory of Light Field Technology}
 
-\BiChapter{相关理论}{TODO}
+%\BiSubsection{光场成像原理}{Principles of Light Field Imaging}
+
+%\BiSubsection{光场数据的可视化}{Visualization of Light Field Data}
+%
+%\BiSection{光场显著性目标检测相关理论}
+%{Related Theories on Light Field Salient Object Detection}
+%
+%\BiSubsection{基于多视角图像的显著性目标检测原理}
+%{Principles of Salient Object Detection via Multi-view Images}
+%
+%\BiSubsection{基于焦点堆栈的显著性目标检测原理}
+%{Principles of Salient Object Detection via Focus Stack}
+%
+%\BiSubsection{显著性目标检测性能评估指标}
+%{Performance Evaluation Metrics for Salient Object Detection}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\BiChapter{相关理论}{Related Theories}
 \label{chap:part2}
 
-\BiSection{光场技术基本理论}{TODO}
+\BiSection{光场技术基本理论}{Basic Theory of Light Field Technology}
 
 光场的概念最早由A.Gershun~\cite{gershun1939light}教授提出，是空间中光线集合的完备表示，采集并显示光场就能在视觉上重现真实世界。
 1991年，MIT的Edward H.Adelson教授和James R.Bergen\cite{adelson1991plenoptic}教授指出人眼对光线的视觉感知可以认为是沿着单一函数的一个或多个方向的局部变化，描述了光照射到观察面的信息结构。
@@ -50,7 +75,10 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 %光在传播过程中的各种潜在的视觉属性（如运动、颜色和方向）。
 
 
-\BiSubsection{光场成像原理}{TODO}
+
+
+
+\BiSubsection{光场成像原理}{Principles of Light Field Imaging}
 在传统成像中，光线被捕获并呈现到成像平面上。然而，光场成像采用不同的方式。
 它是一种计算成像技术，旨在捕获光线强度的同时记录光线的传播方向。
 为了得到可视化的图像信息，必须对捕获的光场信息进行计算处理。
@@ -118,7 +146,7 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 % 空域复用的成像方式通过在图像传感器上安装微透镜阵列来实现，这是光场采集中常见的方式之一，可通过单次曝光捕获光场信息。
 %
 %
-\BiSubsection{光场数据的可视化}{TODO}
+\BiSubsection{光场数据的可视化}{Visualization of Light Field Data}
 
 根据先前的描述，四维模型中双平面光场模型是目前广泛采用的光场模型，其中两个维度表示空间位置，另外两个维度表示方向角度。
 在三维世界中，描绘四维光场数据是具有挑战性的，可以通过固定双平面光场模型的任意两个维度来展示二维切片以可视化光场数据。
@@ -266,7 +294,12 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 %
 %
 %
-\BiSection{光场显著性目标检测相关理论}{TODO}
+\BiSection{光场显著性目标检测相关理论}
+{Related Theories on Light Field Salient Object Detection}
+%
+%
+%
+%
 %
 前文已指出，光场数据常用的四种表示方式，其中多视角图像和焦点堆栈数据常用于显著性目标检测。
 本节首先探讨了基于这两种光场数据形式的显著性目标检测原理，并介绍了评估光场显著性目标检测的指标。
@@ -275,9 +308,14 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 %前文已指出，光场数据常用三种方式表示，其中多视角图像和焦点堆栈数据常用于显著性目标检测。
 %本节首先探讨了基于这两种光场数据形式的显著性目标检测原理，并最后介绍了评估光场显著性目标检测的指标。
 %常用的光场可视化方式主要有子孔径图像阵列形式、宏像素形式、极线图形式和焦点堆栈。
-%
-%
-\BiSubsection{基于多视角图像的显著性目标检测原理}{TODO}
+
+
+
+
+
+
+\BiSubsection{基于多视角图像的显著性目标检测原理}
+{Principles of Salient Object Detection via Multi-view Images}
 %
 %
 基于多视角图像的显著性目标检测方法主要利用视差与深度之间的关系，在网络模型中引入了场景结构的线索。
@@ -336,9 +374,11 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 %
 %
 %深度与多视角之间存在密切关系，根据这些关系建模是当前基于多视角图像的显著性目标检测的重要研究方向。一项具有代表性的工作是 MAC，该方法将微透镜图像阵列输入端到端的卷积神经网络中，首先对每个单视点图像的角度变化进行建模，然后将提取的特征输入到现有网络模型中，以捕获多尺度和长程空间依赖信息。此外，还有一些方法，如 DLSD，将光场显著性目标检测分解为两个子任务，合成多视角图像以定位显著性目标。通过利用视差与多视角图像的关系来完成合成光场的任务。
-%
-%
-\BiSubsection{基于焦点堆栈的显著性目标检测原理}{TODO}
+
+
+
+\BiSubsection{基于焦点堆栈的显著性目标检测原理}
+{Principles of Salient Object Detection via Focus Stack}
 %
 %
 %
@@ -410,7 +450,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 %
 %
 %
-\BiSubsection{显著性目标检测性能评估指标}{TODO}
+\BiSubsection{显著性目标检测性能评估指标}
+{Performance Evaluation Metrics for Salient Object Detection}
 %
 %
 为了全面评估各种显著性目标检测模型在不同数据集上的分割性能，
@@ -551,7 +592,7 @@ $\alpha$被设定为0.5。
 很显然，对于与真值越接近的显著性预测图，S-measure值就越高。
 %
 %
-\BiSection{本章小节}{TODO}
+\BiSection{本章小节}{The Chapter’s Conclusion}
 
 本章首先阐述了光场技术的基本理论,介绍了光场的成像原理以及数据可视化形式;
 然后介绍了光场显著性目标检测的相关理论,分别描述了基于多视角图像的显著性目标检测、

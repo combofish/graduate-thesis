@@ -1,3 +1,24 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\BiSection{研究动机}{Research Motivation}
+%
+%
+%\BiSection{方法介绍}{Method Introduction}
+%\BiSubsection{视角增强模块}{Viewpoint Enhancement Module}
+%\BiSubsection{感知对比学习策略}{Contrastive Perception Learning Strategy}
+%\BiSubsection{训练过程}{Training Process}
+%
+%
+%\BiSection{实验结果与分析}{Experimental Results and Analysis}
+%\BiSubsection{实验设置}{Experimental Setup}
+%\BiSubsection{消融实验}{Ablation Experiment}
+%\BiSubsection{对比实验}{Comparative Experiment}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \BiChapter{基于视角增强的光场显著性目标检测}{TODO}
 \label{chap:part4}
 %
@@ -15,7 +36,7 @@
 %
 %
 %
-\BiSection{研究动机}{TODO}
+\BiSection{研究动机}{Research Motivation}
 %
 %
 %
@@ -105,7 +126,7 @@
 % 
 % 
 % 
-\BiSection{方法介绍}{TODO}
+\BiSection{方法介绍}{Method Introduction}
 % 
 % 
 %
@@ -159,7 +180,7 @@ $F_{i}^{l}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{l}$�
 %
 %
 %
-\BiSubsection{视角增强模块}{TODO}
+\BiSubsection{视角增强模块}{Viewpoint Enhancement Module}
 %
 %
 %
@@ -542,7 +563,7 @@ $DownSample_{j}(\cdot)$ 表示将输入下采样$j$ 倍。
 %
 %
 %
-\BiSubsection{感知对比学习策略}{TODO}
+\BiSubsection{感知对比学习策略}{Contrastive Perception Learning Strategy}
 \label{chap:part4_cons}
 % 
 % 
@@ -684,7 +705,7 @@ $\mathcal{L}_{NCE} $
 % 
 % 
 % 
-\BiSubsection{训练过程}{TODO}
+\BiSubsection{训练过程}{Training Process}
 
 
 
@@ -702,9 +723,9 @@ $\mathcal{L}_{NCE} $
 %\\
 %\\
 %\\
-\BiSection{实验结果与分析}{TODO}
+\BiSection{实验结果与分析}{Experimental Results and Analysis}
 
-\BiSubsection{实验设置}{TODO}
+\BiSubsection{实验设置}{Experimental Setup}
 （1）数据集
 
 本章在 3 个公开的光场数据集：
@@ -732,7 +753,7 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 为了公平的比较不同网络的性能，本章采用了 S-measure、E-measure、F-measure、绝对平均误差MAE作为评
 估模型性能的指标。
 
-\BiSubsection{消融实验}{TODO}
+\BiSubsection{消融实验}{Ablation Experiment}
 
 在本小节，对提出的各个模块进行消融实验，
 分析每个组件或者策略对于显著性分割性能的影响。
@@ -751,7 +772,7 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 
 
 
-\BiSubsection{对比实验}{TODO}
+\BiSubsection{对比实验}{Comparative Experiment}
 
 本节将本章方法与其他数据增强方法进行了比较：
 
@@ -790,6 +811,7 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 并在特征整合中突出显著区域、抑制非显著区域。
 
 
+
 \begin{table}
 	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
 		%		The best results are marked in \textbf{boldface}.
@@ -800,7 +822,54 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 		Ablation analyses of each component on the DUTLF-FS dataset.
 	}
 	\centering
-	\label{chpt4:tab:abl_1}
+	\label{chpt4:tab:abl_tot}
+	%	\resizebox{0.82\linewidth}{!}{
+		\begin{tabular}{lcccccccc}
+			\toprule  %添加表格头部粗线
+			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
+			
+			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
+			
+			%			\cmidrule(r){2-9} 
+			
+			\cmidrule(r){2-5} \cmidrule(r){6-9} 
+			
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$
+			\\
+			
+			\midrule
+			
+			%			% 开始填写数据
+			%			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+			%			
+			%			\midrule
+			
+			基础网络     & 0.959 & 0.918 & 0.926 & 0.037 & 0.876 & 0.822 & 0.781 & 0.069   \\
+			+视角增强模块 & 0.968 & 0.933 & 0.944 & 0.027 & 0.873 & 0.828 & 0.788 & 0.061   \\
+			+像素对比学习 & 0.969 & 0.938 & 0.948 & 0.024 & 0.898 & 0.848 & 0.827 & 0.055   \\
+			
+
+			
+			\bottomrule
+		\end{tabular}
+		% }
+\end{table}
+
+
+
+
+\begin{table}
+	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
+		%		The best results are marked in \textbf{boldface}.
+		%	}
+	\bicaption{
+		DUTLF-FS 数据集上每个组件的消融分析。
+	}{
+		Ablation analyses of each component on the DUTLF-FS dataset.
+	}
+	\centering
+	\label{chpt4:tab:abl_attn}
 	%	\resizebox{0.82\linewidth}{!}{
 		\begin{tabular}{lcccccccc}
 			\toprule  %添加表格头部粗线
@@ -845,50 +914,7 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 		% }
 \end{table}
 
-\begin{table}
-	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
-		%		The best results are marked in \textbf{boldface}.
-		%	}
-	\bicaption{
-		DUTLF-FS 数据集上每个组件的消融分析。
-	}{
-		Ablation analyses of each component on the DUTLF-FS dataset.
-	}
-	\centering
-	\label{chpt4:tab:abl_2}
-	%	\resizebox{0.82\linewidth}{!}{
-		\begin{tabular}{llcccc}
-			\toprule  %添加表格头部粗线
-			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
-			
-			\multicolumn{2}{c}{ \multirow{2}*{Settings}}	& \multicolumn{4}{c}{DUTLF-FS} \\ %& \multicolumn{3}{c}{HFUT} \\ 
-			
-			\cmidrule(r){3-6} 
-			
-			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
-			\midrule
-			
-			% 开始填写数据
-			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
-			
-			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
-			
-			\midrule
-			
-			\multicolumn{1}{c}{ \multirow{2}*{+TCM}}	
-			
-			& +TI		& 0.961 & 0.923 & 0.932 & 0.034 \\ 
-			& ++TS & 0.968 & 0.933 & 0.944 & 0.027 \\
-			\midrule
-			
-			\multicolumn{2}{l}{++FPE} 		& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
-			\multicolumn{2}{l}{+++CCM} 		& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
-			
-			
-			\bottomrule
-		\end{tabular}
-		% }
-\end{table}
+
 
 \begin{table}
 	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
@@ -900,41 +926,33 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 		Ablation analyses of each component on the DUTLF-FS dataset.
 	}
 	\centering
-	\label{chpt4:tab:abl_3}
+	\label{chpt4:tab:abl_loss}
 	%	\resizebox{0.82\linewidth}{!}{
-		\begin{tabular}{llcccc}
+		\begin{tabular}{lcccccccc}
 			\toprule  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
-			\multicolumn{2}{c}{ \multirow{2}*{Settings}}	& \multicolumn{4}{c}{DUTLF-FS} \\ %& \multicolumn{3}{c}{HFUT} \\ 
+			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
 			
-			\cmidrule(r){3-6} 
+			%			\cmidrule(r){2-9} 
 			
-			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
-			\midrule
+			\cmidrule(r){2-5} \cmidrule(r){6-9} 
 			
-			% 开始填写数据
-			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
-			
-			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$
+			\\
 			
 			\midrule
 			
-			\multicolumn{1}{c}{ \multirow{2}*{+TCM}}	
+
 			
-			& +TI		& 0.961 & 0.923 & 0.932 & 0.034 \\ 
-			& ++TS & 0.968 & 0.933 & 0.944 & 0.027 \\
-			\midrule
-			
-			\multicolumn{2}{l}{++FPE} 		& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
-			\multicolumn{2}{l}{+++CCM} 		& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
-			
-			
+			二元交叉熵损失   & 0.965 & 0.931 & 0.943 & 0.027 & 0.885 & 0.840 & 0.810 & 0.056  \\
+			像素对比学习损失 & 0.971 & 0.940 & 0.949 & 0.022 & 0.902 & 0.852 & 0.823 & 0.052  \\
+
 			\bottomrule
 		\end{tabular}
 		% }
 \end{table}
-
 
 
 
@@ -1212,7 +1230,7 @@ Amulet \cite{zhang2017amulet}。
 %
 %
 
-\BiSection{本章总结}{TODO}
+\BiSection{本章总结}{The Chapter’s Conclusion}
 
 本章提出了一种视角增强的光场显著性目标检测方法。
 此方法主要包含一个视角增强模块和一个像素对比学习策略，
