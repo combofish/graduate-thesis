@@ -316,7 +316,7 @@ footskip=1.47cm% 页脚 1.47cm %
   \fancyhf{}
   \fancyfoot[C]{\songti\zihao{5} \thepage}
   \fancyhead[CO]{\zihao{5}{\songti 大连理工大学硕士学位论文}}
-  \fancyhead[CE]{\zihao{5}{\songti 大连理工大学硕士学位论文格式规范}}
+  \fancyhead[CE]{\zihao{5}{\songti 基于聚焦感知的光场显著性目标检测研究}}
   }
 
 %==================================对于openright 选项，必须保证章页右开，且如果前章末页内容须清空其页眉页脚。===================
@@ -576,22 +576,22 @@ footskip=1.47cm% 页脚 1.47cm %
     	\begin{center}
     		{\songti\zihao{-1}\textsf{硕士学位论文}\\}
     		\vspace{1.34cm}
-    		{\heiti\zihao{2}\textsf{大连理工大学硕士学位论文格式规范}\\}
+    		{\heiti\zihao{2}\textsf{基于聚焦感知的光场显著性目标检测研究}\\}
     		\vspace{0.13cm}
-    		{\zihao{3}\textbf{Format Criterion of Master Degree Thesis of DUT}\\}
+    		{\zihao{3}\textbf{Research on Light Field Salient Object Detection via Focus Perception}\\}
     	\end{center}
     }
       \vspace{50.2mm}
 
-{\songti\zihao{-3}\DUT@label@author}\DUTunderline[170pt]{\songti\zihao{-3}姓名}
+{\songti\zihao{-3}\DUT@label@author}\DUTunderline[170pt]{\songti\zihao{-3}赵立明}
 \vskip 10pt
-{\songti\zihao{-3}\DUT@label@studentnumber}\DUTunderline[170pt]{\songti\zihao{-3}12345678}
+{\songti\zihao{-3}\DUT@label@studentnumber}\DUTunderline[170pt]{\songti\zihao{-3}32109113}
 \vskip 10pt 
-{\songti\zihao{-3}\DUT@label@advisor}\DUTunderline[170pt]{\songti\zihao{-3}导师}
+{\songti\zihao{-3}\DUT@label@advisor}\DUTunderline[170pt]{\songti\zihao{-3}朴永日}
 \vskip 10pt 
-{\songti\zihao{-3}\DUT@label@major}\DUTunderline[170pt]{\songti\zihao{-3}专业}
+{\songti\zihao{-3}\DUT@label@major}\DUTunderline[170pt]{\songti\zihao{-3}电子与通信工程}
 \vskip 10pt 
-{\songti\zihao{-3}\DUT@label@defenddate}\DUTunderline[170pt]{\songti\zihao{-3}2023年4月}
+{\songti\zihao{-3}\DUT@label@defenddate}\DUTunderline[170pt]{\songti\zihao{-3}2024年4月}
      \\ \vspace{31.4mm}
       {\Large\xkai 大连理工大学\\}
       \vspace{2.3mm}
@@ -635,9 +635,10 @@ footskip=1.47cm% 页脚 1.47cm %
   \vskip 10pt
   {\songti\zihao{-4}\DUT@label@originalcontent}
   \vskip 10pt
-  {\songti\zihao{-4}\DUT@label@originaltitle}\DUTunderline[303pt]{填写自己的学位论文题目}
+  {\songti\zihao{-4}\DUT@label@originaltitle}\DUTunderline[303pt]
+  {基于聚焦感知的光场显著性目标检测研究}
   \vskip 3pt
-  \indent{\songti\zihao{-4}\DUT@label@authorsign} \DUTunderline[8em]{\includegraphics[height=0.8cm]{figures/figure2}} \hspace{1.3em} {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[4em]{2023}~年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
+  \indent{\songti\zihao{-4}\DUT@label@authorsign} \DUTunderline[8em]{\includegraphics[height=0.8cm]{figures/hand_self}} \hspace{1.3em} {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[4em]{2024}~年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
   
   \vskip 20mm
 
@@ -648,11 +649,12 @@ footskip=1.47cm% 页脚 1.47cm %
   {\songti\zihao{-4} \DUT@label@authorizationcontent}
   \vskip 25pt
 
-  {\songti\zihao{-4}\DUT@label@originaltitle}\DUTunderline[303pt]{填写自己的学位论文题目}
+  {\songti\zihao{-4}\DUT@label@originaltitle}\DUTunderline[303pt]
+  {基于聚焦感知的光场显著性目标检测研究}
  \vskip 3pt
- \indent{\songti\zihao{-4}\DUT@label@authorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/figure2}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2023}年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
+ \indent{\songti\zihao{-4}\DUT@label@authorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/hand_self}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2024}年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
  \vskip 3pt
- \indent{\songti\zihao{-4}\DUT@label@Supervisorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/figure1}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2023}~年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
+ \indent{\songti\zihao{-4}\DUT@label@Supervisorsign} \DUTunderline[10.65em]{\includegraphics[height=0.8cm]{figures/hand_teacher_piao}}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]{2024}~年~\DUTunderline[2em]{4}~月~\DUTunderline[2em]{7}~日~
  \vskip 3pt
  %\indent{\songti\zihao{-4}\DUT@label@originalchairman} \DUTunderline[9.65em]{}  {\songti\zihao{-4}\DUT@label@originalDate}\DUTunderline[3em]~年~\DUTunderline[2em]~月~\DUTunderline[2em]~日~
   \clearpage
