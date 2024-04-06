@@ -18,9 +18,12 @@
 %\BiSubsection{对比实验}{Comparative Experiment}
 %
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiChapter{基于焦点感知的光场显著性目标检测}
 {Light Field Salient Object Detection Based on Focus Perception}
 \label{chap:part3}
@@ -34,96 +37,39 @@
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{研究动机}{Research Motivation}
-%
-%
-%
-%
-%
-%
+
+
 一些开创性的方法~\cite{zhang2019memory,piao2020exploit}~采用 ConvLSTM~\cite{shi2015convolutional}~，它使用记忆机制以预定义的顺序单独处理焦点堆栈特征。张等人~\cite{zhang2021learning}~后来在编码器阶段采用3D卷积来提取特征。刘等人~\cite{liu2021light}~和张等人~\cite{zhang2021geometry}~使用图神经网络来聚合不同焦点切片中的上下文信息。 这些方法依赖内存使用或大量计算来提取焦点堆栈特征，从而限制了效率。
-%
-%
-%
-%
-\par
-%
-%
+
+
+
+
 %---------------------------------------------------------------------> fig: 创新图
-\begin{figure}[ht]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.85\linewidth]{figures/chapter3/cpt3_idea.pdf}
-	\bicaption{%
-%		光场焦点堆栈的成像原理和成像效果。
-%		光场焦点堆栈的成像原理和不同切片的成像效果。
-		光场焦点堆栈的成像过程和不同切片的成像效果。
-%		\textbf{(a)} 远处视角包含一个清晰的汽车。
-%		\textbf{(b)} 近处视角包含一个清晰的标志。
-		\textcolor{red}{$\bullet$} 表示清晰的部分。
-%		焦点堆栈的光场数据结构和焦点堆栈的成像效果的图示。 焦点切片具有随空间透视深度的不同而变化的聚焦部分。
-%		远处的景色里有一辆清晰的汽车。
-%		近景画出清晰的标志。
-%		点表示透明部分。
-	}
-	{ %
-		%			An illustration of the light field data structures to focal stack, and the imaging effect of the focal stack.
-		%			% \textbf{(a)} and \textbf{(b)} indicates that 
-		%			Focal slices have different sharp parts according to the distance from the lens.
-		%			%%
-		%			%%
-		%
-		%% Focal slices have different focusing parts according to the distance from the lens. 
-		%
-%		An illustration of light field data structures to focal stack and imaging effect of the focal stack. 
-%		Focal slices have different focusing parts varying with the depth of the spatial perspective.
-%		The imaging principle and imaging effect of light field focus stack.
-%		The imaging principle of light field focus stack and the imaging effects of different slices.
-		The imaging process of the light field focus stack and the imaging effects of different slices.
-%		\textbf{(a)} The distant view contains a clear car.
-%		\textbf{(b)} The close view draws a clear sign.
-		\textcolor{red}{$\bullet$} indicates the clear parts.  
-	}
+	\bicaption{光场焦点堆栈的成像过程和不同切片的成像效果}
+	{The imaging process of the light field focus stack and the imaging effects of different slices}
 	\label{figure:cpt3:idea}
-	
-	%				 		\vspace{-0.25cm}
 \end{figure}
-%
-%
-%
-%
+
+
+
+
 我们重新思考光场数据建模的方式。考虑到焦点堆栈的成像效果，如图~\ref{figure:cpt3:idea}~所示，每个焦点切片根据空间透视深度的不同，聚焦部位也不同。 并且从同一场景生成，焦点切片有很多共同点。
 因此，即使在很小的带宽内，也可以充分总结和传达它们之间的差异。 此外，给定图像，人类可以毫不费力地关注敏感部分并忽略不重要的背景。 因此，在焦点堆栈中处理更多相对的焦点切片来模拟人类视觉系统是合理的。 
-%
-%
-%
-%
-\par
-%
-%
+
 
 受上述观察的启发，我们考虑两个关键问题：
-%
-%
-%
-%
 1）我们如何设计一个模型来存储切片级特征并在焦点堆栈和全焦点图像之间传递信息以进行上下文建模？ 
 2）我们如何设计一个模型来理解场景的空间分布并感知敏感的焦点切片？ 
-%
-%
-%
-%
-\par
+
 在本文中，我们提出了一种用于高效且有效的 LFSOD 的焦点感知Transformer（FPT）。 具体来说，我们收集图像特定的特征并制定通信以加强焦点堆栈和全焦点图像之间的相互感知。 我们利用选择性机制将适当的焦点切片纳入检测。 具体来说，我们的贡献有三个：
-%
-%
-%
-%
-\par
-%
-%
-%
-%
+
+
+
 \begin{itemize}
 	\item 我们引入与焦点相关的标记来总结图像特定的特征，并提出一种标记通信模块（TCM），通过计算与焦点相关的标记之间的交叉注意力来执行特征交互。 我们转移焦点堆栈中与焦点相关的标记以促进空间上下文传播。 
 	
@@ -133,67 +79,12 @@
 \end{itemize}
 
 
- RBG显著性目标检测（SOD）~\cite{ ma2021pyramidal, wei2020f3net, zhou2020interactive}~、
- RGB-D~\cite{ cong2022cir, ji2021calibrated, liu2021visual}~和光场图像一直是活跃的研究领域。 
- 在本文中，我们将主要研究LFSOD任务。
- 现有的光场显着目标检测方法大致可以分为两类：（1）传统方法；（2）基于深度学习的方法。 传统方法通常采用手工制作的特征（例如，颜色对比度、纹理对比度和深度对比度）和先验（例如，位置先验、背景先验和边界连接先验）来检测显着对象。 
-% 
-%
-%
-%
- 李等人~\cite{li2014saliency}~提出了第一个光场显着性数据集，并通过计算背景先验、位置先验和对比度线索来检测显着对象。
- 之后，李等人~\cite{li2015weighted}~提出了加权稀疏编码框架同时处理2D、3D和4D SOD问题。
- 张等人~\cite{zhang2015saliency}~计算对比度显着图，然后使用背景先验来消除背景干扰并获得最终结果。 
- 张等人~\cite{zhang2017saliency}~基于随机搜索策略集成了从全焦点图像、深度图、焦点切片和多视图图像中提取的多个光场线索。 
- 最近，Piao 等人~\cite{piao2019saliency}~提出了 LFSOD 的深度诱导元胞自动机。
- 有关传统方法的更多详细信息可以在\cite{fu2022light}~中找到。
- 到了深度学习时代，几种深度学习方法对光场SOD性能有了显着提升。 
- 朴等人~\cite{piao2019deep}~首次尝试引入CNN来提取光场语义特征，并获得相应的显着图。 
- 王等人~\cite{wang2019deep}~应用ConvLSTM~\cite{shi2015convolutional}~来融合CNN生成的特征，然后预测显着图。
- 张等人~\cite{zhang2019memory}~还利用ConvLSTM来利用光场，并提出了用于显着性检测的最大光场数据集。 
- 张等人~\cite{zhang2020lfnet}~利用提出的细化模块和集成模块的集成焦点堆栈特征来开发焦点切片。
-朴等人~\cite{piao2020exploit}~提出了一种由焦点流和RGB流组成的不对称双流架构，以实现台式计算机和移动设备的多功能性。
-%
-%
-%
-%
-\par
-%
-尽管大多数方法输入全焦点图像和焦点堆栈，但一些方法\cite{jing2021occlusion, wang2022lfbcnet, zhang2022exploring}~提出使用多视图和中心视图图像来检测显着对象。 
-张等人~\cite{zhang2020light}~提出了一种深度网络，通过利用微透镜图像中丰富的角度信息来检测显着物体。 
-张等人~\cite{zhang2021geometry}~提出了一种图神经网络，通过有效探索多视图图像之间的空间和视差相关性来预测显着图。 
-静等人~\cite{jing2021occlusion}~提出了一种遮挡感知网络，从极平面图像（EPI）中提取遮挡边界特征以进行显着性检测。 
-张等人~\cite{zhang2022exploring}~提出了一种光场合成网络来产生可靠的4D信息并驱动显着性检测。 
-然而，上述方法的性能不如基于焦点堆栈输入的常见方法。 
-
-这些使用焦点堆栈作为输入的方法集成了解码器中整个焦点堆栈的特征，忽略了不同切片对检测的相对贡献，并且容易受到非显着背景的影响。 因此，我们提出了更为适合 LFSOD 任务的设计。
- 
-
-Transformer，首先由 Vaswani 等人提出~\cite{vaswani2017attention}~，已广泛应用于自然语言处理（NLP）。
-ViT 由 Dosovitskiy 等人提出~\cite{dosovitskiy2020image}~，首先将Transformer应用于图像域。 由于其强大的全局信息捕获能力，Transformer表现出了优异的性能。
-最近的工作探索了将 Transformer 应用于各种视觉任务：
-图像分类~\cite{chen2020generative, dosovitskiy2020image}~、
-对象检测~\cite{zhu2020deformable, dai2021up, sun2021rethinking}~、
-分割~\cite{chen2021pre, wang2021end}~、
-图像增强~\cite{yang2020learning, chen2021pre}~、
-图像生成~\cite{parmar2018image}~和 
-视频处理~\cite{zhou2018end, zheng2020end}~，
-以缓解 CNN 有限的全局信息学习能力。 此外，Transformer 已广泛应用于 RGB 显着目标检测~\cite{liu2021visual, siris2021scene}~和 RGBD 显着目标检测~\cite{liu2021tritransnet, wang2021mutualformer}~，例如，
-刘等人~\cite{liu2021visual}~设计了一个基于纯Transformer架构的统一模型，通过建模远程依赖性来预测显着性。 
-刘等人~\cite{liu2021tritransnet}~提出了一种用于 RGB-D 显着目标检测的三元组变换器嵌入模块，通过学习跨层的远程依赖关系来增强高级特征。 
-塞里斯等人~\cite{siris2021scene}~提出了一种上下文实例转换器来捕获对象和场景上下文之间的上下文关系，以实现更准确的显着性推断。 
-王等人~\cite{wang2021mutualformer}~提出了一种基于Transformer的多模态融合模块来增强和融合RGB和深度图像特征。
-受益于Transformer的使用，这些方法可以获得更准确的场景上下文特征，并在复杂场景中表现出更好的检测性能。 然而，如何将Transformer应用于 LFSOD 尚未得到全面探讨。 考虑Transformer在建立长期依赖方面的优势，适合总结图像特定特征并通过附加标记传达信息。 在本文中，我们提出了一种令牌通信模块（Token Communication
-Module，TCM）来加强信息交互并促进上下文特征感知。
 
 
 
 
 
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{方法介绍}{Method Introduction}
 %
 %
@@ -204,10 +95,9 @@ Module，TCM）来加强信息交互并促进上下文特征感知。
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter3/overview_1}
 	\bicaption{
-%		整体网络结构图。
-		光场显著性目标检测网络的架构。
+		光场显著性目标检测网络的架构
 	}{
-		The architecture of light field salient object detection network.
+		The architecture of light field salient object detection network
 	}  
 	\label{cpt3_fig1:overview}
 \end{figure}
@@ -266,17 +156,9 @@ $\frac{H_{l-1}}{P_{l}} \times \frac{W_{l-1}}{P_{l}} \times C_{l} $，
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter3/sra}
 	\bicaption{
-		令牌通信模块 (TCM) 的图示。
-		(a) 令牌交互（TI）。 
-		%		交叉注意力在全焦点和焦点堆栈的嵌入式令牌之间执行特征交互。 
-		(b) 令牌移位（TS）。 
-		%		仅将焦点堆栈流中与焦点相关的标记分成组（图中以2组为例），然后沿焦点深度轴以不同方向（左右）移位以交换切片级信息。
+		多头注意力与空间缩减注意力
 	}{
-		An illustration of the Token Communication Module (TCM). 
-		(a) Token Interaction (TI). 
-		%	Cross-attention performs feature interactions between the all-focal and focal stack. 
-		(b) Token Shift (TS).
-		%	Only the focus-related tokens in the focus stack stream are split into groups (2 in the figure) and then circularly shifted along the focus-depth axis with different directions to exchange slice-level information.
+		Multi-head attention (MHA) vs spatial reduction attention (SRA)
 	}  
 	\label{cpt3_fig1:sra}
 \end{figure}
@@ -407,7 +289,7 @@ $\left \{ f_{i}^{1},f_{i}^{2},f_{i}^{3},f_{i}^{4} \right \}_{i=0}^{N}$ 。
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSubsection{令牌交互模块}{Token Interaction Module}
 %
 %
@@ -419,17 +301,9 @@ $\left \{ f_{i}^{1},f_{i}^{2},f_{i}^{3},f_{i}^{4} \right \}_{i=0}^{N}$ 。
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter3/token-interaction.drawio}
 	\bicaption{
-		令牌通信模块 (TCM) 的图示。
-		(a) 令牌交互（TI）。 
-%		交叉注意力在全焦点和焦点堆栈的嵌入式令牌之间执行特征交互。 
-		(b) 令牌移位（TS）。 
-%		仅将焦点堆栈流中与焦点相关的标记分成组（图中以2组为例），然后沿焦点深度轴以不同方向（左右）移位以交换切片级信息。
+		令牌通信模块
 	}{
-	An illustration of the Token Communication Module (TCM). 
-	(a) Token Interaction (TI). 
-%	Cross-attention performs feature interactions between the all-focal and focal stack. 
-	(b) Token Shift (TS).
-%	Only the focus-related tokens in the focus stack stream are split into groups (2 in the figure) and then circularly shifted along the focus-depth axis with different directions to exchange slice-level information.
+		An illustration of the Token Communication Module (TCM)
 	}  
 	\label{cpt3_fig1:token_interaction}
 \end{figure}
@@ -546,6 +420,12 @@ $ Q_{out}^{l} $ 移出。
 值得一提的是，令牌移位操作几乎是无参数的，带来的计算成本可以忽略不计。
 
 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSubsection{聚焦感知增强策略}{Focus Perception Enhancement Strategy}
 %
 %
@@ -567,9 +447,9 @@ $ Q_{out}^{l} $ 移出。
 	\centering
 	\includegraphics[width=0.90\linewidth]{figures/chapter3/fpe}
 	\bicaption{
-		聚焦感知增强模块。
+		聚焦感知增强模块
 	}{
-		Focused perception enhancement module.
+		Focused perception enhancement module
 	}  
 	\label{cpt3_fig1:fpe}
 \end{figure}
@@ -644,9 +524,9 @@ $ Q_{out}^{l} $ 移出。
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter3/ccm}
 	\bicaption{
-		特征融合模块。
+		特征融合模块
 	}{
-		Feature fusion module.
+		Feature fusion module
 	}  
 	\label{cpt3_fig1:ccm}
 \end{figure}
@@ -701,7 +581,7 @@ $ Q_{out}^{l} $ 移出。
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSubsection{训练过程}{Training Process}
 %
 %
@@ -771,15 +651,14 @@ $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个�
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{实验结果与分析}{Experimental Results and Analysis}
 
 \BiSubsection{实验设置}{Experimental Setup}
-%
-%
-%
-%
-%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 （1）实验数据集
 %
 %
@@ -796,22 +675,23 @@ $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个�
 %
 %
 %------------------------------ figure: comparison
-\begin{figure*}
+\begin{figure}[!ht]
 	\centering
-	% \setlength{\abovecaptionskip}{-5mm}
 	\includegraphics[width=\linewidth]{figures/chapter3/compare_1}
 	\bicaption{
-		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
+		在一些具有挑战性的场景中与最先进的方法的可视化比较
 	}{
-		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+		Visual comparisons with state-of-the-art methods in challenging scenes
 	}
 	\label{figure:figure_comparison_1}
-	\vspace{-0.2cm}
-\end{figure*}
-%
-%
-%\\
-%
+\end{figure}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 （2）实现细节
 %
 %
@@ -845,84 +725,22 @@ $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个�
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSubsection{消融实验}{Ablation Experiment}
 
-定量比较：为了进行全面比较，我们将我们的方法与 26 个最先进的模型进行比较，
-包括6个光场显著性分割方法：
-DLGLRG \cite{liu2021light}, RENet \cite{piao2020exploit}, LFNet \cite{zhang2020lfnet},
-MAC \cite{zhang2020light}, MoLF \cite{zhang2019memory}, and DLSD \cite{piao2019deep};
-%
-%
-%
-%
-6个RGB-D显著性分割方法：
-DCF \cite{ji2021calibrated}, CIR-Net \cite{cong2022cir}, VST-$rgbd$  \cite{liu2021visual},
-BBS-Net     \cite{fan2020bbs}, SSF     \cite{zhang2020select} and S2MA    \cite{liu2020learning};
-%
-%
-%
-%
-%
-和14个2D显著性检测方法：
-VST-$rgb$ \cite{liu2021visual}，
-PFSNet \cite{ma2021pyramidal}，
-ITSD \cite{zhou2020interactive}，
-LDF \cite{wei2020label}，
-MINet \cite{pang2020multi}，
-F$^{3}$Net  \cite{wei2020f3net}， 
-EGNet   \cite{zhao2019egnet}，
-CPD  \cite{wu2019cascaded}，
-PoolNet \cite{liu2019simple}，
-PiCANet \cite{liu2018picanet}，
-PAGRN \cite{wang2018detect}，
-C2S   \cite{li2018contour}，
-R3Net  \cite{deng2018r3net}
-和
-Amulet \cite{zhang2017amulet}
-。
-%
-%
-%包括 7 个 LFSOD 方法：DLGLRG [21]、RENet [31]、LFNet [50]、MAC [47]、MoLF [51]和DLSD[30]； 6种RGB-D SOD方法：DCF [13]、CIR-Net [4]、VST-rgbd [20]、BBS-Net [10]、SSF [52]和S2MA [19]； 和 7RGB 方法：VST-rgb [20]、PFSNet [23]、ITSD [58]、LDF [44]、MINet [24]、F3 Net [43] 和 EGNet [56]。 
-%
-%
-%
-\par
-%
-%
-为了保证公平比较，我们使用他们提供的显着性预测图或预训练的权重来生成比较数据，并利用~\cite{liu2021visual}~提供的相同评估代码。 
-如表~\ref{table:comp_with_sota_3_1}~所示，
-很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了比当前最先进的方法更优越的性能。 同时，所提出的方法可以在除了 $ S_{\alpha} $ 的另外三个指标上超越其他方法。 值得一提的是，与使用大量数据集训练的 RGBD 和 RGB 的显著性检测方法相比，我们的方法在小三倍的训练集（1100 vs. 2985 vs. 10553）下取得了显着的优势。 这表明我们的方法可以有效地探索光场数据中传达的信息。 
-%
-%
-%
-%
-%
-%
-\begin{table*}[]
-	%
-	%---------------------------------------------------------------------> 大表 
-	%
-	%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
-		%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
-		%		%
-		%		% denote the best and the second-best results,
-		%		%
-		%		The best three results are shown in 
-		%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
-		%		% '-' indicates the code or outcome is not available.
-		%	}
-	\bicaption{
-		在 3 个公开数据集上的定量比较
-	}{Quantitative comparisons on three light field datasets}
-	%	\renewcommand{\arraystretch}{1.5}
-	
+
+
+\begin{table}[!ht]
+	\bicaption{	
+		与多视图 LFSOD 方法比较的定量结果
+	}{
+		Quantitative results of comparison with multi-view LFSOD methods
+	}
 	\centering
-	\label{table:comp_with_sota_3_1}
-	%	\label{table:comp-with-sota}
-	\resizebox{\textwidth}{!}{
+	\label{chpt3:table:comp_sota}
+	\resizebox{\linewidth}{!}{
 		\begin{tabular}{rcccccccccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
 			%			\multirow{2}*{Type} & 
@@ -945,7 +763,7 @@ Amulet \cite{zhang2017amulet}
 			
 			
 			% line line
-			\midrule
+			\midrule[1pt]
 			
 			%			\multirow{8}*{\textit{Light field}}
 			
@@ -995,7 +813,7 @@ Amulet \cite{zhang2017amulet}
 			&   .783 & .741 & .615 & .098 
 			& .806 & .737 & .715 & .147 \\
 			
-			\midrule % end lfsod
+			\midrule[1pt] % end lfsod
 			
 			% start rgb-d
 			%			\multirow{6}*{\textit{RGB-D}}
@@ -1035,7 +853,8 @@ Amulet \cite{zhang2017amulet}
 			& .873 & .837 &	.835 & .094 \\
 			
 			
-			\midrule % end rgb-d
+			\midrule[1pt] 
+			
 			%			\multirow{7}*{\textit{RGB}}
 			
 			VST-$rgb$ \cite{liu2021visual} 
@@ -1121,43 +940,30 @@ Amulet \cite{zhang2017amulet}
 			& .773 & .821 & .757 & .135 \\
 			
 			
-			\bottomrule % end
+			\bottomrule[2pt] % end
 		\end{tabular}
 	}
-\end{table*}
-%
-%
-%\\
-%\\
-%
-\par
-%
-%
-%
-我们还在 DUTLF-V2 上重新训练我们的方法，并与其他三种使用多视图图像作为输入的 LFSOD 方法进行比较，包括 OBGNet ~\cite{jing2021occlusion}、LFBCNet~\cite{wang2022lfbcnet}~ 和 ESCNet~\cite{zhang2022exploring}。 如表~\ref{table:comp_multi_view}~所示，我们的方法可以在 DUTLF-V2 的所有四个指标上大幅实现最佳性能。 这证明了使用焦点堆栈作为输入的优越性。 
-%
-%
-%
+	%	\vspace{3cm}
+\end{table}
+
+
+
 %---------------------------------------------------------------------> 消融实验： 多视角方法对比
 %
-\begin{table}
-	%	\caption{Quantitative results of comparison with multi-view LFSOD methods.
-		%		- means unavailable results.
-		%		The best results are marked in \textbf{boldface}.
-		%		% \textbf{Bold} indicates the best performance.
-		%		% The best results are marked in boldface.
-		%	}
-	\bicaption{	与多视图 LFSOD 方法比较的定量结果。}{
-		Quantitative results of comparison with multi-view LFSOD methods.
+\begin{table}[!hb]
+	\bicaption{	
+		与多视图 LFSOD 方法比较的定量结果
+	}{
+		Quantitative results of comparison with multi-view LFSOD methods
 	}
 	\centering
 	\label{table:comp_multi_view}
 	%	\resizebox{\linewidth}{!}{
 		\begin{tabular}{crcccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
-			\multirow{2}*{Input Types} & \multicolumn{1}{c}{\multirow{2}*{Methods}} & \multicolumn{4}{c}{DUTLF-V2 \cite{piao2020dut}} \\
+			\multirow{2}*{输入类型} & \multicolumn{1}{c}{\multirow{2}*{方法}} & \multicolumn{4}{c}{DUTLF-V2 \cite{piao2020dut}} \\
 			
 			% next line
 			\cmidrule(r){3-6} 
@@ -1165,177 +971,161 @@ Amulet \cite{zhang2017amulet}
 			% subtitle
 			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
 			
-			\midrule  % E S F MAE
+			\midrule[1pt]  % E S F MAE
 			
-			Focal stack       & \multicolumn{1}{c}{ Ours$^{\ast} $ } &
+			焦点堆栈       & \multicolumn{1}{c}{ Ours$^{\ast} $ } &
 			\textbf{ 0.960 } & \textbf{ 0.923 }  & \textbf{ 0.917 }  & \textbf{ 0.026 }  \\ 
 			%								 &  0.9598 & 0.9227 & 0.9173 & 0.0256 \\
 			% multiview
 			
-			\midrule
-			\multirow{3}*{Multi-view}
+			\midrule[1pt]
+			
+			\multirow{3}*{多视角图}
 			& OBGNet \cite{jing2021occlusion}      &  0.940  & 0.896  & 0.885  & 0.037  \\
 			& LFBCNet \cite{wang2022lfbcnet}    &  0.940  & 0.890  & 0.870  & -      \\
 			& ESCNet \cite{zhang2022exploring}      &  0.931  & 0.882  & 0.852  & 0.041  \\
 			
 			
-			\bottomrule
+			\bottomrule[2pt]
 		\end{tabular}
 		%}
 \end{table}
-%
-%
-\par
-%
-%
-定性比较：为了更直观地观察，
-图~\ref{figure:figure_comparison_1}~
-\ref{figure:figure_comparison_2}~
-\ref{figure:figure_comparison_3}~
-中可视化了所提出的方法和其他排名靠前的方法生成的一些代表性结果。可以看出，我们提出的方法的结果与真值图更加一致。 当面对这些具有挑战性的场景时，包括多个对象（第 4、5 行）和复杂场景（第 6、7 行），大多数 RGB 和 RGB-D 显著性检测方法无法准确检测显着对象。
-相比之下，我们所提出的方法可以成功生成准确且稳健的显着图。 与这些基于 CNN 的 LFSOD 方法相比，所提出的方法获得了更一致的预测结果和更精细的细节。
-%
-%
-%
-%
-%
-%
-%
-%
-%
 
 
-
-	%------------------------------ figure: comparison
-\begin{figure*}
+%------------------------------ figure: comparison
+\begin{figure}[!ht]
 	\centering
-	% \setlength{\abovecaptionskip}{-5mm}
 	\includegraphics[width=\linewidth]{figures/chapter3/compare_2}
-%	\caption{
-%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
-%	}
-	\bicaption{
-		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
-	}{
-		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
-	}
+	\bicaption{在一些具有挑战性的场景中与最先进的方法的可视化比较}
+	{Visual comparisons with state-of-the-art methods in challenging scenes}
 	\label{figure:figure_comparison_2}
-	\vspace{-0.2cm}
-\end{figure*}
+\end{figure}
 
-	%------------------------------ figure: comparison
-\begin{figure*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（1）定量比较
+
+为了进行全面比较，我们将我们的方法与 26 个最先进的模型进行比较，
+包括6个光场显著性分割方法：
+DLGLRG \cite{liu2021light}, RENet \cite{piao2020exploit}, LFNet \cite{zhang2020lfnet},
+MAC \cite{zhang2020light}, MoLF \cite{zhang2019memory}, and DLSD \cite{piao2019deep};
+%
+%
+%
+%
+6个RGB-D显著性分割方法：
+DCF \cite{ji2021calibrated}, CIR-Net \cite{cong2022cir}, VST-$rgbd$  \cite{liu2021visual},
+BBS-Net     \cite{fan2020bbs}, SSF     \cite{zhang2020select} and S2MA    \cite{liu2020learning};
+%
+%
+%
+%
+%
+和14个2D显著性检测方法：
+VST-$rgb$ \cite{liu2021visual}，
+PFSNet \cite{ma2021pyramidal}，
+ITSD \cite{zhou2020interactive}，
+LDF \cite{wei2020label}，
+MINet \cite{pang2020multi}，
+F$^{3}$Net  \cite{wei2020f3net}， 
+EGNet   \cite{zhao2019egnet}，
+CPD  \cite{wu2019cascaded}，
+PoolNet \cite{liu2019simple}，
+PiCANet \cite{liu2018picanet}，
+PAGRN \cite{wang2018detect}，
+C2S   \cite{li2018contour}，
+R3Net  \cite{deng2018r3net}
+和
+Amulet \cite{zhang2017amulet}。
+
+
+
+
+
+
+为了保证公平比较，我们使用他们提供的显着性预测图或预训练的权重来生成比较数据，
+并利用~\cite{liu2021visual}~提供的相同评估代码。
+如表~\ref{chpt3:table:comp_sota}~所示，
+很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了比当前最先进的方法更优越的性能。 同时，所提出的方法可以在除了 $ S_{\alpha} $ 的另外三个指标上超越其他方法。 值得一提的是，与使用大量数据集训练的 RGBD 和 RGB 的显著性检测方法相比，我们的方法在小三倍的训练集（1100 vs. 2985 vs. 10553）下取得了显着的优势。 这表明我们的方法可以有效地探索光场数据中传达的信息。 
+
+
+我们还在 DUTLF-V2 上重新训练我们的方法，并与其他三种使用多视图图像作为输入的光场显著性目标分割方法进行比较，
+包括 OBGNet ~\cite{jing2021occlusion}、LFBCNet~\cite{wang2022lfbcnet}~ 和 ESCNet~\cite{zhang2022exploring}。 如表~\ref{table:comp_multi_view}~所示，我们的方法可以在 DUTLF-V2 的所有四个指标上大幅实现最佳性能。 这证明了我们网络对于使用焦点堆栈作为输入的有效性以及信息提取的高效性。 
+
+
+
+%---------------------------------------------------------------------> figure: overview 
+\begin{figure}[t] 
+	\includegraphics[width=0.99\linewidth]{figures/chapter3/self-comparsion-Use} 
 	\centering
-	% \setlength{\abovecaptionskip}{-5mm}
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
-%	\caption{
-%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
-%	}
 	\bicaption{
-		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
+		消融研究的可视化比较
 	}{
-		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+		Visual comparisons of ablation studies
 	}
-	\label{figure:figure_comparison_3}
-	\vspace{-0.2cm}
-\end{figure*}
-% 
-%
-%
-%\\
-%\\% 
-%---------------------------------------------------------------------> 消融实验： 总消融实验
-%
-\begin{table}
-%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
-%		The best results are marked in \textbf{boldface}.
-%	}
-	\bicaption{
-	DUTLF-FS 数据集上每个组件的消融分析。
-	}{
-	Ablation analyses of each component on the DUTLF-FS dataset.
-	}
+	\label{figure:self_comp}
+\end{figure}
+
+
+
+\begin{table}[t]
+	\bicaption{在 DUTLF-FS 数据集上每个组件的消融分析}
+	{Ablation analyses of each component on the DUTLF-FS dataset}
 	\centering
 	\label{table:abl_total}
-%	\resizebox{0.82\linewidth}{!}{
-		\begin{tabular}{llcccc}
-			\toprule  %添加表格头部粗线
+	\label{chpt3:table:abl_total}
+	%	\resizebox{0.82\linewidth}{!}{
+		\begin{tabular}{cllcccc}
+			\toprule[2pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
-			\multicolumn{2}{c}{ \multirow{2}*{Settings}}	& \multicolumn{4}{c}{DUTLF-FS} \\ %& \multicolumn{3}{c}{HFUT} \\ 
+			\multicolumn{1}{c}{ \multirow{2}*{No.}} 
+			& \multicolumn{2}{c}{ \multirow{2}*{设置}}	
+			& \multicolumn{4}{c}{DUTLF-FS} \\
+				
+			\cmidrule(r){4-7} 
 			
-			\cmidrule(r){3-6} 
+			& & & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
 			
-			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+	
 			\midrule
-			
-			% 开始填写数据
-			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+	
+%			% 开始填写数据
+			1 & \multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
 			
 			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
 			
 			\midrule
 			
-			\multicolumn{1}{c}{ \multirow{2}*{+TCM}}	
+			2 & \multicolumn{1}{l}{ \multirow{2}*{+令牌通信模块}}	
+
+			& \multicolumn{1}{c}{+令牌交互}  & 0.961 & 0.923 & 0.932 & 0.034 \\ 
+			3 & & \multicolumn{1}{c}{++令牌移位} & 0.968 & 0.933 & 0.944 & 0.027 \\
 			
-			& +TI		& 0.961 & 0.923 & 0.932 & 0.034 \\ 
-			& ++TS & 0.968 & 0.933 & 0.944 & 0.027 \\
 			\midrule
 			
-			\multicolumn{2}{l}{++FPE} 		& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
-			\multicolumn{2}{l}{+++CCM} 		& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
+			4 & \multicolumn{2}{l}{++~~~聚焦感知增强} 		
+			& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
+			
+			5 & \multicolumn{2}{l}{+++特征融合模块} 		
+			& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
 			
 			
-			\bottomrule
-	\end{tabular}
-% }
+			\bottomrule[2pt]
+		\end{tabular}
+		% }
 \end{table}
 
-%---------------------------------------------------------------------> figure: overview 
-\begin{figure}[t] 
-	% \centering
-	%	\begin{center}
-		%	\includegraphics[width=0.95\linewidth]{figures/overview.pdf} 		
-		%	\end{center}
-	
-	\includegraphics[width=0.99\linewidth]{figures/chapter3/self-comparsion-Use} 
-	\centering
-	
-	
-%	\caption{   	Visual comparisons of ablation studies.      (a) All-focal images.      
-%		(b)-(f) Saliency maps of the ``Baseline'', ``+TCM (+TI)'', ``+TCM (++TS)'', ``++FPE'' and ``+++CCM'', respectively.
-%		%			
-%		%			(b) Saliency maps of baseline.
-%		%			(c) Saliency maps w TCM (w/o TS).
-%		%			(d) Saliency maps w TCM.
-%		%			(e) Saliency maps w using FPE.
-%		%			(f) Saliency maps w using CCM.
-%		(g) Ground truth maps.
-%	}  
-%	
-	\bicaption{
-	消融研究的可视化比较。 
-%	(a) 全聚焦图像，
-%	(b)-(f) 分别为“基线模型”、
-%	“+TCM (+TI)”、
-%	“+TCM (++TS)”、
-%	“++FPE”和
-%	“+++CCM图”的显著性图。
-	}{
-	Visual comparisons of ablation studies.      
-%	(a) All-focal images.      
-%	(b)-(f) 
-%	Saliency maps of the ``Baseline'', 
-%	``+TCM (+TI)'', 
-%	``+TCM (++TS)'', 
-%	``++FPE'' and 
-%	``+++CCM'', respectively.
-%	(g) Ground truth maps.
-	}
-	\label{figure:self_comp}
-	
-	\vspace{-0.2cm}
-\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（2）定性比较：
+
+为了更直观地观察，
+图~\ref{figure:figure_comparison_1}~和
+\ref{figure:figure_comparison_2}~
+中可视化了所提出的方法和其他排名靠前的方法生成的一些代表性结果。可以看出，我们提出的方法的结果与真值图更加一致。 当面对这些具有挑战性的场景时，包括多个对象（第 4、5 行）和复杂场景（第 6、7 行），大多数 RGB 和 RGB-D 显著性检测方法无法准确检测显着对象。
+相比之下，我们所提出的方法可以成功生成准确且稳健的显着图。 与这些基于 CNN 的 LFSOD 方法相比，所提出的方法获得了更一致的预测结果和更精细的细节。
 
 
 
@@ -1344,97 +1134,62 @@ Amulet \cite{zhang2017amulet}
 
 
 
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSubsection{对比实验}{Comparative Experiment}
 
 \textbf{不同模型组件的有效性。}
-我们首先在表~\ref{table:abl_total}~中验证不同模型组件的有效性。我们首先构建一个基线模型。 具体来说，它使用共享权重编码器来提取全焦点和焦点堆栈特征，然后直接连接它们并预测显着性图。 
-%
-%
-%
-%
-\par
-%
-%
-%
-接下来，我们逐渐将我们提出的 TCM、FPE 和 CCM 采用到我们的 FPT 模型中。 这三个模型分别表示为“+TCM”、“++FPE”和“+++CCM”。 
-如表~\ref{table:abl_total}~所示，这三个模型可以逐渐提高LFSOD性能，最终大幅优于基线模型。 
-%
-%
-%
-%
-\par
-%
-%
-%
-此外，为了证明我们TCM中TI和TS子模块的有效性，我们逐渐在“+TCM”模型中采用TI和TS，并将它们表示为“+TI”和“++TS”。 与“基线”相比。 “+TI”和“++TS”在 DUTLF-FS 上分别使 MAE 指标降低 29.2\% 和 43.8\%。 
-%
-%
-%
-%
-%
-%
-\par
-%
-%
-%
-%
-%
-%
-%
+我们首先在表~\ref{table:abl_total}~中验证不同模型组件的有效性。
+我们首先构建一个基线模型。 
+具体来说，它使用共享权重编码器来提取全聚焦图和焦点堆栈特征，
+然后在通道维度进行拼接，送入使用二维卷积网络构建的融合模块进行进一步的特征提取，
+最后将融合后的特征送入显著性目标检测头并预测最终的显著性图。 
+
+
+
+
+为了验证我们所提出的各个模块的有效性，
+我们逐渐在基线网络中添加令牌交互模块，聚焦感知增强模块和特征融合模块
+到我们的焦点感知网络中，在表~\ref{table:abl_total}~中分别以标号2,~4,~5表示。
+如表~\ref{table:abl_total}~所示，这三个模型可以逐渐提高光场显著性目标检测性能，
+最终大幅优于基线模型。 
+
+
+
+
+此外，为了证明我们令牌交互模块中的令牌交互操作和令牌移位操作的有效性，
+我们在表~\ref{table:abl_total}~中添加标号为2，3的网络，
+分别表示我们只在基线模型上添加令牌交互操作，以及基于模型2，再添加令牌移位操作的网络。
+从表中数据可以看出，与标号1的基线模型相比。
+模型2和模型3在 DUTLF-FS 数据集上分别使 MAE 指标降低 29.2\% 和 43.8\%。 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 我们还在图~\ref{figure:self_comp}~中提供了每个消融研究相应的可视化结果，
 其中(a)表示全聚焦图像，
-	(b)-(f) 分别代表“基线模型”、
-	“+TCM (+TI)”、
-	“+TCM (++TS)”、
-	“++FPE”和
-	“+++CCM”的显著性图。
-可以发现，预测掩模与真值图逐渐变得更加一致。 显着对象的完整内容和精确的显着图边界证明我们的 F焦点感知Transformer模型可以过滤掉背景干扰并更多地关注显着对象。 
-%
-%
-%
-%
-%
-\par
-%
-%
-%
-\textbf{焦点相关标记的数量。} 
-在表~\ref{table:abl_token_number}~中，我们用焦点相关标记的数量从 8 个增加到 32 个来测试我们的方法。与较少的焦点相关标记 (M = 8, 16) 相比，更多的焦点相关标记 (M = 32) 可以获得更好的结果 。 除非另有说明，我们的实验均使用 32 个与焦点相关的标记进行。 
-%
-%\\
-%
-%
-%
-%
-\par
-%
-%
-\textbf{焦点感知增强中的 $K$ 值。 }
-我们设置了多个比较实验来选择最佳 $k$ 数，具体数据见表~\ref{table:abl_fp}。
-当我们将 $K$ 从 1 增加到 5 时，性能逐渐提高。 当 $K > 5$ 时，我们观察到模型性能饱和并变得次优。 我们认为较大的 $K$ 值会引入更多不显着的背景效应。 考虑到性能和计算成本之间的权衡，我们选择配置 $K = 5$ 作为最终配置。
+(b)-(f) 分别代表基线模型、以及在基线模型基础上逐步添加
+令牌交互模块，令牌移位模块、聚焦感知模块和特征融合模块的显著性目标预测图，
+对应消融实验表~\ref{chpt3:table:abl_total}~中编号从1-5的不同设置的方法。
+可以发现，预测的二进制掩码表示与真值图逐渐变得更加一致。 
+显着对象的完整内容和精确的显着图边界，
+证明我们的焦点感知Transformer模型可以有效过滤掉背景干扰并更多地关注显着对象。 
+
+
+
+
+
 
 %---------------------------------------------------------------------> 消融实验： 焦点感知实验
 %
-\begin{table}
-%	\caption{Impact of focal-related token numbers. $M $ indicates the number of focal-related tokens. 
-%		%
-%		%			Comparison of using different K numbers in focal perception enhancement strategy.
-%		The best results are marked in \textbf{boldface}.
-%	}
-	\bicaption{
-	焦点相关令牌数量的影响。 $M$表示焦点相关令牌的数量。}{
-	Impact of focal-related token numbers. $M $ indicates the number of focal-related tokens. 
-	}
+\begin{table}[t]
+	\bicaption{焦点相关令牌数量的影响， $M$表示焦点相关令牌的数量}
+	{Impact of focal-related token numbers. $M $ indicates the number of focal-related tokens}
 	\centering
 	\label{table:abl_token_number}
-%	\resizebox{0.68\linewidth}{!}{
+	%	\resizebox{0.68\linewidth}{!}{
 		\begin{tabular}{ccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{$M$} & \multicolumn{4}{c}{DUTLF-FS} \\ % & \multicolumn{3}{c}{HFUT} \\
@@ -1455,33 +1210,31 @@ Amulet \cite{zhang2017amulet}
 			16 & 0.970 & 0.937 & 0.948 & 0.024 \\
 			32 & \textbf{0.972} & \textbf{0.941} & \textbf{0.952} & \textbf{0.022} \\ 
 			
-			\bottomrule
+			\bottomrule[2pt]
 		\end{tabular}
-%	}
+		%	}
 	
-	\vspace{-0.2cm}
 \end{table}
+
+
+
+ 
+
+\textbf{焦点相关标记的数量。} 
+在表~\ref{table:abl_token_number}~中，我们用焦点相关标记的数量从 8 个增加到 32 个来测试我们的方法。与较少的焦点相关标记 (M = 8, 16) 相比，更多的焦点相关标记 (M = 32) 可以获得更好的结果 。 除非另有说明，我们的实验均使用 32 个与焦点相关的标记进行。 
 
 
 % 
 %---------------------------------------------------------------------> 消融实验： 焦点感知实验
 %
-\begin{table}
-%	\caption{Comparison of using different K numbers in focal perception enhancement strategy.
-%		The best results are marked in \textbf{boldface}.
-%	}
-	\bicaption
-	{
-		焦点感知增强策略中使用的不同K数的比较。
-	}
-	{
-		Comparison of using different K numbers in focal perception enhancement strategy.
-	}
+\begin{table}[t]
+	\bicaption{焦点感知增强策略中使用的不同K数的比较}
+	{Comparison of using different K numbers in focal perception enhancement strategy}
 	\centering
 	\label{table:abl_fp}
-%	\resizebox{0.68\linewidth}{!}{
+	%	\resizebox{0.68\linewidth}{!}{
 		\begin{tabular}{ccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{K} & \multicolumn{4}{c}{DUTLF-FS} \\ % & \multicolumn{3}{c}{HFUT} \\
@@ -1502,28 +1255,30 @@ Amulet \cite{zhang2017amulet}
 			7 & 0.971 & 0.940 & 0.951 & \textbf{0.022} \\ 
 			9 & 0.971 & 0.938 & 0.951 & 0.023 \\ 
 			
-			\bottomrule
+			\bottomrule[2pt]
 		\end{tabular}
-%	}
-	\vspace{-0.2cm}
+		%	}
 \end{table}
 
+\textbf{焦点感知增强中的 $K$ 值。 }
+我们设置了多个比较实验来选择最佳 $k$ 数，具体数据见表~\ref{table:abl_fp}。
+当我们将 $K$ 从 1 增加到 5 时，性能逐渐提高。 当 $K > 5$ 时，我们观察到模型性能饱和并变得次优。 我们认为较大的 $K$ 值会引入更多不显着的背景效应。 考虑到性能和计算成本之间的权衡，我们选择配置 $K = 5$ 作为最终配置。
 
 
 
-\begin{table}
-%	\caption{Ablation results of different methods for focal perception enhancement module.
-%		The best results are marked in \textbf{boldface}.
-%	}
-	\bicaption{
-	焦点感知增强模块中不同方法的消融结果。}{
-	Ablation results of different methods for focal perception enhancement module.
-	}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{焦点感知增强方法设置。}
+为了验证不同焦点感知增强设置的有效性，我们在随机、卷积和基于 SSIM 的选择方法之间进行了比较实验。 所有实验将 $K$ 数设置为 5。表~\ref{table:abl_methods}~表明我们使用基于卷积方式进行感知增强的方法已经达到了与其他光场显著性检测方法相当的性能，证明了我们提出的方法的优越性。
+
+
+\begin{table}[t]
+	\bicaption{焦点感知增强模块中不同方法的消融结果}
+	{Ablation results of different methods for focal perception enhancement module}
 	\centering
 	\label{table:abl_methods}
-%	\resizebox{0.45\linewidth}{!}{
+	%	\resizebox{0.45\linewidth}{!}{
 		\begin{tabular}{ccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{Settings} & \multicolumn{4}{c}{DUTLF-FS} \\  % & \multicolumn{3}{c}{HFUT} \\
@@ -1543,16 +1298,16 @@ Amulet \cite{zhang2017amulet}
 			SSIM        & \textbf{0.972} & \textbf{0.941} & \textbf{0.952} & \textbf{0.022} \\ 
 			%% Log(SSIM)   & \textbf{0.972} & 0.940 & 0.950 & 0.023 \\ 
 			
-			\bottomrule
-	\end{tabular}
-	\vspace{-0.2cm}
+			\bottomrule[2pt]
+		\end{tabular}
+		%}
 \end{table}
 
 
-\textbf{焦点感知增强方法设置。}
-为了验证不同焦点感知增强设置的有效性，我们在随机、卷积和基于 SSIM 的选择方法之间进行了比较实验。 所有实验将 $K$ 数设置为 5。表~\ref{table:abl_methods}~表明我们使用基于卷积方式进行感知增强的方法已经达到了与其他 LFSOD 方法相当的性能，证明了我们提出的方法的优越性。
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{本章小结}{The Chapter’s Conclusion}
 
 在本文中，我们提出了一种用于精确光场显着物体检测的焦点感知Transformer（FPT）。 我们引入与焦点相关的令牌来收集图像特定的特征，并提出令牌通信模块（TCM）来传播信息并促进空间上下文建模。 为了增强焦点堆栈的空间特征表示，我们提出了一种焦点感知增强（FPE）策略来帮助抑制噪声背景信息。 实验结果表明，我们提出的方法可以在大多数光场显著性分割数据集上实现最先进的性能。

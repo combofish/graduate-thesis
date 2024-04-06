@@ -49,12 +49,20 @@ McMillan等~\cite{mcmillan2023plenoptic}在七维全光函数的基础上提出�
 实际上，光线在空间传播中，因传播距离而造成的信息损耗微乎其微，光场模型还可以进一步简化。
 %如果不考虑光线在空间传播过程中的衰减，记录光场信息的五维模型还可以进一步简化成四参数光场函数。
 %\par
+%
+%
+%
+%
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter2/double_plane_model.drawio}
 	\bicaption{光场双平面四参数模型}{Light field biplane four-parameter model}  
 	\label{chapter2_fig1:double_plane}
 \end{figure}
+%
+%
+%
+%
 Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场模型，
 同时提出光场渲染理论和双平面模型来描述静态的可见光。
 双平面模型利用两个互相平行的参数化平面表示四维光场。
@@ -84,12 +92,20 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 为了得到可视化的图像信息，必须对捕获的光场信息进行计算处理。
 根据成像设备或记录方法的不同，现有的光场成像方式可以分为多传感器采集成像、
 时间序列采集成像、空域复用成像和频域复用成像。\par
+%
+%
+%
+%
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=1\linewidth]{figures/chapter2/camera_array}
 	\bicaption{相机阵列光场成像}{Camera array for light field imaging}  
 	\label{chapter2_fig2:camera_array}
 \end{figure}
+%
+%
+%
+%
 （1）使用相机阵列获取光场信息是通过多个相机以特定的空间分布在不同视角下捕获场景图像的方法，
 如图~\ref{chapter2_fig2:camera_array}~所示。
 每个相机捕获的是四维光场在其相对于场景方向上的二维投影。
@@ -107,7 +123,7 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.7\linewidth]{figures/chapter2/time_seq2}
-	\bicaption{时间序列光场成像}{TODO}  
+	\bicaption{时间序列光场成像}{Time-series light field imaging}  
 	\label{chapter2_fig3:time_seq2}
 \end{figure}
 （2）除了多个相机阵列排布外，Marc Levoy等人\cite{levoy2023light}采用了单相机扫描系统。
@@ -128,7 +144,7 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.65\linewidth]{figures/chapter2/microlens_for_lf_imaging2.drawio}
-	\bicaption{微透镜光场成像}{TODO}  
+	\bicaption{微透镜光场成像}{Microlens light field imaging}  
 	\label{chapter2_fig4:microlens_for_lf_imaging}
 \end{figure}
 （3）空域复用的成像方式通过在图像传感器上安装微透镜阵列来实现，这是光场采集中常见的方式之一。
@@ -172,7 +188,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.75\linewidth]{figures/chapter2/multi_photo}
-	\bicaption{子孔径图像阵列形式的光场数据可视化}{TODO}  
+	\bicaption{子孔径图像阵列形式的光场数据可视化}
+	{Visualization of light field data in the form of subaperture image arrays}  
 	\label{chapter2_fig5:multi_photo}
 \end{figure}
 %
@@ -182,7 +199,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.80\linewidth]{figures/chapter2/macro_photo}
-	\bicaption{宏像素形式的光场数据可视化}{TODO}  
+	\bicaption{宏像素形式的光场数据可视化}
+	{Visualizing light field data in macropixel form}  
 	\label{cpt2_fig5:macro_photo}
 \end{figure}
 %
@@ -212,7 +230,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.75\linewidth]{figures/chapter2/epi_photos}
-	\bicaption{极视角形式的光场数据可视化}{TODO}  
+	\bicaption{极视角形式的光场数据可视化}
+	{Light field data visualization in polar perspective form}  
 	\label{cpt2_fig6:epi_photos}
 \end{figure}
 %
@@ -238,7 +257,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter2/focal_stack}
-	\bicaption{焦点堆栈形式的光场数据可视化}{TODO}  
+	\bicaption{焦点堆栈形式的光场数据可视化}
+	{Visualization of light field data as focus stack}  
 	\label{cpt2_fig7:focal_stack}
 \end{figure}
 %
@@ -342,7 +362,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.80\linewidth]{figures/chapter2/microlens_array_imaging.drawio}
-	\bicaption{基于微透镜阵列的光场相机成像原理}{TODO}  
+	\bicaption{基于微透镜阵列的光场相机成像原理}
+	{Imaging principle of light field camera based on microlens array}  
 	\label{cpt2_fig8:multi_array}
 \end{figure}
 %
@@ -441,7 +462,8 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.80\linewidth]{figures/chapter2/model_of_fs_inputs}
-	\bicaption{基于微透镜阵列的光场相机成像原理}{TODO}  
+	\bicaption{基于焦点堆栈的光场显著性目标检测模型}
+	{Light field salient object detection model based on focus stack}  
 	\label{cpt2_fig9:model_of_fs_inputs}
 \end{figure}
 %
@@ -470,7 +492,7 @@ S-measure~\cite{fan2017structure}。\par
 %
 % 展开叙述
 %
-平均绝对误差\par
+（1）平均绝对误差\par
 平均绝对误差通过衡量显著性预测图与相应的真实值之间的平均每个像素点绝对差异来
 直观的评估显著性图的质量。
 它是评估预测质量的最简单有效的方式。
@@ -482,10 +504,10 @@ S-measure~\cite{fan2017structure}。\par
 %
 其中$\hat{S}(i,j)$和$S(i,j)$分别表示显著性预测图和相应真值图对应坐标的像素。
 值得一提的是，当该性能指标的值越低时，意味着预测图越接近真值图。\par
-%
-%
-%
-精确率-召回率曲线（P-R曲线）\par
+
+
+
+（2）精确率-召回率曲线（P-R曲线）\par
 %
 %
 P-R 曲线是用来评估预测图的精准率和召回率的工具。
@@ -513,13 +535,16 @@ P-R 曲线是用来评估预测图的精准率和召回率的工具。
 在该样本之前的都属于正例，该样本之后的都属于负例。
 每一个样本作为划分阈值时，都可以计算对应的Precision和Recall，
 那么就可以以此绘制P-R曲线。\par
-%
-%
-%
-%
-F-measure\par
-%
-%
+
+
+
+
+
+（3）
+F-measure
+
+
+
 F-measure是通过精确度和召回率的加权调和均值来计算的。
 P-R~曲线评估分类精度的方法需要在对预测图的每个像素进行二值化后，根据不同的阈值进行比较。
 阈值的变化会导致评估精度出现波动。
@@ -539,6 +564,12 @@ P-R~曲线评估分类精度的方法需要在对预测图的每个像素进行�
 该性能指标的越高表示预测结果越好。\par
 %
 %
+
+
+
+
+
+（4）
 加权的F-measure\par
 %
 %
@@ -551,6 +582,11 @@ P-R~曲线评估分类精度的方法需要在对预测图的每个像素进行�
 其中$w$是基于欧几里得距离的加权函数。\par
 %
 %
+
+
+
+
+（5）
 E-measure\par
 %
 %
@@ -570,6 +606,10 @@ E-measure~通过评估局部像素信息与全局均值之间的差异来评价�
 %
 %
 %
+
+
+
+（6）
 S-measure\par
 %
 %
@@ -587,7 +627,7 @@ S-measure 的评估指标公式如下所示：
 %
 其中，$S_{o}$代表对象级的结构相似性，$S_{r}$代表区域级的结构相似性，
 而$\alpha$则用于平衡$S_{o}$和$S_{r}$的影响。
-通常来说，根据Fan等人~\cite{fan2018enhanced}的设定，
+通常来说，根据Fan等人~\upcite{fan2018enhanced}的设定，
 $\alpha$被设定为0.5。
 很显然，对于与真值越接近的显著性预测图，S-measure值就越高。
 %

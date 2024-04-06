@@ -7,6 +7,581 @@
 
 
 
+
+
+
+
+
+
+
+%%
+%%
+%\begin{table*}[]
+%	%
+%	%---------------------------------------------------------------------> 大表 
+%	%
+%	%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
+%		%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
+%		%		%
+%		%		% denote the best and the second-best results,
+%		%		%
+%		%		The best three results are shown in 
+%		%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
+%		%		% '-' indicates the code or outcome is not available.
+%		%	}
+%	\bicaption{
+%		在 3 个公开数据集上的定量比较
+%	}{Quantitative comparisons on three light field datasets}
+%	%	\renewcommand{\arraystretch}{1.5}
+%	
+%	\centering
+%	\label{table:comp_with_sota_3_1}
+%	%	\label{table:comp-with-sota}
+%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{rcccccccccccc}
+%			\toprule  %添加表格头部粗线
+%			
+%			% title
+%			%			\multirow{2}*{Type} & 
+%			\multicolumn{1}{c}{ \multirow{2}*{方法} } & 
+%			\multicolumn{4}{c}{DUTLF-FS \cite{zhang2019memory} } &
+%			\multicolumn{4}{c}{HFUT \cite{zhang2017saliency} } &
+%			\multicolumn{4}{c}{LFSD \cite{li2014saliency} } \\
+%			
+%			% next line
+%			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
+%			
+%			%			 subtitle
+%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  
+%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			
+%			%			& E & S & F & MAE 
+%			%			& E & S & F & MAE 
+%			%			& E & S & F & MAE \\
+%			
+%			
+%			% line line
+%			\midrule
+%			
+%			%			\multirow{8}*{\textit{Light field}}
+%			
+%			% 开始填数据
+%			
+%			Ours	 
+%			&  {\textbf{.973}} & \textbf{ {.946}} 	& \textbf{ {.954}} & \textbf{ {.020}} 
+%			& \textbf{ {.871}} &	\textbf{ {.828}} 			&\textbf{	 {.784}} & {\textcolor{red}{.064}} 
+%			& \textbf{ {.919}} &	\textcolor{blue}{.860} 			&	\textbf{ {.873}} &	\textbf{ {.064}} 
+%			\\
+%			
+%			DLGLRG \cite{liu2021light} 
+%			& {\textcolor{red}{.958}} & {\textcolor{red}{.928}} 			& {\textcolor{red}{.934}} & {\textcolor{red}{.029}} 
+%			&	.839 &	.766 &	.698 &	.070 
+%			&	{\textcolor{red}{.906}} &	\textbf{ {.866}} 			&	{\textcolor{red}{.870}} &	\textcolor{blue}{.069} 
+%			\\
+%			
+%			ERNet \cite{piao2020exploit}
+%			& .947 & .899 & .908 & .039 
+%			&	.841 &	.778 &	.722 &	.082 
+%			&	.888 &	.834 &	.850 &	.082 
+%			\\
+%			
+%			PANet \cite{piao2021panet} 
+%			& .939 & .908 & .903 & .038 
+%			& .845 & .795 & .738 & .074 
+%			& .892 & .849 & .849 & .076
+%			\\
+%			
+%			LFNet	 \cite{zhang2020lfnet} 
+%			& .929 & .878 & .890 & .053
+%			&	.846 &	.782 &	.718 &	.073 
+%			&	.885 &	.820 &	.824 &	.092 \\
+%			
+%			MAC	 \cite{zhang2020light} 
+%			& .863	& .804	& .792	& .102	
+%			&   .797 & .731 & .667 & .107 
+%			& .832 & .782 & .776 & .127 \\
+%			
+%			MoLF	 \cite{zhang2019memory} 
+%			& .938 & .887 & .902 & .051 
+%			&	.852 &	.789 &	.729 &	.075 
+%			&	.888 &	.830 &	.834 &	.089 \\
+%			
+%			DLSD	\cite{piao2019deep}
+%			& .891	& .841	& .801	& .076	
+%			&   .783 & .741 & .615 & .098 
+%			& .806 & .737 & .715 & .147 \\
+%			
+%			\midrule % end lfsod
+%			
+%			% start rgb-d
+%			%			\multirow{6}*{\textit{RGB-D}}
+%			
+%			DCF \cite{ji2021calibrated} 
+%			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
+%			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+%			& .881 & .809 & .821 & .096 \\
+%			
+%			CIR-Net \cite{cong2022cir}
+%			& .950 & .916 & .921 & .038 
+%			& {\textcolor{red}{.862}} & .800  			& .742 & \textbf{ {.062}} 
+%			& .874 & .820 & .816 & .098 \\ 
+%			
+%			VST-$rgbd$  \cite{liu2021visual} 
+%			& .952 & .920 & .921 & .036 
+%			& .843 & .807 & .754 & .086 
+%			& .851 & .792 & .786 & .110 
+%			\\
+%			
+%			%			& -  & 2022  & \\
+%			%			& -  & 2022  & \\
+%			
+%			BBS-Net     \cite{fan2020bbs} 
+%			& .900 & .865 & .852 & .066 
+%			& .801 & .751 & .676 & .073 
+%			& \textcolor{blue}{.901} & {\textcolor{red}{.864}} & .858 & .072 \\ 
+%			
+%			SSF     \cite{zhang2020select} 
+%			& .922 & .879 & .887 & .050 
+%			& .816 & .725 & .647 & .090 
+%			& \textcolor{blue}{.901} & .859 & \textcolor{blue}{.868} & {\textcolor{red}{.067}} \\ 
+%			
+%			S2MA    \cite{liu2020learning} 
+%			& .839 & .787 & .754 & 	.102 
+%			& .777 & .729 & .650 & .112 
+%			& .873 & .837 &	.835 & .094 \\
+%			
+%			
+%			\midrule % end rgb-d
+%			%			\multirow{7}*{\textit{RGB}}
+%			
+%			VST-$rgb$ \cite{liu2021visual} 
+%			& .939 & .910 & .911 & .047
+%			& .831 & \textcolor{blue}{.808} & \textcolor{blue}{.763} & .093 
+%			& .865 & .797 & .817 & .123 
+%			\\ 
+%			
+%			PFSNet \cite{ma2021pyramidal}
+%			& .912 & .883 & .879 & .057 
+%			& .835 & .800 & .752 & .088 
+%			& .805 & .749 & .727 & .145 
+%			\\ 
+%			
+%			
+%			ITSD \cite{zhou2020interactive} 
+%			& .930 & .899 & .899 & .052 
+%			& .839 & .805 & .759 & .089 
+%			& .879 & .847 & .840 & .088 
+%			\\ 
+%			
+%			
+%			
+%			LDF \cite{wei2020label} 
+%			& .898 & .873 & .861 & .061 
+%			& .804 & .780 & .708 & .093 
+%			& .843 & .821 & .803 & .096 
+%			\\ 
+%			
+%			
+%			MINet \cite{pang2020multi} 
+%			& .916 & .890 & .882 & .050 
+%			& .816 & .792 & .720 & .086 
+%			& .861 & .834 & .828 & .091 
+%			\\ 
+%			
+%			F$^{3}$Net  \cite{wei2020f3net}
+%			& .900 & .888 & .882 & .057 
+%			& .815 & .777 & .718 & .095 
+%			& .824 & .806 & .797 & .106 
+%			\\ 
+%			
+%			
+%			EGNet   \cite{zhao2019egnet}
+%			& .914 & .886 & .870 & .053 
+%			& .794 & .772 & .672 & .094 
+%			& .776 & .784 & .762 & .118 
+%			\\ 
+%			
+%			CPD  \cite{wu2019cascaded}
+%			& .867 & .911 & .866 & .058 
+%			& .772 & .82  & .701 & .086 
+%			& .759 & .82  & .759 & .126 \\
+%			
+%			PoolNet \cite{liu2019simple}
+%			& .889 & .919 & .868 & .051 
+%			& .776 & .802 & .683 & .092 
+%			& .789 & .8   & .769 & .118 \\
+%			
+%			PiCANet \cite{liu2018picanet}
+%			& .829 & .892 & .821 & .083 
+%			& .726 & .781 & .618 & .115 
+%			& .729 & .78  & .671 & .158 \\
+%			
+%			PAGRN \cite{wang2018detect}
+%			& .822 & .878 & .828 & .084 
+%			& .717 & .773 & .635 & .114 
+%			& .727 & .805 & .725 & .147 \\
+%			
+%			C2S   \cite{li2018contour}
+%			& .844 & .874 & .791 & .084 
+%			& .763 & .786 & .65  & .111 
+%			& .806 & .82  & .749 & .113 \\
+%			
+%			R3Net  \cite{deng2018r3net}
+%			& .833 & .819 & .783 & .113 
+%			& .727 & .728 & .625 & .151 
+%			& .789 & .838 & .781 & .128 \\
+%			
+%			Amulet \cite{zhang2017amulet}
+%			& .847 & .882 & .805 & .030 
+%			& .767 & .76  & .636 & .110  
+%			& .773 & .821 & .757 & .135 \\
+%			
+%			
+%			\bottomrule % end
+%		\end{tabular}
+%	}
+%\end{table*}
+%%
+%%
+%%\\
+%%\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
+%%
+%%
+%%\par
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=0.95\linewidth]{figures/chapter3/token-interaction.drawio}
+%	\bicaption{
+%		令牌通信模块 (TCM) 的图示。
+%		(a) 令牌交互（TI）。 
+%		(b) 令牌移位（TS）。 
+%	}{
+%		An illustration of the Token Communication Module (TCM). 
+%		(a) Token Interaction (TI). 
+%		(b) Token Shift (TS).
+%	}  
+%	\label{cpt3_fig1:token_interaction}
+%\end{figure}
+%%
+%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
+%
+%%
+%%---------------------------------------------------------------------> fig: 创新图
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=0.85\linewidth]{figures/chapter3/cpt3_idea.pdf}
+%	\bicaption{
+%		光场焦点堆栈的成像过程和不同切片的成像效果。
+%		\textcolor{red}{$\bullet$} 表示清晰的部分。
+%	}
+%	{ 
+%		The imaging process of the light field focus stack and the imaging effects of different slices.
+%		\textcolor{red}{$\bullet$} indicates the clear parts.  
+%	}
+%	\label{figure:cpt3:idea}
+%\end{figure}
+%%
+%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
+%%------------------------------ figure: comparison
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+%	%	\caption{
+%		%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+%		%	}
+%	\bicaption{
+%		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
+%	}{
+%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+%	}
+%	\label{chpt4:fig:comparison_3}
+%	\vspace{-0.2cm}
+%\end{figure}
+%% 
+%%
+%
+
+
+
+
+
+
+
+
+
+
+%
+%\begin{figure}[!ht] 
+%	% \centering
+%	%	\begin{center}
+%		%	\includegraphics[width=0.95\linewidth]{figures/overview.pdf} 		
+%		%	\end{center}
+%	
+%	\includegraphics[width=0.99\linewidth]{figures/chapter3/self-comparsion-Use} 
+%	\centering
+%	
+%	
+%	%	\caption{   	Visual comparisons of ablation studies.      (a) All-focal images.      
+%		%		(b)-(f) Saliency maps of the ``Baseline'', ``+TCM (+TI)'', ``+TCM (++TS)'', ``++FPE'' and ``+++CCM'', respectively.
+%		%		%			
+%		%		%			(b) Saliency maps of baseline.
+%		%		%			(c) Saliency maps w TCM (w/o TS).
+%		%		%			(d) Saliency maps w TCM.
+%		%		%			(e) Saliency maps w using FPE.
+%		%		%			(f) Saliency maps w using CCM.
+%		%		(g) Ground truth maps.
+%		%	}  
+%	%	
+%	\bicaption{
+%		消融研究的可视化比较。 
+%		%	(a) 全聚焦图像，
+%		%	(b)-(f) 分别为“基线模型”、
+%		%	“+TCM (+TI)”、
+%		%	“+TCM (++TS)”、
+%		%	“++FPE”和
+%		%	“+++CCM图”的显著性图。
+%	}{
+%		Visual comparisons of ablation studies.      
+%		%	(a) All-focal images.      
+%		%	(b)-(f) 
+%		%	Saliency maps of the ``Baseline'', 
+%		%	``+TCM (+TI)'', 
+%		%	``+TCM (++TS)'', 
+%		%	``++FPE'' and 
+%		%	``+++CCM'', respectively.
+%		%	(g) Ground truth maps.
+%	}
+%	\label{figure:self_comp}
+%	
+%	\vspace{-0.2cm}
+%\end{figure}
+%
+%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
+%%
+%%\par
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=0.95\linewidth]{figures/chapter3/token-interaction.drawio}
+%	\bicaption{
+%		令牌通信模块 (TCM) 的图示。
+%		(a) 令牌交互（TI）。 
+%		%		交叉注意力在全焦点和焦点堆栈的嵌入式令牌之间执行特征交互。 
+%		(b) 令牌移位（TS）。 
+%		%		仅将焦点堆栈流中与焦点相关的标记分成组（图中以2组为例），然后沿焦点深度轴以不同方向（左右）移位以交换切片级信息。
+%	}{
+%		An illustration of the Token Communication Module (TCM). 
+%		(a) Token Interaction (TI). 
+%		%	Cross-attention performs feature interactions between the all-focal and focal stack. 
+%		(b) Token Shift (TS).
+%		%	Only the focus-related tokens in the focus stack stream are split into groups (2 in the figure) and then circularly shifted along the focus-depth axis with different directions to exchange slice-level information.
+%	}  
+%	\label{cpt3_fig1:token_interaction}
+%\end{figure}
+%%
+%%
+
+
+
+
+
+
+
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=0.95\linewidth]{figures/chapter3/sra}
+%	\bicaption{
+%		令牌通信模块 (TCM) 的图示。
+%		(a) 令牌交互（TI）。 
+%		%		交叉注意力在全焦点和焦点堆栈的嵌入式令牌之间执行特征交互。 
+%		(b) 令牌移位（TS）。 
+%		%		仅将焦点堆栈流中与焦点相关的标记分成组（图中以2组为例），然后沿焦点深度轴以不同方向（左右）移位以交换切片级信息。
+%	}{
+%		An illustration of the Token Communication Module (TCM). 
+%		(a) Token Interaction (TI). 
+%		%	Cross-attention performs feature interactions between the all-focal and focal stack. 
+%		(b) Token Shift (TS).
+%		%	Only the focus-related tokens in the focus stack stream are split into groups (2 in the figure) and then circularly shifted along the focus-depth axis with different directions to exchange slice-level information.
+%	}  
+%	\label{cpt3_fig1:sra}
+%\end{figure}
+%%
+%%
+
+
+%
+%
+%---------------------------------------------------------------------> fig: 创新图
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=0.85\linewidth]{figures/chapter3/cpt3_idea.pdf}
+%	\bicaption{%
+%		%		光场焦点堆栈的成像原理和成像效果。
+%		%		光场焦点堆栈的成像原理和不同切片的成像效果。
+%		光场焦点堆栈的成像过程和不同切片的成像效果。
+%		%		\textbf{(a)} 远处视角包含一个清晰的汽车。
+%		%		\textbf{(b)} 近处视角包含一个清晰的标志。
+%		\textcolor{red}{$\bullet$} 表示清晰的部分。
+%		%		焦点堆栈的光场数据结构和焦点堆栈的成像效果的图示。 焦点切片具有随空间透视深度的不同而变化的聚焦部分。
+%		%		远处的景色里有一辆清晰的汽车。
+%		%		近景画出清晰的标志。
+%		%		点表示透明部分。
+%	}
+%	{ %
+%		%			An illustration of the light field data structures to focal stack, and the imaging effect of the focal stack.
+%		%			% \textbf{(a)} and \textbf{(b)} indicates that 
+%		%			Focal slices have different sharp parts according to the distance from the lens.
+%		%			%%
+%		%			%%
+%		%
+%		%% Focal slices have different focusing parts according to the distance from the lens. 
+%		%
+%		%		An illustration of light field data structures to focal stack and imaging effect of the focal stack. 
+%		%		Focal slices have different focusing parts varying with the depth of the spatial perspective.
+%		%		The imaging principle and imaging effect of light field focus stack.
+%		%		The imaging principle of light field focus stack and the imaging effects of different slices.
+%		The imaging process of the light field focus stack and the imaging effects of different slices.
+%		%		\textbf{(a)} The distant view contains a clear car.
+%		%		\textbf{(b)} The close view draws a clear sign.
+%		\textcolor{red}{$\bullet$} indicates the clear parts.  
+%	}
+%	\label{figure:cpt3:idea}
+%\end{figure}
+%%
+%%
+
+
+%%------------------------------ figure: comparison
+%\begin{figure*}
+%	\centering
+%	% \setlength{\abovecaptionskip}{-5mm}
+%	\includegraphics[width=\linewidth]{figures/chapter3/compare_2}
+%	%	\caption{
+%		%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+%		%	}
+%	\bicaption{
+%		在一些具有挑战性的场景中与最先进的方法的可视化比较。
+%	}{
+%		Visual comparisons with state-of-the-art methods in challenging scenes.
+%		%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+%	}
+%	\label{figure:figure_comparison_2}
+%	\vspace{-0.2cm}
+%\end{figure*}
+%%
+%%
+
+%
+%
+%	%------------------------------ figure: comparison
+%\begin{figure*}
+%	\centering
+%	% \setlength{\abovecaptionskip}{-5mm}
+%	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+%%	\caption{
+	%%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+	%%	}
+%	\bicaption{
+	%		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
+	%	}{
+	%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
+	%	}
+%	\label{figure:figure_comparison_3}
+%	\vspace{-0.2cm}
+%\end{figure*}
+% 
+%
+
+
+
 %
 %\begin{table}
 %	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.

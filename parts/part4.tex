@@ -65,15 +65,13 @@
 \par
 %
 %
-\begin{figure}[!h]
+\begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter4/task2_ins.drawio}
 	\bicaption{
 		光场显著性检测网络中不同的Transformer注意力机制
-%		光场模型范例
 	}{
 		Different Transformer attention mechanisms in light field saliency detection network
-%		TODO
 	}  
 	\label{cpt4_fig1:task2_ins}
 \end{figure}
@@ -204,8 +202,9 @@ $F_{i}^{l}$表示全聚焦图的特征，当$i=1,2,\cdots,12$时，$F_{i}^{l}$�
 	\includegraphics[width=0.95\linewidth]{figures/chapter4/view_enhance}
 	\bicaption{
 		视角增强注意力模块
-	}
-	{Perspective Enhanced Attention Module}  
+	}{
+		Perspective Enhanced Attention Module
+	}  
 	\label{cpt4_fig1:view_enhance}
 \end{figure}
 %
@@ -831,79 +830,21 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 为了公平的比较不同网络的性能，本章采用了 S-measure、E-measure、F-measure、绝对平均误差MAE作为评
 估模型性能的指标。
 
+
+
+
+
 \BiSubsection{消融实验}{Ablation Experiment}
 
-在本小节，对提出的各个模块进行消融实验，
-分析每个组件或者策略对于显著性分割性能的影响。
-定量的消融实验结果展示在表，
-定性的消融实验结果展示在图。
 
-（1）
-验证视角增强模块的有效性
-
-
-
-
-（2）验证像素对比监督的有效性
-
-
-
-
-
-\BiSubsection{对比实验}{Comparative Experiment}
-
-本节将本章方法与其他数据增强方法进行了比较：
-
-	%------------------------------ figure: comparison
-\begin{figure*}
-	\centering
-	% \setlength{\abovecaptionskip}{-5mm}
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
-	%	\caption{
-		%		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
-		%	}
-	\bicaption{
-		在一些具有挑战性的场景（包括多物体和复杂场景）中对最先进的方法进行定性比较。
-	}{
-		Qualitative comparisons of state-of-the-art methods in some challenging scenes, including multiple objects and complex scenes.
-	}
-	\label{chpt4:fig:comparison_3}
-	\vspace{-0.2cm}
-\end{figure*}
-% 
-%
-
-（1）定性比较
-
-
-图~\ref{chpt4:fig:comparison_3}~展示来本章方法与目前最先进的显著性目标检测方法在
-不同场景的显著性预测的可视化效果。
-\todo 
-在1-3行中，显著性目标在不同深度范围中表现突出；4-5行描述了多变的背景情况；6-7行展示了显著性目标与背景相近的挑战。我们的方法可以准确且完整地预测这些复杂场景中的显著性目标。举例来说，EAR、LFNet和MOD等光场显著性检测算法可以准确定位目标，但无法完整预测；CPFP和PCA等RGB-D方法在有高质量深度图的场景中表现良好，但容易受到低质量深度图的干扰；CPD和PoolNet等RGB方法由于缺乏空间信息，在复杂场景中难以准确预测。
-%
-%
-%
-%
-%
-这些结果显示出我们提出的视角增强模块的光场数据探索方法更有效地利用多焦点数据，准确定位显著区域，
-并在特征整合中突出显著区域、抑制非显著区域。
-
-
-
-\begin{table}
-	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
-		%		The best results are marked in \textbf{boldface}.
-		%	}
-	\bicaption{
-		DUTLF-FS 数据集上每个组件的消融分析。
-	}{
-		Ablation analyses of each component on the DUTLF-FS dataset.
-	}
+\begin{table}[!hb]
+	\bicaption{在DUTLF-FS数据集上每个组件的消融实验分析}
+	{Ablation experimental analysis of each component on the DUTLF-FS dataset}
 	\centering
 	\label{chpt4:tab:abl_tot}
 	%	\resizebox{0.82\linewidth}{!}{
 		\begin{tabular}{lcccccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
 			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
@@ -927,9 +868,9 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			+视角增强模块 & 0.968 & 0.933 & 0.944 & 0.027 & 0.873 & 0.828 & 0.788 & 0.061   \\
 			+像素对比学习 & 0.969 & 0.938 & 0.948 & 0.024 & 0.898 & 0.848 & 0.827 & 0.055   \\
 			
-
 			
-			\bottomrule
+			
+			\bottomrule[2pt]
 		\end{tabular}
 		% }
 \end{table}
@@ -937,77 +878,33 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 
 
 
-\begin{table}
-	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
-		%		The best results are marked in \textbf{boldface}.
-		%	}
-	\bicaption{
-		DUTLF-FS 数据集上每个组件的消融分析。
-	}{
-		Ablation analyses of each component on the DUTLF-FS dataset.
-	}
+%------------------------------ figure: comparison
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+	\bicaption{在一些具有挑战性的场景中与最先进的方法进行定性比较}
+	{Qualitative comparisons of state-of-the-art methods in some challenging scenes}
+	\label{chpt4:fig:comparison_3}
+\end{figure}
+% 
+%
+
+
+
+在本小节，对提出的各个模块进行消融实验，
+分析每个组件或者策略对于显著性分割性能的影响。
+定量的消融实验结果展示在表~\ref{chpt4:tab:abl_tot}~中，
+定性的消融实验结果展示在图~\ref{chpt4:fig:comparison_3}~中。
+
+
+\begin{table}[!ht]
+	\bicaption{视角增强注意力模块的消融实验结果}
+	{Ablation experimental results of perspective-enhanced attention module}
 	\centering
 	\label{chpt4:tab:abl_attn}
 	%	\resizebox{0.82\linewidth}{!}{
 		\begin{tabular}{lcccccccc}
-			\toprule  %添加表格头部粗线
-			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
-			
-			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
-			
-%			\cmidrule(r){2-9} 
-			
-			\cmidrule(r){2-5} \cmidrule(r){6-9} 
-			
-			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
-			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$
-			\\
-			
-			\midrule
-			
-%			% 开始填写数据
-%			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
-%			
-%			\midrule
-		
-			
-			+自注意力 
-			& 0.964 & 0.926 & 0.935 & 0.031 
-			& 0.881 & 0.833 & 0.797 & 0.065   \\
-			
-			+交叉注意力
-			& 0.965 & 0.931 & 0.943 & 0.027 
-			& 0.881 & 0.833 & 0.795 & 0.060   \\
-			
-			+自掩码注意力  
-			& 0.965 & 0.935 & 0.944 & 0.025 
-			& 0.894 & 0.849 & 0.821 & 0.058   \\
-			
-			+掩码注意力   
-			& 0.971 & 0.94  & 0.949 & 0.022 
-			& 0.902 & 0.852 & 0.823 & 0.052  \\
-			
-			\bottomrule
-		\end{tabular}
-		% }
-\end{table}
-
-
-
-\begin{table}
-	%	\caption{Ablation analyses of each component on the DUTLF-FS dataset.
-		%		The best results are marked in \textbf{boldface}.
-		%	}
-	\bicaption{
-		DUTLF-FS 数据集上每个组件的消融分析。
-	}{
-		Ablation analyses of each component on the DUTLF-FS dataset.
-	}
-	\centering
-	\label{chpt4:tab:abl_loss}
-	%	\resizebox{0.82\linewidth}{!}{
-		\begin{tabular}{lcccccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
 			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
@@ -1022,46 +919,123 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			\midrule
 			
-
+			%			% 开始填写数据
+			%			\multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+			%			
+			%			\midrule
 			
-			二元交叉熵损失   & 0.965 & 0.931 & 0.943 & 0.027 & 0.885 & 0.840 & 0.810 & 0.056  \\
-			像素对比学习损失 & 0.971 & 0.940 & 0.949 & 0.022 & 0.902 & 0.852 & 0.823 & 0.052  \\
-
-			\bottomrule
+			
+			+自注意力 
+			& 0.964 & 0.926 & 0.935 & 0.031 
+			& 0.881 & 0.833 & 0.797 & 0.065   \\
+			
+			+交叉注意力
+			& 0.965 & 0.931 & 0.943 & 0.027 
+			& 0.881 & 0.833 & 0.795 & 0.060   \\
+			
+			+自掩码注意力  
+			& 0.965 & 0.935 & 0.944 & 0.025 
+			& 0.894 & 0.849 & 0.821 & 0.058   \\
+			
+			+掩码注意力   
+			& \textbf{0.971} & \textbf{0.940} & \textbf{0.949} & \textbf{0.022} 
+			& \textbf{0.902} & \textbf{0.852} & \textbf{0.823} & \textbf{0.052}  \\
+			
+			\bottomrule[2pt]
 		\end{tabular}
 		% }
 \end{table}
 
 
 
+（1）
+验证视角增强模块的有效性
 
-（2）定量比较
+
+本章提出的视角增强模块是利用在进行交叉注意力计算时注入显著性表示，
+使得交叉注意力权重能够合理分布。
+为来证明视角增强注意力模块的有效性，本章设计了在只包含基线网络和融合模块的
+基础上，逐渐添加视角增强注意力机制的组成部分，具体消融实验如
+表~\ref{chpt4:tab:abl_attn}~
+中所示。
+首先在基线模型中，引入了自注意力机制来增强焦点堆栈和全聚焦两个模态的特征表示，
+自注意力机制只在最高语义特征层添加，实验结果见表中第一行数据；
+为了跨模态的信息传递，我们在第二和第三语义特征层添加了交叉注意力计算，
+实验结果见表中第二行数据。
+为了应对交叉注意权重根据散焦图片不同清晰部分而弥散的问题，
+我们设计了使用显著性掩码表示来限制交叉注意力权重的视角增强方法，
+表中第三行表示使用来自自身模态的显著性掩码表示来增强交叉注意力，
+表中第四行表示使用来自跨模态的显著性掩码表示来增强交叉注意力权重。
+我们在使用掩码交叉注意力机制时，取得了最好的性能，
+这也说明来相较于只使用交叉注意力机制进行跨模态融合，
+我们基于显著性掩码表示的交叉注意力更能有效的从光场数据中探索显著性语义，
+本章所提出的掩码注意力更加合理。
+
+
+
+
+
+
+
+（2）
+验证像素对比监督的有效性
+
+为了验证像素对比监督策略的有效性，
+本章在基线网络的基础上，去掉像素对比学习头，并且只使用二元交叉熵损失进行监督，
+实验数据如表~\ref{chpt4:tab:abl_loss}~中第一行所示。
+之后添加对比学习头，并使用像素对比学习损失加以监督，
+实验结果见表中第二行，可以看到在DUTLF数据集上
+S-measure和F-measure分别提升了0.6\%和0.9\%。
+证明了本章像素对比监督方法对提升显著性网络预测精度的有效性。
+
+
+
+\begin{table}[!hb]
+	\bicaption{感知对比学习策略的消融实验}
+	{Ablation experiments on perceptual contrast learning strategies}
+	\centering
+	\label{chpt4:tab:abl_loss}
+	\resizebox{\linewidth}{!}{
+		\begin{tabular}{lcccccccc}
+			\toprule[2pt]  %添加表格头部粗线
+			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
+			
+			\multicolumn{1}{c}{ \multirow{2}*{模型设置}}	& \multicolumn{4}{c}{DUTLF-FS} & \multicolumn{4}{c}{HFUT} \\ 
+			
+			%			\cmidrule(r){2-9} 
+			
+			\cmidrule(r){2-5} \cmidrule(r){6-9} 
+			
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$
+			\\
+			
+			\midrule
+			
+			
+			
+			二元交叉熵损失   & 0.965 & 0.931 & 0.943 & 0.027 & 0.885 & 0.840 & 0.810 & 0.056  \\
+			像素对比学习损失 			
+			& \textbf{0.971} & \textbf{0.940} & \textbf{0.949} & \textbf{0.022} 
+			& \textbf{0.902} & \textbf{0.852} & \textbf{0.823} & \textbf{0.052}  \\
+			
+			\bottomrule[2pt]
+		\end{tabular}
+	}
+\end{table}
+
+
 
 %
 %
-\begin{table*}[!ht]
-	%
-	%---------------------------------------------------------------------> 大表 
-	%
-	%	\caption{Quantitative comparison of our proposed FPT with other 20 SOTA SOD methods on three benchmark datasets. 
-		%		$ \uparrow \& \downarrow $ denote larger and smaller is better.
-		%		%
-		%		% denote the best and the second-best results,
-		%		%
-		%		The best three results are shown in 
-		%		\textbf{boldface}, \textcolor{red}{red} and \textcolor{blue}{blue} fonts respectively. 
-		%		% '-' indicates the code or outcome is not available.
-		%	}
-	\bicaption{
-		在 3 个公开数据集上的定量比较
-	}{Quantitative comparisons on three light field datasets}
-	%	\renewcommand{\arraystretch}{1.5}
-	
+\begin{table}[!ht]
 	\centering
 	\label{chpt4:table:comp_with_sota_3_1}
+	\bicaption{在 3 个公开数据集上的定量比较}
+	{Quantitative comparisons on three light field datasets}
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{rcccccccccccc}
-			\toprule  %添加表格头部粗线
+			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
 			%			\multirow{2}*{Type} & 
@@ -1090,16 +1064,28 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			% 开始填数据
 			
-			Ours	 
-			&  {\textbf{.973}} & \textbf{ {.946}} 	& \textbf{ {.954}} & \textbf{ {.020}} 
-			& \textbf{ {.871}} &	\textbf{ {.828}} 			&\textbf{	 {.784}} & {\textcolor{red}{.064}} 
-			& \textbf{ {.919}} &	\textcolor{blue}{.860} 			&	\textbf{ {.873}} &	\textbf{ {.064}} 
+%			Ours	 
+%			&  {\textbf{.973}} & \textbf{ {.946}} 	& \textbf{ {.954}} & \textbf{ {.020}} 
+%			& \textbf{ {.871}} &	\textbf{ {.828}} 			&\textbf{	 {.784}} & {\textcolor{red}{.064}} 
+%			& \textbf{ {.919}} &	\textcolor{blue}{.860} 			&	\textbf{ {.873}} &	\textbf{ {.064}} 
+%			\\
+			
+			Ours
+			& \textbf{.971} & \textcolor{red}{.940}  & \textbf{.949}    & \textbf{.022} 
+			& \textbf{.902} & \textbf{.852} 		 & \textbf{.823}    & \textbf{.052}  
+			& \textcolor{red}{.919} & \textcolor{blue}{.864} & \textcolor{red}{.873} & \textcolor{red}{.064}
+			\\
+			
+			LFTrans \cite{liu2023lftransnet}
+			& \textcolor{red}{.962} & \textbf{.941} & \textcolor{red}{.937} & \textbf{.022}
+			& \textcolor{red}{.869} & \textcolor{red}{.838} & \textcolor{red}{.775} & \textcolor{red}{.062}
+			& \textbf{.925} & \textbf{.905} & \textbf{.900} & \textbf{.047}
 			\\
 			
 			DLGLRG \cite{liu2021light} 
-			& {\textcolor{red}{.958}} & {\textcolor{red}{.928}} 			& {\textcolor{red}{.934}} & {\textcolor{red}{.029}} 
+			& \textcolor{blue}{.958} & {\textcolor{red}{.928}} 			& {\textcolor{blue}{.934}} & {\textcolor{red}{.029}} 
 			&	.839 &	.766 &	.698 &	.070 
-			&	{\textcolor{red}{.906}} &	\textbf{ {.866}} 			&	{\textcolor{red}{.870}} &	\textcolor{blue}{.069} 
+			& \textcolor{blue}{.906} &	\textcolor{red}{.866} &	\textcolor{blue}{.870} &	.069
 			\\
 			
 			ERNet \cite{piao2020exploit}
@@ -1140,13 +1126,16 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			%			\multirow{6}*{\textit{RGB-D}}
 			
 			DCF \cite{ji2021calibrated} 
-			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
-			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+%			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
+%			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+			
+			& .954 & .921 & .927 & \textcolor{blue}{.031}
+			& .856 & \textcolor{blue}{.812} & \textcolor{blue}{.768} & \textcolor{blue}{.065}
 			& .881 & .809 & .821 & .096 \\
 			
 			CIR-Net \cite{cong2022cir}
 			& .950 & .916 & .921 & .038 
-			& {\textcolor{red}{.862}} & .800  			& .742 & \textbf{ {.062}} 
+			& \textcolor{blue}{.862} & .800 & .742 & \textcolor{red}{.062}
 			& .874 & .820 & .816 & .098 \\ 
 			
 			VST-$rgbd$  \cite{liu2021visual} 
@@ -1161,12 +1150,12 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			BBS-Net     \cite{fan2020bbs} 
 			& .900 & .865 & .852 & .066 
 			& .801 & .751 & .676 & .073 
-			& \textcolor{blue}{.901} & {\textcolor{red}{.864}} & .858 & .072 \\ 
+			& .901 & .860 & .858 & .072 \\ 
 			
 			SSF     \cite{zhang2020select} 
 			& .922 & .879 & .887 & .050 
 			& .816 & .725 & .647 & .090 
-			& \textcolor{blue}{.901} & .859 & \textcolor{blue}{.868} & {\textcolor{red}{.067}} \\ 
+			& .901 & .859 & .868 & \textcolor{blue}{.067} \\ 
 			
 			S2MA    \cite{liu2020learning} 
 			& .839 & .787 & .754 & 	.102 
@@ -1179,7 +1168,7 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			VST-$rgb$ \cite{liu2021visual} 
 			& .939 & .910 & .911 & .047
-			& .831 & \textcolor{blue}{.808} & \textcolor{blue}{.763} & .093 
+			& .831 & .808 & .763 & .093 
 			& .865 & .797 & .817 & .123 
 			\\ 
 			
@@ -1226,18 +1215,18 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			CPD  \cite{wu2019cascaded}
 			& .867 & .911 & .866 & .058 
-			& .772 & .82  & .701 & .086 
-			& .759 & .82  & .759 & .126 \\
+			& .772 & .820 & .701 & .086 
+			& .759 & .820 & .759 & .126 \\
 			
 			PoolNet \cite{liu2019simple}
 			& .889 & .919 & .868 & .051 
 			& .776 & .802 & .683 & .092 
-			& .789 & .8   & .769 & .118 \\
+			& .789 & .800 & .769 & .118 \\
 			
 			PiCANet \cite{liu2018picanet}
 			& .829 & .892 & .821 & .083 
 			& .726 & .781 & .618 & .115 
-			& .729 & .78  & .671 & .158 \\
+			& .729 & .780 & .671 & .158 \\
 			
 			PAGRN \cite{wang2018detect}
 			& .822 & .878 & .828 & .084 
@@ -1246,8 +1235,8 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			C2S   \cite{li2018contour}
 			& .844 & .874 & .791 & .084 
-			& .763 & .786 & .65  & .111 
-			& .806 & .82  & .749 & .113 \\
+			& .763 & .786 & .650 & .111 
+			& .806 & .820 & .749 & .113 \\
 			
 			R3Net  \cite{deng2018r3net}
 			& .833 & .819 & .783 & .113 
@@ -1256,20 +1245,32 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			Amulet \cite{zhang2017amulet}
 			& .847 & .882 & .805 & .030 
-			& .767 & .76  & .636 & .110  
+			& .767 & .760 & .636 & .110  
 			& .773 & .821 & .757 & .135 \\
 			
 			
-			\bottomrule % end
+			\bottomrule[2pt] % end
 		\end{tabular}
 	}
-\end{table*}
+\end{table}
 %
 %
 
 
-为了进行全面比较，我们将我们的方法与 26 个最先进的模型进行比较，
-包括6个光场显著性分割方法：
+\BiSubsection{对比实验}{Comparative Experiment}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+	\bicaption{在一些具有挑战性的场景中与最先进的方法进行定性比较}
+	{Qualitative comparisons of state-of-the-art methods in some challenging scenes}
+	\label{chpt4:fig:comparison_4}
+\end{figure}
+
+本节将本章方法与其他数据增强方法进行了比较。
+为了进行全面比较，我们将我们的方法与 27 个最先进的模型进行比较，
+包括7个光场显著性分割方法：
+LFTransNet \cite{liu2023lftransnet}，
 DLGLRG \cite{liu2021light}, RENet \cite{piao2020exploit}, LFNet \cite{zhang2020lfnet},
 MAC \cite{zhang2020light}, MoLF \cite{zhang2019memory}, and DLSD \cite{piao2019deep};
 %
@@ -1308,6 +1309,53 @@ Amulet \cite{zhang2017amulet}。
 %
 %
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（1）定性比较
+
+图~\ref{chpt4:fig:comparison_4}~展示来本章方法与目前最先进的显著性目标检测方法在
+不同场景的显著性预测的可视化效果。
+在1-3行中，显著性目标在不同深度范围中表现突出；
+4-5行描述了多变的背景情况；
+6-7行展示了显著性目标与背景相近的挑战。我们的方法可以准确且完整地预测这些复杂场景中的显著性目标。举例来说，EAR、LFNet和MOD等光场显著性检测算法可以准确定位目标，但无法完整预测；CPFP和PCA等RGB-D方法在有高质量深度图的场景中表现良好，但容易受到低质量深度图的干扰；CPD和PoolNet等RGB方法由于缺乏空间信息，在复杂场景中难以准确预测。
+%
+%
+%
+%
+%
+这些结果显示出我们提出的视角增强模块的光场数据探索方法更有效地利用多焦点数据，准确定位显著区域，
+并在特征整合中突出显著区域、抑制非显著区域。
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（2）定量比较
+
+表~\ref{chpt4:table:comp_with_sota_3_1}~展示了本章方法与现有方法在
+DUTLF-FS、HFUT和LFSD三个数据集上的实验结果，
+使用了E-measure、S-measure、F-measure和平均绝对误差四个评估指标来比较不同网络的性能。
+表格以横线分割成了三部分，第一部分表示的是光场显著性检测网络的性能对比，
+第二部分和第三部分分别是RGB-D显著性目标检测网络和RGB显著性目标检测网络在相应数据集上的泛化性能。
+每一列性能的前三分别用加粗、红色以及蓝色字体表示。
+本章方法在DUTLF-FS和HFUT两个数据集上的检测性能明显优于其他方法，并在DUTLF-FS上取得了与当前最有方法
+LFTransNet~\cite{liu2023lftransnet}~相媲美的性能，显著优于其他方法。
+特别是在困难场景最多的的HFUT数据集上，
+在E-measure指标上提升了3.8\%，
+在平均绝对误差上降低了 16.1\%.
+对E-measure指标的提升说明了，
+与现有的光场显著性目标检测方法相比，本章可以生成与真值更加相似的预测图。
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{本章总结}{The Chapter’s Conclusion}
 
 本章提出了一种视角增强的光场显著性目标检测方法。
