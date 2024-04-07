@@ -866,8 +866,14 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 			
 			基础网络     & 0.959 & 0.918 & 0.926 & 0.037 & 0.876 & 0.822 & 0.781 & 0.069   \\
 			+视角增强模块 & 0.968 & 0.933 & 0.944 & 0.027 & 0.873 & 0.828 & 0.788 & 0.061   \\
-			+像素对比学习 & 0.969 & 0.938 & 0.948 & 0.024 & 0.898 & 0.848 & 0.827 & 0.055   \\
 			
+			
+%			+像素对比学习 & \textbf{0.969} & \textbf{0.938} & \textbf{0.948} & \textbf{0.024} & \textbf{0.898} & \textbf{0.848} & \textbf{0.827} & \textbf{0.055}   \\
+			
+			+像素对比学习
+			& \textbf{0.971} & \textbf{0.940} & \textbf{0.949} & \textbf{0.022} 
+			& \textbf{0.902} & \textbf{0.852} & \textbf{0.823} & \textbf{0.052}  
+			\\
 			
 			
 			\bottomrule[2pt]
@@ -881,20 +887,11 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 %------------------------------ figure: comparison
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+	\includegraphics[width=\linewidth]{figures/chapter4/attn_show}
 	\bicaption{在一些具有挑战性的场景中与最先进的方法进行定性比较}
 	{Qualitative comparisons of state-of-the-art methods in some challenging scenes}
-	\label{chpt4:fig:comparison_3}
+	\label{chpt4:figure:attn_show}
 \end{figure}
-% 
-%
-
-
-
-在本小节，对提出的各个模块进行消融实验，
-分析每个组件或者策略对于显著性分割性能的影响。
-定量的消融实验结果展示在表~\ref{chpt4:tab:abl_tot}~中，
-定性的消融实验结果展示在图~\ref{chpt4:fig:comparison_3}~中。
 
 
 \begin{table}[!ht]
@@ -948,6 +945,14 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 
 
 
+
+在本小节，对提出的各个模块进行消融实验，
+分析每个组件或者策略对于显著性分割性能的影响。
+定量的消融实验结果展示在表~\ref{chpt4:tab:abl_tot}~中，
+定性的消融实验结果展示在图~\ref{chpt4:figure:attn_show}~中。
+
+
+
 （1）
 验证视角增强模块的有效性
 
@@ -968,9 +973,32 @@ DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本
 表中第四行表示使用来自跨模态的显著性掩码表示来增强交叉注意力权重。
 我们在使用掩码交叉注意力机制时，取得了最好的性能，
 这也说明来相较于只使用交叉注意力机制进行跨模态融合，
-我们基于显著性掩码表示的交叉注意力更能有效的从光场数据中探索显著性语义，
+本章提出的基于显著性掩码表示的交叉注意力更能有效的从光场数据中探索显著性语义，
 本章所提出的掩码注意力更加合理。
 
+
+
+为了定性展示本章所使用的视角增强模块的有效性，
+可视化了使用全聚焦图特征和焦点堆栈特征进行交叉注意力计算的权重图，
+如图~\ref{chpt4:figure:attn_show}~所示，
+其中(a)表示全聚焦支路，(b)表示焦点堆栈支路。
+图中第一行是原始RGB图片，第二行是只使用交叉注意力机制生成的权重图，
+特征使用的是骨干网络输出的最高层语义特征，经过注意力机制计算后，
+使用双线性插值方法到原图大小后进行可视化。
+第三行代表的是添加视角增强的掩码交叉注意力机制后的特征图；
+第四行代表的是在进行掩码注意力时，使用交叉支路的掩码表示来互相增强权重后的可视化效果。
+在图中，使用了红色的虚线框对差异部分进行着重表示。
+左侧第二列的虚线框表示，只使用交叉注意力时，
+只能注意到当前焦点切片图片中与全聚焦图共清晰的部分。
+更多样例如第二行所示，在后几张焦点切片图片中，
+交叉注意权重矩阵偏向场景中背景清晰的部分，给网络带来了误导的注意权重，
+不利于网络学习显著性语义信息。
+而通过添加掩码交叉注意力机制，如图中第二列所示，本来只注意到标志牌的权重特征，
+开始逐渐注意场景中绿色的汽车，并注意向两个共有的显著性语义靠拢。
+图中倒数三列，原始交叉注意力的权重更多的分布在共清晰的背景语义上，
+通过掩码交叉注意力机制，
+非显著的背景语义信息被逐渐抑制，并使得权重矩阵向着共显著性语义信息累计。
+通过比较可视化特征图，展示了本章所提出的基于视角增强的掩码交叉注意力机制的有效性。
 
 
 
@@ -1261,7 +1289,7 @@ S-measure和F-measure分别提升了0.6\%和0.9\%。
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_3}
+	\includegraphics[width=\linewidth]{figures/chapter3/compare_1}
 	\bicaption{在一些具有挑战性的场景中与最先进的方法进行定性比较}
 	{Qualitative comparisons of state-of-the-art methods in some challenging scenes}
 	\label{chpt4:fig:comparison_4}
