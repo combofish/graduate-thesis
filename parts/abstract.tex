@@ -4,88 +4,22 @@
 %% last update: Apr 27th, 2022
 %%==================================================
 
-\begin{abstract}
+
 %大连理工大学硕士研究生撰写学位论文应当符合写作规范和排版格式的要求，以下格式为研究生院依据国家标准和行业规范所编制的硕士学位论文模板，供硕士研究生参照使用。\par 论文摘要是学位论文的缩影，文字要简练、明确。内容要包括目的、方法、结果和结论。单位制一律换算成国际标准计量单位制，除特殊情况外，数字一律用阿拉伯数码。文中不允许出现插图，重要的表格可以写入。\par  摘要的主要内容为，简述全文的目的和意义、采用方法、主要研究内容和结论。\par 篇幅以一页为限，摘要正文后列出3－5个关键词，关键词与摘要之间空一行。\par“关键词：”是关键词部分的引导，不可省略。\par 关键词请尽量用《汉语主题词表》等词表提供的规范词。关键词之间用分号间隔，末尾不加标点。
 %
 %
 %
 %
-	
-	
-显著性目标检测的目标在于识别图像中最引人注目的对象或区域，这是计算机视觉领域中一个重要的任务。现有的显著性目标检测算法根据输入数据的类型可以被分为三类：RGB、RGB-D和光场方法。与RGB和RGB-D数据相比，光场数据包含了更丰富的场景信息，可以满足对于复杂场景信息的需求。近年来，随着深度卷积神经网络的发展，它取代了传统的基于手工特征的算法，显著提升了光场显著性目标检测的性能。
 %
 %
 %然而，实际应用中存在较高的光场数据获取成本、复杂的光场多线索信息处理以及耗时耗力的显著性像素级标注，这导致当前光场显著性目标检测数据稀缺，为深度模型提供足够支持的数据不足。为解决这些问题，本文从高效利用光场信息和增广光场数据两个角度出发，探索利用有限数据驱动的光场显著性目标检测方法。
 %
 %
-然而，实际应用中存在复杂的光场信息提取以及跨模态的光场信息融合难等问题，
-这导致了当前光场显著性检测深度模型难以有效辨别光场场景的的显著性物体表示。
 %
 %
-为了解决这些问题，本文从焦点感知和视角增强两个角度出发，
-探索基于聚焦感知的光场显著性检测方法。
-本文的主要工作及创新点如下所述：
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% 第一个工作点
+%最近，光场显著性物体检测（LFSOD）因在复杂场景中利用丰富的光场线索取得显著改进而引起了越来越多的关注。虽然许多工作在这一领域取得了显著进展，但对其焦点特性的更深入洞察应该被开发。在这项工作中，提出了焦点感知变换器（FPT），可以高效地编码焦点堆栈内和全部焦点图像中的上下文。具体而言，引入了与焦点相关的令牌来总结图像特定特征，并且提出了令牌通信模块（TCM）来传达信息并促进空间上下文建模。通过精确编码的与焦点相关的令牌之间的信息交换，可以丰富每幅图像的特征并与其他图像相关联。还提出了焦点感知增强（FPE）策略，以帮助抑制嘈杂的背景信息。对四个广泛使用的基准数据集进行的大量实验证明，所提出的模型优于当前最先进的方法。的代码将公开提供。
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（1）
-%
-%
-%最近，光场显著性物体检测（LFSOD）因在复杂场景中利用丰富的光场线索取得显著改进而引起了越来越多的关注。虽然许多工作在这一领域取得了显著进展，但对其焦点特性的更深入洞察应该被开发。在这项工作中，我们提出了焦点感知变换器（FPT），可以高效地编码焦点堆栈内和全部焦点图像中的上下文。具体而言，我们引入了与焦点相关的令牌来总结图像特定特征，并且提出了令牌通信模块（TCM）来传达信息并促进空间上下文建模。通过精确编码的与焦点相关的令牌之间的信息交换，可以丰富每幅图像的特征并与其他图像相关联。我们还提出了焦点感知增强（FPE）策略，以帮助抑制嘈杂的背景信息。对四个广泛使用的基准数据集进行的大量实验证明，所提出的模型优于当前最先进的方法。我们的代码将公开提供。
-%
-%
-面对如何有效利用复杂场景中丰富的光场线索的挑战，
-本文提出了一种聚焦感知网络探索光场数据的方法。
-%
-%
-该方法主要包含两个模块：令牌通信模块和焦点感知增强模块。
-%
-%
-其中令牌通信模块通过嵌入式令牌表示汇总建立全聚焦图片和焦点堆栈的切片级特征，
-并通过令牌作为信息传递的桥梁，促进网络对空间上下文建模。
-%
-%
-焦点感知增强模块充分考虑不同聚焦切片对于显著性的影响，
-通过判断每个散焦切片的聚焦程度，来突出不同焦点切片中
-显著性区域，同时抑制非显著性区域带来的负面影响。
-%
-%
-相比现有的方法，本文方法通过附加嵌入式令牌的方式，
-对光场的整体三维场景进行了切片级的探索，
-并考虑了不同散焦切片对显著性预测的贡献，
-能够更有效的利用光场信息。
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% 第二个工作点
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（2）
-%
-%
-面对如何高效的利用光场数据中全聚焦图和焦点堆栈两个模态的差异信息，
-本文提出了一种视角增强网络探索光场数据的方法。
-%
-%
-该方法主要包含两个主要部分：视角增强注意力模块和感知对比学习策略。
-%
-%
-其中视角增强注意力模块通过对两个模态做交叉注意力时引入跨模态的掩码表达，
-加强了注意力权重在不同聚焦区域上的显著性表达。
-%
-%
-感知对比学习策略考虑显著性预测的前景区域内部，与背景区域内部的一致性表达。
-%
-%
-相比现有的光场显著性检测方法，本文方法对光场数据进行跨模态的特征融合，
-充分考虑了焦点堆栈和全聚焦图对最终显著性预测的贡献，
-能够产生更为鲁棒的显著性物体表达。
-
-
 %
 %
 %面对如何高效的挖掘有限光场数据的挑战,本文提出了一种区域感知网络探索
@@ -99,9 +33,81 @@
 %更有效的利用了光场信息。
 %
 %
+
+\begin{abstract}
+
+	
+显著性目标检测的目标在于识别图像中最引人注目的对象或区域，这是计算机视觉领域中一个重要的任务。现有的显著性目标检测算法根据输入数据的类型可以被分为三类：RGB、RGB-D和光场方法。与RGB和RGB-D数据相比，光场数据包含了更丰富的场景信息，可以满足对于复杂场景信息的需求。近年来，随着深度卷积神经网络的发展，它取代了传统的基于手工特征的算法，显著提升了光场显著性目标检测的性能。
+然而，实际应用中存在复杂的光场信息提取以及跨模态的光场信息融合难等问题，
+这导致了当前光场显著性检测深度模型难以有效辨别光场场景的的显著性物体表示。
+为了解决这些问题，本文从焦点感知和视角增强两个角度出发，
+探索基于聚焦感知的光场显著性检测方法。
+本文的主要工作及创新点如下所述：
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 第一个工作点
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（1）
+面对如何有效利用复杂场景中丰富的光场线索的挑战，
+本文提出了一种聚焦感知网络探索光场数据的方法。
+该方法主要包含两个模块：令牌通信模块和焦点感知增强模块。
+其中令牌通信模块通过嵌入式令牌表示汇总建立全聚焦图片和焦点堆栈的切片级特征，
+并通过令牌作为信息传递的桥梁，促进网络对空间上下文建模。
+焦点感知增强模块充分考虑不同聚焦切片对于显著性的影响，
+通过判断每个散焦切片的聚焦程度，来突出不同焦点切片中
+显著性区域，同时抑制非显著性区域带来的负面影响。
+相比现有的方法，本文方法通过附加嵌入式令牌的方式，
+对光场的整体三维场景进行了切片级的探索，
+并考虑了不同散焦切片对显著性预测的贡献，
+能够更有效的利用光场信息。
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 第二个工作点
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（2）
+面对如何高效的利用光场数据中全聚焦图和焦点堆栈两个模态的差异信息，
+本文提出了一种视角增强网络探索光场数据的方法。
+该方法主要包含两个主要部分：视角增强注意力模块和感知对比学习策略。
+其中视角增强注意力模块通过对两个模态做交叉注意力时引入跨模态的掩码表达，
+加强了注意力权重在不同聚焦区域上的显著性表达。
+感知对比学习策略考虑显著性预测的前景区域内部，与背景区域内部的一致性表达。
+相比现有的光场显著性检测方法，本文方法对光场数据进行跨模态的特征融合，
+充分考虑了焦点堆栈和全聚焦图对最终显著性预测的贡献，
+能够产生更为鲁棒的显著性物体表达。
+
+
+
 \keywords{显著性目标检测；光场；聚焦感知；多模态特征融合; 交叉注意力}
 \end{abstract}
 
+
+\begin{englishabstract}	
+	
+The goal of salient object detection is to identify the most prominent objects or regions in an image, which is an important task in the field of computer vision. Existing salient object detection algorithms can be divided into three categories based on the type of input data: RGB, RGB-D, and light field methods. Compared to RGB and RGB-D data, light field data contains richer scene information, which can meet the demand for complex scene information. In recent years, with the development of deep convolutional neural networks, they have replaced traditional handcrafted feature-based algorithms, significantly improving the performance of light field salient object detection. 
+However, there are challenges in practical applications such as extracting complex light field information and integrating cross-modal light field information, making it difficult for current deep models for light field saliency detection to effectively distinguish salient object representations in light field scenes. In order to address these challenges, this paper explores a focus-aware light field saliency detection method from two perspectives: focus perception and perspective enhancement. The main work and innovative points of this paper are as follows: 
+
+
+	
+(1)
+In the face of the challenge of effectively utilizing the rich light field clues in complex scenes, this paper proposes a focus perception network to explore light field data. The method primarily consists of two modules: the token communication module and the focus-aware enhancement module. The token communication module summarizes the slice-level features of the all-in-focus image and focal stack by embedding token representations, and by using tokens as bridges for information transfer, facilitates spatial context modeling within the network. The focus-aware enhancement module fully considers the impact of different focus slices on saliency, highlighting salient regions in different focus slices by assessing the degree of focus for each defocused slice, while suppressing the negative effects of nonsalient regions. Compared to existing methods, this method explores the entire three-dimensional scene of the light field at the slice level by adding embedded tokens, considering the contributions of different defocused slices to saliency prediction, and can more effectively utilize light field information. 
+
+
+	
+(2)
+Facing the challenge of efficiently utilizing the differential information between the all-in-focus image and the focal stack in light field data, this paper proposes a perspective-enhanced network to explore light field data. The method mainly consists of two key parts: perspective-enhanced attention module and perceptual contrastive learning strategy. The perspective-enhanced attention module introduces cross-modal mask expressions when performing cross-modal attention on the two modalities, enhancing the salient representation of attention weights in different focus regions. The perceptual contrastive learning strategy considers the consistency expression within the foreground regions of saliency prediction and the background regions. Compared to existing methods for light field saliency detection, this method performs cross-modal feature fusion on light field data, fully considering the contributions of the focal stack and the all-in-focus image to the final saliency prediction, resulting in more robust representations of salient objects. 
+	
+	
+\englishkeywords{Salient Object Detection; Light Field; Focus Perception; Multimodal Feature Fusion; Cross-modal Attention}
+	
+\end{englishabstract}
 
 
 

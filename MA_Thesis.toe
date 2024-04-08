@@ -9,35 +9,39 @@
 \contentsline {section}{\numberline {1.3}Main Content and Structural Arrangement}{6}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}Main Content}{6}{subsection.1.3.1}%
 \contentsline {subsection}{\numberline {1.3.2}Structural Arrangement}{7}{subsection.1.3.2}%
-\contentsline {chapter}{\numberline {2}Related Theories}{8}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Basic Theory of Light Field Technology}{8}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Principles of Light Field Imaging}{9}{subsection.2.1.1}%
+\contentsline {chapter}{\numberline {2}Related Theories}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Basic Theory of Light Field Technology}{9}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Principles of Light Field Imaging}{10}{subsection.2.1.1}%
 \contentsline {subsection}{\numberline {2.1.2}Visualization of Light Field Data}{11}{subsection.2.1.2}%
-\contentsline {section}{\numberline {2.2}Principle of Light Field Salient Object Detection Algorithm}{14}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Principles of Salient Object Detection via Multi-view Images}{14}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Principles of Salient Object Detection via Focus Stack}{14}{subsection.2.2.2}%
-\contentsline {section}{\numberline {2.3}Performance Evaluation Metrics for Salient Object Detection}{16}{section.2.3}%
-\contentsline {section}{\numberline {2.4}The Chapter’s Conclusion}{18}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Light Field Salient Object Detection Based on Focus Perception}{19}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Research Motivation}{19}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Method Introduction}{20}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Token Interaction Module}{23}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Focus Perception Enhancement Strategy}{24}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Training Process}{26}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Experimental Results and Analysis}{27}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Experimental Setup}{27}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Ablation Experiment}{28}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Comparative Experiment}{31}{subsection.3.3.3}%
-\contentsline {section}{\numberline {3.4}The Chapter’s Conclusion}{33}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Light Field Salient Object Detection Based on Perspective Enhancement }{34}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Research Motivation}{34}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Method Introduction}{35}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Viewpoint Enhancement Module}{36}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Contrastive Perception Learning Strategy}{40}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Training Process}{42}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Experimental Results and Analysis}{42}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Experimental Setup}{42}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Ablation Experiment}{42}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Comparative Experiment}{44}{subsection.4.3.3}%
-\contentsline {section}{\numberline {4.4}The Chapter’s Conclusion}{47}{section.4.4}%
-\contentsline {chapter}{References}{48}{chapter*.37}%
+\contentsline {section}{\numberline {2.2}Principle of Light Field Salient Object Detection Algorithm}{12}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Principles of Salient Object Detection via Multi-view Images}{12}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Principles of Salient Object Detection via Focus Stack}{13}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Performance Evaluation Metrics for Salient Object Detection}{14}{section.2.3}%
+\contentsline {section}{\numberline {2.4}The Chapter’s Conclusion}{16}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Light Field Salient Object Detection Based on Focus Perception}{17}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Research Motivation}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Method Introduction}{18}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Token Interaction Module}{19}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Focus Perception Enhancement Strategy}{20}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Training Process}{22}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Experimental Results and Analysis}{22}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Experimental Setup}{22}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Ablation Experiment}{23}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Comparative Experiment}{24}{subsection.3.3.3}%
+\contentsline {section}{\numberline {3.4}The Chapter’s Conclusion}{25}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Light Field Salient Object Detection Based on Perspective Enhancement }{26}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Research Motivation}{26}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Method Introduction}{27}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Viewpoint Enhancement Module}{27}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Contrastive Perception Learning Strategy}{30}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Training Process}{32}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Experimental Results and Analysis}{32}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Experimental Setup}{32}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Ablation Experiment}{33}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Comparative Experiment}{34}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}The Chapter’s Conclusion}{35}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Conclusions and Prospection}{36}{chapter.5}%
+\contentsline {section}{\numberline {5.1} Conclusions}{36}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Highlights}{36}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Prospection}{37}{section.5.3}%
+\contentsline {chapter}{References}{38}{chapter*.5}%

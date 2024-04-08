@@ -62,6 +62,17 @@
 \usepackage{soul}
 
 
+
+\usepackage{comment}
+\excludecomment{figure}
+\let\endfigure\relax
+
+\excludecomment{table}
+\let\endtable\relax
+
+
+
+
 %==============更改数学字体设置，Latin Modern Math 默认的的确有点细，看个人需要，下面提供一种方法，需要的可以取消注释=========%
 
 % \usepackage[bold-style=ISO]{unicode-math} %采用unicode-math，可以直接输入Unicode公式，当然传统的输入就行
@@ -107,7 +118,7 @@
 
 % 摘要
 %\include{chapters/abstract}
-%\include{parts/abstract}
+\include{parts/abstract}
 %\include{parts/abstract_eng}
 
 
@@ -115,7 +126,7 @@
 
 % 加入目录
 \tableofcontents
-%\tableofengcontents
+\tableofengcontents
 
 % 加入图、表索引(同时取消图表索引中章之间的垂直间隔)
 %\let\origaddvspace\addvspace
@@ -143,7 +154,7 @@
 \include{parts/part3}
 \include{parts/part4}
 %\include{parts/partcc}
-%\include{parts/conclusions}
+\include{parts/conclusions}
 
 
 %\include{chapters/chapter1}

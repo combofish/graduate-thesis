@@ -24,13 +24,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiChapter{相关理论}{Related Theories}
 \label{chap:part2}
 
 \BiSection{光场技术基本理论}{Basic Theory of Light Field Technology}
 
-光场的概念最早由A.Gershun~\cite{gershun1939light}教授提出，是空间中光线集合的完备表示，采集并显示光场就能在视觉上重现真实世界。
-1991年，MIT的Edward H.Adelson教授和James R.Bergen\cite{adelson1991plenoptic}教授指出人眼对光线的视觉感知可以认为是沿着单一函数的一个或多个方向的局部变化，描述了光照射到观察面的信息结构。
+光场的概念最早由A.Gershun\upcite{gershun1939light}教授提出，是空间中光线集合的完备表示，采集并显示光场就能在视觉上重现真实世界。
+1991年，MIT的Edward H.Adelson教授和James R.Bergen\upcite{adelson1991plenoptic}教授指出人眼对光线的视觉感知可以认为是沿着单一函数的一个或多个方向的局部变化，描述了光照射到观察面的信息结构。
 一旦定义了这个函数，各种潜在的视觉属性（如运动、颜色和方向）的测量就能够自动分离出来。
 这个函数被称为全光函数，表示为：
 %$$$$
@@ -40,7 +43,7 @@
 其中$(x,y,z)$为发光物体的空间位置，$(\theta,\varphi)$分别表示传播光线入射的垂直角度和水平角度，$\lambda$表示传播光线的波长，发光物体所发射的光线信息随时时间$t$的推移而变化。
 然而，这种能够记录空间中光线信息的七维全光函数过于复杂、数据量大，难以记录和存储，在实际计算中并未得到应用。
 需要对其进行简化处理。
-McMillan等~\cite{mcmillan2023plenoptic}在七维全光函数的基础上提出了
+McMillan等\upcite{mcmillan2023plenoptic}在七维全光函数的基础上提出了
 简化波长$\lambda$和时间$t$的更为方便的五维光场模型。
 \begin{equation}
 	P(x,y,z,\theta,\varphi)
@@ -63,7 +66,7 @@ McMillan等~\cite{mcmillan2023plenoptic}在七维全光函数的基础上提出�
 %
 %
 %
-Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场模型，
+Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场模型，
 同时提出光场渲染理论和双平面模型来描述静态的可见光。
 双平面模型利用两个互相平行的参数化平面表示四维光场。
 假设光线在没有遮挡物和散射介质的区域，忽略光线在传播过程中波长和时间维度的变化，
@@ -84,7 +87,6 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 %
 %发展出了适用于光学系统的光场双平面参数特征。
 %假设一条光线在两个不共面的平面$(u,v)$和平面$(s,t)$各有一个交点，则该光线可以用这两个交点唯一表示。
-% \emph{et~al.}~
 %光场是计算机科学领域的学者定义的“Light Field”，是指除了包含原图像矩阵中的空间坐标$(x,y)$和强度$I$外，还有光线入射的角度信息$(\theta,\varphi)$。
 %光在传播过程中的各种潜在的视觉属性（如运动、颜色和方向）。
 
@@ -134,7 +136,7 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 	\bicaption{时间序列光场成像}{Time-series light field imaging}  
 	\label{chapter2_fig3:time_seq2}
 \end{figure}
-（2）除了多个相机阵列排布外，Marc Levoy等人\cite{levoy2023light}采用了单相机扫描系统。
+（2）除了多个相机阵列排布外，Marc Levoy等人\upcite{levoy2023light}采用了单相机扫描系统。
 他们通过让相机在固定的导轨上移动，分时获取不同空间视角下的场景图像，
 最后将这些图像进行融合，从而实现相同的功能。
 图~\ref{chapter2_fig3:time_seq2}~是典型的时序采集光场信息的示例。
@@ -158,11 +160,11 @@ Levoy等~\cite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 （3）空域复用的成像方式通过在图像传感器上安装微透镜阵列来实现，这是光场采集中常见的方式之一。
 图~\ref{chapter2_fig4:microlens_for_lf_imaging}~展示了这种空域复用的成像方式的工作原理：通过将微透镜阵列插入普通成像系统的主透镜的一次像面，每个微透镜单元及其对应的传感器区域记录了光线从不同视角成像的集合，从而获得包含位置和传播方向的四维光场数据。
 空域复用的成像方式优势在于结构紧凑，一次曝光即可捕捉光线强度与方向，适用于不同场景和动态场景的光场信息采集。
-1992年，Adelson~\cite{adelson1992single}及其团队首次提出了利用微透镜阵列的光场相机模型；
+1992年，Adelson\upcite{adelson1992single}及其团队首次提出了利用微透镜阵列的光场相机模型；
 然而，这种空域复用方式需要在空间分辨率和角度分辨率之间进行权衡。
 当角度分辨率最大时，微透镜与图像传感器重合，空间分辨率最小；反之亦然。
 为解决这一问题，
-Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图像传感器相对位置的聚焦光场相机结构，
+Georgiev\upcite{georgiev2010focused}在2021年提出了可调整微透镜与图像传感器相对位置的聚焦光场相机结构，
 实现了角度分辨率与空间分辨率的动态调整。
 %
 % 相机阵列的体积庞大，限制了其应用范围。
@@ -397,14 +399,14 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 %深度与多视角之间存在密切关系，根据这些关系建模是当前基于多视角图像的显著性目标检测的重要研究方向。
 在深度模型中引入场景结构线索是当前基于多视角图像的显著性目标检测研究的重点之一。
 %根据公式 2.4 揭示的关系，在深度模型中引入场景结构线索是当前基于多视角图像的显著性目标检测研究的重点之一。
-其中，MAC~\cite{zhang2020light}是一项具有代表性的工作，
+其中，MAC\upcite{zhang2020light}是一项具有代表性的工作，
 它通过将微透镜图像阵列输入端到端的卷积神经网络中，
 首先对单视点图像的角度变化进行建模，然后将提取的特征输入到现有网络模型中，以捕获多尺度和长程空间依赖信息。
 %
 %
 %此外，类似的方法还包括 DLSD[24]，它将光场显著性目标检测任务拆分为两个子任务：通过合成多视角图像来定位显著性目标。这些方法通过利用视差和多视角图像之间的关系完成合成光场的任务。
 %
-此外，还有像DLSD~\cite{piao2019deep}这样的方法，
+此外，还有像DLSD\upcite{piao2019deep}这样的方法，
 它将光场显著性目标检测分解为两个部分：
 一个是从中心视角图像生成多视角光场图像，
 另一个是从合成的多视角图像中定位显著性目标。
@@ -422,7 +424,7 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 
 
 
-张等研究者~\cite{zhang2022exploring}~所提出的 ESCNet网络，
+张等研究者\upcite{zhang2022exploring}所提出的 ESCNet网络，
 将光场显著性检测重新构造成为两个子问题：
 从单个视图中进行光场合成和基于光场的显著性目标检测。
 即先用一个高质量的光场合成网络，生成可靠的4D光场信息，
@@ -466,7 +468,7 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 传统光场显著性目标检测方法使用焦点堆栈依赖手动处理的低级特征。
 它们首先对输入图像进行超像素分割，然后编码焦点堆栈的聚焦度量线索，
 并结合先验知识定位显著性目标。
-本文通过LFS~\cite{li2014saliency}模型详细介绍这一原理。
+本文通过LFS\upcite{li2014saliency}模型详细介绍这一原理。
 在LFS中，通过计算不同切片间的结构相似性来获得聚焦度量，结合位置先验知识识别背景和前景切片。
 接着，在全聚焦图像中计算背景先验和对比度，生成粗略的显著性图。
 最后，将粗糙显著性图与前景切片的粗糙显著性图合并。
@@ -481,7 +483,9 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 基于深度学习的焦点堆栈显著性目标检测模型通过特征提取和特征融合两个阶段来实现显著性检测。
 如图~\ref{cpt2_fig9:model_of_fs_inputs}~中所示，
 在特征提取阶段，利用编码器从全聚焦图像和焦点堆栈中提取低阶特征和高阶特征；
-而在特征融合阶段，通过采用注意力机制\cite{zhang2021learning}或ConvLSTM\cite{zhang2019memory}对焦点堆栈特征和全聚焦图像特征进行加权求和，实现跨模态的特征融合。最终，经过一层卷积层和Sigmoid层处理后得到最终预测结果。
+而在特征融合阶段，
+通过采用注意力机制\upcite{zhang2021learning}
+或ConvLSTM\upcite{zhang2019memory}对焦点堆栈特征和全聚焦图像特征进行加权求和，实现跨模态的特征融合。最终，经过一层卷积层和Sigmoid层处理后得到最终预测结果。
 目前的研究多致力于在特征融合阶段探索更为有效的特征整合策略，以提高检测性能。
 %
 %
@@ -529,10 +533,10 @@ Georgiev~\cite{georgiev2010focused}在2021年提出了可调整微透镜与图�
 分别包括
 平均绝对误差（Mean Absolute Error，MAE）、
 精确率-召回率曲线（P-R曲线）、
-F-measure\cite{achanta2009frequency}、
-加权的F-measure\cite{margolin2014evaluate}、
-E-measure~\cite{fan2018enhanced}和
-S-measure~\cite{fan2017structure}。\par
+F-measure\upcite{achanta2009frequency}、
+加权的F-measure\upcite{margolin2014evaluate}、
+E-measure\upcite{fan2018enhanced}和
+S-measure\upcite{fan2017structure}。
 
 
 
@@ -630,7 +634,7 @@ F-measure之所以受人青睐在于其综合考量了精确率和召回率，
 加权的F-measure\par
 %
 %
-加权F-measure克服了依赖缺陷、等重要缺陷和插值缺陷\cite{margolin2014evaluate}。也是评估显著性预测图时经常会使用的评价指标。其公式如下：
+加权F-measure克服了依赖缺陷、等重要缺陷和插值缺陷\upcite{margolin2014evaluate}。也是评估显著性预测图时经常会使用的评价指标。其公式如下：
 \begin{equation}
 	F_{\beta}^{w} = \frac{\left ( 1 + \beta^{2} \right ) \times Precision^{w}  \times Recall^{w} }{\beta^{2} \times Precision^{w} + Recall^{w} } 
 \end{equation}
@@ -697,7 +701,7 @@ S-measure 的评估指标公式如下所示：
 %
 其中，$S_{o}$代表对象级的结构相似性，$S_{r}$代表区域级的结构相似性，
 而$\alpha$则用于平衡$S_{o}$和$S_{r}$的影响。
-通常来说，根据Fan等人~\upcite{fan2018enhanced}的设定，
+通常来说，根据Fan等人\upcite{fan2018enhanced}的设定，
 $\alpha$被设定为0.5。
 很显然，对于与真值越接近的显著性预测图，S-measure值就越高。
 %
