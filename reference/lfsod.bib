@@ -1,4 +1,384 @@
 
+
+# ----------- SOD-RGBD
+@inproceedings{peng2014rgbd,
+	title={RGBD salient object detection: A benchmark and algorithms},
+	author={Peng, Houwen and Li, Bing and Xiong, Weihua and Hu, Weiming and Ji, Rongrong},
+	booktitle={Computer Vision--ECCV 2014: 13th European Conference, Zurich, Switzerland, September 6-12, 2014, Proceedings, Part III 13},
+	pages={92--109},
+	year={2014},
+	organization={Springer}
+}
+@inproceedings{hu2022multi,
+	title={Multi-scale residual interaction for RGB-D salient object detection},
+	author={Hu, Mingjun and Zhang, Xiaoqin and Zhao, Li},
+	booktitle={Proceedings of the Asian Conference on Computer Vision},
+	pages={2494--2509},
+	year={2022}
+}
+@inproceedings{cheng2014depth,
+	title={Depth enhanced saliency detection method},
+	author={Cheng, Yupeng and Fu, Huazhu and Wei, Xingxing and Xiao, Jiangjian and Cao, Xiaochun},
+	booktitle={Proceedings of international conference on internet multimedia computing and service},
+	pages={23--27},
+	year={2014}
+}
+@inproceedings{zhao2020single,
+	title={A single stream network for robust and real-time RGB-D salient object detection},
+	author={Zhao, Xiaoqi and Zhang, Lihe and Pang, Youwei and Lu, Huchuan and Zhang, Lei},
+	booktitle={Computer Vision--ECCV 2020: 16th European Conference, Glasgow, UK, August 23--28, 2020, Proceedings, Part XXII 16},
+	pages={646--662},
+	year={2020},
+	organization={Springer}
+}
+@inproceedings{piao2020a2dele,
+	title={A2dele: Adaptive and attentive depth distiller for efficient RGB-D salient object detection},
+	author={Piao, Yongri and Rong, Zhengkun and Zhang, Miao and Ren, Weisong and Lu, Huchuan},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={9060--9069},
+	year={2020}
+}
+@inproceedings{zhang2021rgb,
+	title={RGB-D saliency detection via cascaded mutual information minimization},
+	author={Zhang, Jing and Fan, Deng-Ping and Dai, Yuchao and Yu, Xin and Zhong, Yiran and Barnes, Nick and Shao, Ling},
+	booktitle={Proceedings of the IEEE/CVF international conference on computer vision},
+	pages={4338--4347},
+	year={2021}
+}
+@inproceedings{zhou2021specificity,
+	title={Specificity-preserving RGB-D saliency detection},
+	author={Zhou, Tao and Fu, Huazhu and Chen, Geng and Zhou, Yi and Fan, Deng-Ping and Shao, Ling},
+	booktitle={Proceedings of the IEEE/CVF international conference on computer vision},
+	pages={4681--4691},
+	year={2021}
+}
+@inproceedings{zhang2020select,
+	title={Select, supplement and focus for RGB-D saliency detection},
+	author={Zhang, Miao and Ren, Weisong and Piao, Yongri and Rong, Zhengkun and Lu, Huchuan},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={3472--3481},
+	year={2020}
+}
+@article{wang2019adaptive,
+	title={Adaptive fusion for RGB-D salient object detection},
+	author={Wang, Ningning and Gong, Xiaojin},
+	journal={IEEE Access},
+	volume={7},
+	pages={55277--55284},
+	year={2019},
+	publisher={IEEE}
+}
+@inproceedings{ji2021calibrated,
+	title={Calibrated RGB-D salient object detection},
+	author={Ji, Wei and Li, Jingjing and Yu, Shuang and Zhang, Miao and Piao, Yongri and Yao, Shunyu and Bi, Qi and Ma, Kai and Zheng, Yefeng and Lu, Huchuan and others},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={9471--9481},
+	year={2021}
+}
+@inproceedings{sun2021deep,
+	title={Deep RGB-D saliency detection with depth-sensitive attention and automatic multi-modal fusion},
+	author={Sun, Peng and Zhang, Wenhu and Wang, Huanyu and Li, Songyuan and Li, Xi},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={1407--1417},
+	year={2021}
+}
+@article{zhang2021deep,
+	title={Deep RGB-D saliency detection without depth},
+	author={Zhang, Yuan-fang and Zheng, Jiangbin and Jia, Wenjing and Huang, Wenfeng and Li, Long and Liu, Nian and Li, Fei and He, Xiangjian},
+	journal={IEEE Transactions on Multimedia},
+	volume={24},
+	pages={755--767},
+	year={2021},
+	publisher={IEEE}
+}
+@inproceedings{zhang2020uc,
+	title={UC-Net: Uncertainty inspired RGB-D saliency detection via conditional variational autoencoders},
+	author={Zhang, Jing and Fan, Deng-Ping and Dai, Yuchao and Anwar, Saeed and Saleh, Fatemeh Sadat and Zhang, Tong and Barnes, Nick},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={8582--8591},
+	year={2020}
+}
+@article{piao2021critical,
+	title={To be critical: Self-calibrated weakly supervised learning for salient object detection},
+	author={Piao, Yongri and Wang, Jian and Zhang, Miao and Ma, Zhengxuan and Lu, Huchuan},
+	journal={arXiv preprint arXiv:2109.01770},
+	year={2021}
+}
+@inproceedings{piao2019depth,
+	title={Depth-induced multi-scale recurrent attention network for saliency detection},
+	author={Piao, Yongri and Ji, Wei and Li, Jingjing and Zhang, Miao and Lu, Huchuan},
+	booktitle={Proceedings of the IEEE/CVF international conference on computer vision},
+	pages={7254--7263},
+	year={2019}
+}
+@inproceedings{zhao2019contrast,
+	title={Contrast prior and fluid pyramid integration for RGBD salient object detection},
+	author={Zhao, Jia-Xing and Cao, Yang and Fan, Deng-Ping and Cheng, Ming-Ming and Li, Xuan-Yi and Zhang, Le},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={3927--3936},
+	year={2019}
+}
+@inproceedings{chen2021rgb,
+	title={RGB-D salient object detection via 3D convolutional neural networks},
+	author={Chen, Qian and Liu, Ze and Zhang, Yi and Fu, Keren and Zhao, Qijun and Du, Hongwei},
+	booktitle={Proceedings of the AAAI conference on artificial intelligence},
+	volume={35},
+	number={2},
+	pages={1063--1071},
+	year={2021}
+}
+@article{wu2023hidanet,
+	title={Hidanet: Rgb-d salient object detection via hierarchical depth awareness},
+	author={Wu, Zongwei and Allibert, Guillaume and Meriaudeau, Fabrice and Ma, Chao and Demonceaux, C{\'e}dric},
+	journal={IEEE Transactions on Image Processing},
+	volume={32},
+	pages={2160--2173},
+	year={2023},
+	publisher={IEEE}
+}
+@article{cong2022cir,
+	title={CIR-Net: Cross-modality interaction and refinement for RGB-D salient object detection},
+	author={Cong, Runmin and Lin, Qinwei and Zhang, Chen and Li, Chongyi and Cao, Xiaochun and Huang, Qingming and Zhao, Yao},
+	journal={IEEE Transactions on Image Processing},
+	volume={31},
+	pages={6800--6815},
+	year={2022},
+	publisher={IEEE}
+}
+@inproceedings{zhang2021bts,
+	title={BTS-Net: Bi-directional transfer-and-selection network for RGB-D salient object detection},
+	author={Zhang, Wenbo and Jiang, Yao and Fu, Keren and Zhao, Qijun},
+	booktitle={2021 IEEE International Conference on Multimedia and Expo (ICME)},
+	pages={1--6},
+	year={2021},
+	organization={IEEE}
+}
+@inproceedings{lai2017deep,
+	title={Deep laplacian pyramid networks for fast and accurate super-resolution},
+	author={Lai, Wei-Sheng and Huang, Jia-Bin and Ahuja, Narendra and Yang, Ming-Hsuan},
+	booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+	pages={624--632},
+	year={2017}
+}
+@inproceedings{dong2016accelerating,
+	title={Accelerating the super-resolution convolutional neural network},
+	author={Dong, Chao and Loy, Chen Change and Tang, Xiaoou},
+	booktitle={Computer Vision--ECCV 2016: 14th European Conference, Amsterdam, The Netherlands, October 11-14, 2016, Proceedings, Part II 14},
+	pages={391--407},
+	year={2016},
+	organization={Springer}
+}
+@inproceedings{cho2021rethinking,
+	title={Rethinking coarse-to-fine approach in single image deblurring},
+	author={Cho, Sung-Jin and Ji, Seo-Won and Hong, Jun-Pyo and Jung, Seung-Won and Ko, Sung-Jea},
+	booktitle={Proceedings of the IEEE/CVF international conference on computer vision},
+	pages={4641--4650},
+	year={2021}
+}
+@inproceedings{kim2022mssnet,
+	title={Mssnet: Multi-scale-stage network for single image deblurring},
+	author={Kim, Kiyeon and Lee, Seungyong and Cho, Sunghyun},
+	booktitle={European Conference on Computer Vision},
+	pages={524--539},
+	year={2022},
+	organization={Springer}
+}
+
+
+
+
+# ------------------------------- SOD
+
+@article{gupta2020salient,
+	title={Salient object detection techniques in computer vision—A survey},
+	author={Gupta, Ashish Kumar and Seal, Ayan and Prasad, Mukesh and Khanna, Pritee},
+	journal={Entropy},
+	volume={22},
+	number={10},
+	pages={1174},
+	year={2020},
+	publisher={MDPI}
+}
+
+@article{mao2021generative,
+	title={Generative transformer for accurate and reliable salient object detection},
+	author={Mao, Yuxin and Zhang, Jing and Wan, Zhexiong and Dai, Yuchao and Li, Aixuan and Lv, Yunqiu and Tian, Xinyu and Fan, Deng-Ping and Barnes, Nick},
+	journal={arXiv preprint arXiv:2104.10127},
+	year={2021}
+}
+
+@article{wang2021salient,
+	title={Salient object detection in the deep learning era: An in-depth survey},
+	author={Wang, Wenguan and Lai, Qiuxia and Fu, Huazhu and Shen, Jianbing and Ling, Haibin and Yang, Ruigang},
+	journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+	volume={44},
+	number={6},
+	pages={3239--3259},
+	year={2021},
+	publisher={IEEE}
+}
+
+@inproceedings{wu2019mutual,
+	title={A mutual learning method for salient object detection with intertwined multi-supervision},
+	author={Wu, Runmin and Feng, Mengyang and Guan, Wenlong and Wang, Dong and Lu, Huchuan and Ding, Errui},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={8150--8159},
+	year={2019}
+}
+@inproceedings{feng2019attentive,
+	title={Attentive feedback network for boundary-aware salient object detection},
+	author={Feng, Mengyang and Lu, Huchuan and Ding, Errui},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={1623--1632},
+	year={2019}
+}
+@inproceedings{zhao2019egnet,
+	title={EGNet: Edge guidance network for salient object detection},
+	author={Zhao, Jia-Xing and Liu, Jiang-Jiang and Fan, Deng-Ping and Cao, Yang and Yang, Jufeng and Cheng, Ming-Ming},
+	booktitle={Proceedings of the IEEE/CVF international conference on computer vision},
+	pages={8779--8788},
+	year={2019}
+}
+@inproceedings{wu2019cascaded,
+	title={Cascaded partial decoder for fast and accurate salient object detection},
+	author={Wu, Zhe and Su, Li and Huang, Qingming},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={3907--3916},
+	year={2019}
+}
+@inproceedings{qin2019basnet,
+	title={Basnet: Boundary-aware salient object detection},
+	author={Qin, Xuebin and Zhang, Zichen and Huang, Chenyang and Gao, Chao and Dehghan, Masood and Jagersand, Martin},
+	booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+	pages={7479--7489},
+	year={2019}
+}
+@article{zhu2019aggregating,
+	title={Aggregating attentional dilated features for salient object detection},
+	author={Zhu, Lei and Chen, Jiaxing and Hu, Xiaowei and Fu, Chi-Wing and Xu, Xuemiao and Qin, Jing and Heng, Pheng-Ann},
+	journal={IEEE Transactions on Circuits and Systems for Video Technology},
+	volume={30},
+	number={10},
+	pages={3358--3371},
+	year={2019},
+	publisher={IEEE}
+}
+@inproceedings{zhao2020suppress,
+	title={Suppress and balance: A simple gated network for salient object detection},
+	author={Zhao, Xiaoqi and Pang, Youwei and Zhang, Lihe and Lu, Huchuan and Zhang, Lei},
+	booktitle={Computer Vision--ECCV 2020: 16th European Conference, Glasgow, UK, August 23--28, 2020, Proceedings, Part II 16},
+	pages={35--51},
+	year={2020},
+	organization={Springer}
+}
+@article{qin2020u2,
+	title={U2-Net: Going deeper with nested U-structure for salient object detection},
+	author={Qin, Xuebin and Zhang, Zichen and Huang, Chenyang and Dehghan, Masood and Zaiane, Osmar R and Jagersand, Martin},
+	journal={Pattern recognition},
+	volume={106},
+	pages={107404},
+	year={2020},
+	publisher={Elsevier}
+}
+@article{zhang2020multistage,
+	title={A multistage refinement network for salient object detection},
+	author={Zhang, Lihe and Wu, Jie and Wang, Tiantian and Borji, Ali and Wei, Guohua and Lu, Huchuan},
+	journal={IEEE Transactions on image Processing},
+	volume={29},
+	pages={3534--3545},
+	year={2020},
+	publisher={IEEE}
+}
+@article{ren2020salient,
+	title={Salient object detection by fusing local and global contexts},
+	author={Ren, Qinghua and Lu, Shijian and Zhang, Jinxia and Hu, Renjie},
+	journal={IEEE Transactions on multimedia},
+	volume={23},
+	pages={1442--1453},
+	year={2020},
+	publisher={IEEE}
+}
+@article{zhuge2022salient,
+	title={Salient object detection via integrity learning},
+	author={Zhuge, Mingchen and Fan, Deng-Ping and Liu, Nian and Zhang, Dingwen and Xu, Dong and Shao, Ling},
+	journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+	volume={45},
+	number={3},
+	pages={3738--3752},
+	year={2022},
+	publisher={IEEE}
+}
+@article{wu2022edn,
+	title={EDN: Salient object detection via extremely-downsampled network},
+	author={Wu, Yu-Huan and Liu, Yun and Zhang, Le and Cheng, Ming-Ming and Ren, Bo},
+	journal={IEEE Transactions on Image Processing},
+	volume={31},
+	pages={3125--3136},
+	year={2022},
+	publisher={IEEE}
+}
+
+ 
+# ------------------------------- SOD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@inproceedings{liu2021light,
+	title={Light field saliency detection with dual local graph learning and reciprocative guidance},
+	author={Liu, Nian and Zhao, Wangbo and Zhang, Dingwen and Han, Junwei and Shao, Ling},
+	booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+	pages={4712--4721},
+	year={2021}
+}
+
+@inproceedings{wang2022lfbcnet,
+	title={LFBCNet: Light field boundary-aware and cascaded interaction network for salient object detection},
+	author={Wang, Mianzhao and Shi, Fan and Cheng, Xu and Zhao, Meng and Zhang, Yao and Jia, Chen and Tian, Weiwei and Chen, Shengyong},
+	booktitle={Proceedings of the 30th ACM International Conference on Multimedia},
+	pages={3430--3439},
+	year={2022}
+}
+
+@inproceedings{feng2022learning,
+	title={Learning from pixel-level noisy label: A new perspective for light field saliency detection},
+	author={Feng, Mingtao and Liu, Kendong and Zhang, Liang and Yu, Hongshan and Wang, Yaonan and Mian, Ajmal},
+	booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+	pages={1756--1766},
+	year={2022}
+}
+
+
+
+
+@misc{mmseg2020,
+	title={{MMSegmentation}: OpenMMLab Semantic Segmentation Toolbox and Benchmark},
+	author={MMSegmentation Contributors},
+	howpublished = {\url{https://github.com/open-mmlab/mmsegmentation}},
+	year={2020}
+}
+
+
 # vision tracking
 @inproceedings{hong2015online,
 	title={Online tracking by learning discriminative saliency map with convolutional neural network},
@@ -103,7 +483,8 @@
 	journal={arXiv preprint arXiv:1607.06450},
 	year={2016}
 }
-# LFSOD, graph
+
+# LFSOD, 
 @article{zhang2021geometry,
 	title={Geometry auxiliary salient object detection for light fields via graph neural networks},
 	author={Zhang, Qiudan and Wang, Shiqi and Wang, Xu and Sun, Zhenhao and Kwong, Sam and Jiang, Jianmin},

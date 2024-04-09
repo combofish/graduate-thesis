@@ -106,27 +106,54 @@
 
 
 
-\keywords{显著性目标检测；光场；聚焦感知；多模态特征融合; 交叉注意力}
+\keywords{光场；显著性目标检测；聚焦感知；多模态特征融合；交叉注意力}
 \end{abstract}
 
 
 \begin{englishabstract}	
+%	
+%The goal of salient object detection is to identify the most prominent objects or regions in an image, which is an important task in the field of computer vision. Existing salient object detection algorithms can be divided into three categories based on the type of input data: RGB, RGB-D, and light field methods. Compared to RGB and RGB-D data, light field data contains richer scene information, which can meet the demand for complex scene information. In recent years, with the development of deep convolutional neural networks, they have replaced traditional handcrafted feature-based algorithms, significantly improving the performance of light field salient object detection. 
+%However, there are challenges in practical applications such as extracting complex light field information and integrating cross-modal light field information, making it difficult for current deep models for light field saliency detection to effectively distinguish salient object representations in light field scenes. In order to address these challenges, this paper explores a focus-aware light field saliency detection method from two perspectives: focus perception and perspective enhancement. The main work and innovative points of this paper are as follows: 
+%
+%
+%	
+%(1)
+%In the face of the challenge of effectively utilizing the rich light field clues in complex scenes, this paper proposes a focus perception network to explore light field data. The method primarily consists of two modules: the token communication module and the focus-aware enhancement module. The token communication module summarizes the slice-level features of the all-in-focus image and focal stack by embedding token representations, and by using tokens as bridges for information transfer, facilitates spatial context modeling within the network. The focus-aware enhancement module fully considers the impact of different focus slices on saliency, highlighting salient regions in different focus slices by assessing the degree of focus for each defocused slice, while suppressing the negative effects of nonsalient regions. Compared to existing methods, this method explores the entire three-dimensional scene of the light field at the slice level by adding embedded tokens, considering the contributions of different defocused slices to saliency prediction, and can more effectively utilize light field information. 
+%
+%
+%	
+%(2)
+%Facing the challenge of efficiently utilizing the differential information between the all-in-focus image and the focal stack in light field data, this paper proposes a perspective-enhanced network to explore light field data. The method mainly consists of two key parts: perspective-enhanced attention module and perceptual contrastive learning strategy. The perspective-enhanced attention module introduces cross-modal mask expressions when performing cross-modal attention on the two modalities, enhancing the salient representation of attention weights in different focus regions. The perceptual contrastive learning strategy considers the consistency expression within the foreground regions of saliency prediction and the background regions. Compared to existing methods for light field saliency detection, this method performs cross-modal feature fusion on light field data, fully considering the contributions of the focal stack and the all-in-focus image to the final saliency prediction, resulting in more robust representations of salient objects. 
 	
-The goal of salient object detection is to identify the most prominent objects or regions in an image, which is an important task in the field of computer vision. Existing salient object detection algorithms can be divided into three categories based on the type of input data: RGB, RGB-D, and light field methods. Compared to RGB and RGB-D data, light field data contains richer scene information, which can meet the demand for complex scene information. In recent years, with the development of deep convolutional neural networks, they have replaced traditional handcrafted feature-based algorithms, significantly improving the performance of light field salient object detection. 
-However, there are challenges in practical applications such as extracting complex light field information and integrating cross-modal light field information, making it difficult for current deep models for light field saliency detection to effectively distinguish salient object representations in light field scenes. In order to address these challenges, this paper explores a focus-aware light field saliency detection method from two perspectives: focus perception and perspective enhancement. The main work and innovative points of this paper are as follows: 
+	
+	
+Light field salient object detection aims to segment visually unique objects from the surrounding environment.
+Unlike traditional RGB salient object detection on color images and RGB-D salient object detection that incorporates depth information on color images,
+light field images provide multiple focal stacks (multiple focal planes at different depth levels) and all-focus images of the same scene,
+which capture comprehensive yet redundant information.
+Existing methods leverage long short-term memory with attention mechanisms, 3D convolutions, and graph learning to exploit useful cues.
+However, the importance of both intra and inter-focal planes within the focal stack has not been well studied.
+Complex challenges exist in practical applications for extracting light field information and integrating cross-modal light field information,
+resulting in current deep models for light field saliency detection struggling to effectively discern salient object representations within light field scenes.
+To address these issues, this paper approaches from the perspectives of focal-awareness and viewpoint enhancement,
+modeling long-range dependencies to aggregate high-level features, fully exploiting common salient semantic features,
+to enhance the performance of light field salient object detection.
+The main content and innovations of this paper are as follows:
 
 
-	
+
 (1)
-In the face of the challenge of effectively utilizing the rich light field clues in complex scenes, this paper proposes a focus perception network to explore light field data. The method primarily consists of two modules: the token communication module and the focus-aware enhancement module. The token communication module summarizes the slice-level features of the all-in-focus image and focal stack by embedding token representations, and by using tokens as bridges for information transfer, facilitates spatial context modeling within the network. The focus-aware enhancement module fully considers the impact of different focus slices on saliency, highlighting salient regions in different focus slices by assessing the degree of focus for each defocused slice, while suppressing the negative effects of nonsalient regions. Compared to existing methods, this method explores the entire three-dimensional scene of the light field at the slice level by adding embedded tokens, considering the contributions of different defocused slices to saliency prediction, and can more effectively utilize light field information. 
+To address the challenge of effectively utilizing rich semantic cues in complex scenes, a focus-aware approach was explored. This method mainly consists of a token communication module and a focus-aware enhancement strategy. The token communication module aggregates slice-level features of the all-focus image and focal stack by embedding token representations and serves as a bridge for information exchange to facilitate spatial context modeling within the network. The focus-aware enhancement module fully considers the impact of different focal slices on saliency, highlighting salient regions in each focal slice by assessing the degree of focus in each defocused slice, while suppressing the negative effects of non-salient regions. In comparison to existing methods, this approach explores the overall three-dimensional scene of the light field at the slice level by incorporating embedded tokens and considers the contributions of different defocused slices to saliency prediction, enabling more effective utilization of light field information.
 
 
-	
+
+
+
 (2)
-Facing the challenge of efficiently utilizing the differential information between the all-in-focus image and the focal stack in light field data, this paper proposes a perspective-enhanced network to explore light field data. The method mainly consists of two key parts: perspective-enhanced attention module and perceptual contrastive learning strategy. The perspective-enhanced attention module introduces cross-modal mask expressions when performing cross-modal attention on the two modalities, enhancing the salient representation of attention weights in different focus regions. The perceptual contrastive learning strategy considers the consistency expression within the foreground regions of saliency prediction and the background regions. Compared to existing methods for light field saliency detection, this method performs cross-modal feature fusion on light field data, fully considering the contributions of the focal stack and the all-in-focus image to the final saliency prediction, resulting in more robust representations of salient objects. 
+To effectively utilize the modality difference between the all-focus image and focal stack in light field visual representation, a perspective-enhanced approach was studied. This method primarily includes a perspective-enhanced attention module and a perceptual contrastive learning strategy. The perspective-enhanced attention module introduces cross-modal mask expressions when applying attention across two modalities, enhancing the saliency representation of attention weights in different focal regions. The perceptual contrastive learning strategy considers the consistency expression between the foreground regions of saliency prediction and the background regions. Compared to existing light field saliency detection methods, this approach conducts cross-modal feature fusion on light field data, fully considering the contributions of the focal stack and all-focus image to the final saliency prediction, thereby generating more robust salient object representations.
+
 	
-	
-\englishkeywords{Salient Object Detection; Light Field; Focus Perception; Multimodal Feature Fusion; Cross-modal Attention}
+\englishkeywords{ Light Field; Salient Object Detection; Focus Perception; Multimodal Feature Fusion; Cross-modal Attention}
 	
 \end{englishabstract}
 

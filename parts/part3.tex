@@ -1087,8 +1087,16 @@ ESCNet\upcite{zhang2022exploring}。
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Split paragraphs
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-为了验证本章所提出的各个模块的有效性，
+
+
+本章设置了多个实验来验证所提模块的有效性，
+具体来说，
 逐渐在基线网络中添加令牌交互模块，聚焦感知增强模块和特征融合模块
 到本章所提的焦点感知网络中，在表~\ref{table:abl_total}~中分别以标号2,~4,~5表示。
 如表~\ref{table:abl_total}~所示，这三个模型可以逐渐提高光场显著性目标检测性能，
@@ -1109,7 +1117,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\toprule[2pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
-			\multicolumn{1}{c}{ \multirow{2}*{No.}} 
+			\multicolumn{1}{c}{ \multirow{2}*{实验编号}} 
 			& \multicolumn{2}{c}{ \multirow{2}*{设置}}	
 			& \multicolumn{4}{c}{DUTLF-FS} \\
 			
@@ -1307,6 +1315,9 @@ ESCNet\upcite{zhang2022exploring}。
 \begin{table}[t]
 	\bicaption{焦点感知增强模块中不同方法的消融结果}
 	{Ablation results of different methods for focal perception enhancement module}
+%	{FPEM中不同方法的消融结果}
+%	{Ablation results of different methods for FPEM}
+
 	\centering
 	\label{table:abl_methods}
 	%	\resizebox{0.45\linewidth}{!}{
@@ -1314,7 +1325,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\toprule[2pt]  %添加表格头部粗线
 			
 			% title
-			\multirow{2}*{Settings} & \multicolumn{4}{c}{DUTLF-FS} \\  % & \multicolumn{3}{c}{HFUT} \\
+			\multirow{2}*{实验设置} & \multicolumn{4}{c}{DUTLF-FS} \\  % & \multicolumn{3}{c}{HFUT} \\
 			
 			% next line
 			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
@@ -1326,9 +1337,9 @@ ESCNet\upcite{zhang2022exploring}。
 			\midrule
 			
 			% 开始填写数据
-			Random      & 0.962 & 0.924 & 0.932 & 0.033 \\ 
-			Conv        & 0.967 & 0.931 & 0.942 & 0.027 \\ 
-			SSIM        & \textbf{0.972} & \textbf{0.941} & \textbf{0.952} & \textbf{0.022} \\ 
+			随机增强      & 0.962 & 0.924 & 0.932 & 0.033 \\ 
+			卷积增强        & 0.967 & 0.931 & 0.942 & 0.027 \\ 
+			结构相似度增强        & \textbf{0.972} & \textbf{0.941} & \textbf{0.952} & \textbf{0.022} \\ 
 			%% Log(SSIM)   & \textbf{0.972} & 0.940 & 0.950 & 0.023 \\ 
 			
 			\bottomrule[2pt]

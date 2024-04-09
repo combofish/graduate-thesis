@@ -27,7 +27,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\BiChapter{基于视角增强的光场显著性目标检测}
+\BiChapter{基于视角强化的光场显著性目标检测}
 {Light Field Salient Object Detection Based on Perspective Enhancement }
 
 \label{chap:part4}
@@ -149,7 +149,7 @@
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter4/chpt4_overview}
-	\bicaption{基于视角增强的光场显著性目标检测网络}
+	\bicaption{基于视角强化的光场显著性目标检测网络}
 	{Light field salient object detection network based on perspective enhancement}  
 	\label{cpt4_fig1:chpt4_overview}
 \end{figure}
@@ -329,16 +329,34 @@ $H_{l}$和$W_{l}$是图像特征的空间分辨率。
 $f_{Q} (\cdot),~f_{K}(\cdot) $和$ f_{V}(\cdot) $是线性变换。
 $ Softmax(\cdot) $ 函数将输入的权重矩阵映射为 $(0,~1)$之间的分布，
 并且使得输出值的累计和为1，从而满足概率性质，即对概率最大的元素加强注意。
-%
-%
-%
-%
-%
-\par
-%
-%
-%
-%
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Split paragraphs
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
 这些问题在光场中会更加严重。
 在光场中应用交叉注意力机制，
 会使得注意力权重往散焦图片中清晰的部分偏移，
@@ -427,18 +445,23 @@ M^{l}\left ( F\left ( x, ~y \right )  \right ) =
 %
 %
 其中$\alpha$是超参数，是对特征进行二值化的阈值，一般设为0.5。
-%
-%
-%
-%
-%
-%
-\par
-%
-%
-%
-%
-%
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Split paragraphs
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
 而对于焦点堆栈支路的掩码交叉注意力计算，
 掩码使用来自全聚焦特征支路的特征表示来生成共有表示，其公式如下：
 %
@@ -705,29 +728,51 @@ $\mathcal{L}_{NCE} $
 \BiSection{实验结果与分析}{Experimental Results and Analysis}
 
 \BiSubsection{实验设置}{Experimental Setup}
-（1）数据集
 
-本章在 3 个公开的光场数据集：
-DUT-LFSD\upcite{zhang2019memory}、
-HFUT-LFSD\upcite{zhang2017saliency}以及 
-LFSD\upcite{li2014saliency}上
-进行了大量的实验。DUT-LFSD 包含 1462 张光场样本,HFUT-LFSD 包含 255 个样本,
-LFSD 包含 100 个光场样本。每个样本包含一个 RGB(全聚焦)图像,焦点堆栈以及一
-个像素级的显著性真值。本章采用了与 ERNet\upcite{piao2020exploit}相同的训练集。具体来说,本章从
-DUT-LFSD 中选择了 1000 个样本,并从 HFUT-LFSD 中选择了 100 个样本作为训练集。
 
-（2）实现细节
+（1）
+光场数据集
 
-本章的方法是在 Pytorch 框架上实现的,并使用单个 GTX2080Ti 的显卡进行训练。在训
-练过程中,本章使用 AdamW 优化器,并将优化器中的动量以及权重衰减参数设置为 0.9
-以及 0.00005。
-优化器的学习率设置为 3e-5，并在前 5 万次迭代过程中逐渐衰减并最终
-衰减为原学习率的 1/10。
-小批量尺寸大小设定为 2,并将网络中批量归一化（BatchNorm, BN）修改为组
+
+本章使用了光场领域常用的三个基准数据集：
+大连理工大学提出的DUT-LFSD\upcite{zhang2019memory}、
+合肥工业大学提出的HFUT-LFSD\upcite{zhang2017saliency}
+以及美国杜克大学提出的LFSD\upcite{li2014saliency}。
+DUT-LFSD 包含室内和室外场景共 1462 张光场样本；
+HFUT-LFSD 共包含 255 个光场样本；
+而 LFSD 只包含 100 个光场样本。
+每个光场数据单元都包含一个全聚焦的彩色图片，
+若干张散焦图片组成的焦点堆栈，
+以及具有二分类标签的真值图。
+本章采用了与 ERNet\upcite{piao2020exploit}相同的训练策略来构建训练数据集。
+即，
+本章组合了DUT-LFSD和HFUT-LFSD两个数据集的训练集共1100张图片，
+并采用随机裁剪、翻转、明亮变换等数据增强来扩充数据集。
+其他的所有图片作为测试集，本章在不同数据集上进行同一训练和分开测试。
+
+
+
+（2）网络实现细节
+
+
+本章所提的网络结构基于MMSegmentation\upcite{mmseg2020}框架构建，
+并使用两张GTX4090显卡进行并行训练。
+在训练过程中,本章使用 AdamW 优化器，
+学习率设置为1e-4，并通过阶梯下降措施来降低学习率，
+每10次整体迭代后学习率降台阶为原来的1/10。
+总的小批量大小为2*2。
+网络中批量归一化（BatchNorm, BN）修改为组
 归一化 （GroupNorm，GN）。
-最大迭代次数设置为 10 万次,所有光场数据大小均调整到 256×256后进行训练和测试。
+最多进行100轮循环，所有输入的图片尺寸设置为 256x256，
+得到预测图后双线性插值到原图大小进行评估比对。
 
-（3）评价指标
+
+
+（3）
+性能评估指标
+
+
+
 
 为了公平的比较不同网络的性能，本章采用了 S-measure、E-measure、F-measure、绝对平均误差MAE作为评
 估模型性能的指标。
