@@ -1046,24 +1046,33 @@ ESCNet\upcite{zhang2022exploring}。
 
 \begin{figure}[b]
 	\centering
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_1}
+	\includegraphics[width=\linewidth]{figures/chapter3/compare_with_sota}
 	\bicaption{在一些具有挑战性的场景中与最先进方法的可视化比较}
 	{Visual comparisons with state-of-the-art methods in challenging scenes}
 	\label{figure:figure_comparison_1}
 \end{figure}
 
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_2}
-	\bicaption{挑战性场景下与其它显著性目标检测方法的可视化比较}
-	{Visual comparisons with other salient object detection methods in challenging scenarios}
-	%	{在一些具有挑战性的场景中与最先进的方法的可视化比较}
-	%	{Visual comparisons with state-of-the-art methods in challenging scenes}
-	\label{figure:figure_comparison_2}
-\end{figure}
+%\begin{figure}[b]
+%	\centering
+%	\includegraphics[width=\linewidth]{figures/chapter3/compare_1}
+%	\bicaption{在一些具有挑战性的场景中与最先进方法的可视化比较}
+%	{Visual comparisons with state-of-the-art methods in challenging scenes}
+%	\label{figure:figure_comparison_1}
+%\end{figure}
 
-
+%
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=\linewidth]{figures/chapter3/compare_2}
+%	\bicaption{挑战性场景下与其它显著性目标检测方法的可视化比较}
+%	{Visual comparisons with other salient object detection methods in challenging scenarios}
+%	%	{在一些具有挑战性的场景中与最先进的方法的可视化比较}
+%	%	{Visual comparisons with state-of-the-art methods in challenging scenes}
+%	\label{figure:figure_comparison_2}
+%\end{figure}
+%
+%
 
 
 
@@ -1167,6 +1176,22 @@ ESCNet\upcite{zhang2022exploring}。
 	\label{figure:self_comp}
 \end{figure}
 
+
+\begin{figure}[b] 
+	\includegraphics[width=0.99\linewidth]{figures/chapter3/attn_cmp_turn} 
+	\centering
+	\bicaption{令牌通信模块的可视化分析}
+	{Visual analysis of token communication module}
+	%	{消融研究的可视化比较}
+	%	{Visual comparisons of ablation studies}
+	\label{chpt3:figure:attn_tcm}
+\end{figure}
+
+
+\todo 
+
+注意图的可视化:
+我们将“baseline”和“+TCM(++TS)”设置下编码器第三阶段的特征图(16x16)可视化，如图所示。我们通过在相应的注意图之间相减来生成差异图，以突出差异。我们发现，与焦点相关的标记弥补了对未聚焦的突出物体缺乏关注。当汽车被聚焦时，标记将注意力引导到标志上(切片1、2、3和6);当标志被聚焦时，标记强化了对未被聚焦的汽车的意识(切片7和9)。
 
 
 \begin{table}[!ht]
