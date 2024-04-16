@@ -29,9 +29,13 @@
 \label{chap:part3}
 %
 %
-光场显着物体检测（LFSOD）由于光场中包含丰富的空间信息而引起了广泛的关注。
-与 2D (RGB) 和 3D (RGBD) 数据不同，光场本质上捕获结构化 4D 表示，包括多视图图像、深度图和焦点切片。 其中，通过眼球运动顺序观察切片的焦点堆栈，
-以及迎合人类视觉感知的可见注意力转移\upcite{piao2020dut}，做出适合显着性对象检测。
+光场显著性目标检测由于光场中包含丰富的空间信息而引起了广泛的关注。
+与 2D (RGB) 和 3D (RGBD) 数据不同，光场本质上捕获结构化的 4D 表示，
+包括多视角图像、深度图和焦点堆栈。 
+其中，焦点堆栈是一组根据景深而具有不同聚焦区域的图片，
+更贴合人类通过眼球聚焦动作顺序观察场景的方式，
+能够迎合人类视觉感知的可见注意力转移\upcite{piao2020dut}。
+以光场数据作为输出构造网络，更适合做出显著性对象检测。
 
 
 
@@ -43,9 +47,9 @@
 
 一些开创性的方法\upcite{zhang2019memory,piao2020exploit}采用 ConvLSTM\upcite{shi2015convolutional}，
 它使用记忆机制以预定义的顺序单独处理焦点堆栈特征。
-张等人\upcite{zhang2021learning}后来在编码器阶段采用3D卷积来提取特征。
-刘等人\upcite{liu2021light}和
-张等人\upcite{zhang2021geometry}使用图神经网络来聚合不同焦点切片中的上下文信息。 
+Zhang等学者\upcite{zhang2021learning}后来在编码器阶段采用3D卷积来提取特征。
+Liu等人\upcite{liu2021light}和
+Zhang等研究者\upcite{zhang2021geometry}使用图神经网络来聚合不同焦点切片中的上下文信息。 
 这些方法依赖内存使用或大量计算来提取焦点堆栈特征，从而限制了效率。
 
 
@@ -71,7 +75,7 @@
 1）如何设计一个模型来存储切片级特征并在焦点堆栈和全焦点图像之间传递信息以进行上下文建模？ 
 2）如何设计一个模型来理解场景的空间分布并感知敏感的焦点切片？ 
 
-在本章中，提出了一种用于高效且有效的 LFSOD 的聚焦感知Transformer（FPT）。 
+在本章中，提出了一种基于聚焦感知的光场显著性目标检测网络，
 具体来说，通过收集图像特定的特征并制定通信以加强焦点堆栈和全焦点图像之间的相互感知。 
 通过利用选择性机制将适当的焦点切片纳入检测。 
 具体来说，本章的贡献有三个：
@@ -79,9 +83,9 @@
 
 
 \begin{itemize}
-	\item 引入与焦点相关的标记来总结图像特定的特征，并提出一种标记通信模块（TCM），通过计算与焦点相关的标记之间的交叉注意力来执行特征交互。 通过转移焦点堆栈中与焦点相关的标记来促进空间上下文传播。 
+	\item 引入与焦点相关的标记来总结图像特定的特征，并提出一种令牌通信模块，通过计算与焦点相关的标记之间的交叉注意力来执行特征交互。 通过转移焦点堆栈中与焦点相关的标记来促进空间上下文传播。 
 	
-	\item 提出了一种聚焦感知增强（FPE）策略，通过切片选择机制来增强焦点堆栈中的特征空间表示，以有区别地处理适当的焦点切片。	这可以突出显着切片并抑制非显着区域的干扰。 
+	\item 提出了一种聚焦感知增强策略，通过切片选择机制来增强焦点堆栈中的特征空间表示，以有区别地处理适当的焦点切片。	这可以突出显着切片并抑制非显着区域的干扰。 
 	
 	\item 在 4 个广泛使用的数据集进行了广泛的实验，
 	并证明本章所提方法优于现有最先进的光场显著性目标检测方法。 本章所提出的方法在 DUTLF-FS\upcite{zhang2019memory}上将 MAE 指标显着降低了 31\%。
@@ -108,24 +112,23 @@
 
 
 
-本章方法所提出的聚焦感知Transformer的整体架构如图~\ref{cpt3_fig1:overview}~所示。
+本章方法所提出的聚焦感知网络的整体架构如图~\ref{cpt3_fig1:overview}~所示。
 给定 $N + 1$ 个分辨率为 $ H \times W $ 的图像，包括一个全焦点图像和 $N$ 个焦点堆栈图像，将每个图像划分为补丁区块作为输入。 
-将展平的 $N$ 个 patch 输入到线性投影中，得到嵌入的 patch $ \left \{ f_{i}^{0} \right \}_{i=0}^{N} $，其形状为$ \left ( N + 1 \right ) \times \frac{HW}{P^{2}} \times C  $，其中 $P$ 表示每个 patch 的大小，$C$ 表示每个 patch 的大小。 
-渠道维度。 
+将展平的 $N$ 个图像块输入到线性投影中，得到嵌入式图像块 $ \left \{ f_{i}^{0} \right \}_{i=0}^{N} $，其形状为$ \left ( N + 1 \right ) \times \frac{HW}{P^{2}} \times C  $，其中 $P$ 表示每个图像块的大小，$C$ 表示每个图像块的通道维度。 
 %
 %
 %
 具体地，$ f_{0}^{0} $ 表示全焦点图像的特征输入。 
 $ \left \{ f_{i}^{0} \right \}_{i=1}^{N} $ 表示焦点堆栈的特征输入。 
-此外，为了总结补丁中的信息，引入了一组大小为 $ M \times C $ 的随机初始化的可学习嵌入，作为 { }N 个焦点相关标记，表示为 $ \left \{ m_{i}^{0} \right \}_{i=0}^{N} $ ，其中 $M$ 表示焦点相关标记的数量。 
-将每个 patch 的与焦点相关的标记连接起来，
+此外，为了总结补丁中的信息，引入了一组大小为 $ M \times C $ 的随机初始化的可学习嵌入，作为 $N$ 个焦点相关标记，表示为 $ \left \{ m_{i}^{0} \right \}_{i=0}^{N} $ ，其中 $M$ 表示焦点相关标记的数量。 
+将每个图像块的与焦点相关的标记连接起来，
 并得到 $ \left \{ \left [ f_{i}^{0},m_{i}^{0}  \right ]  \right \}_{i=0}^{N} $ 作为特征提取器的输入。 
 
 
 
 
 与卷积网络使用不同的卷积步长来获得多尺度特征图不同，
-本章方法使用渐进收缩策略，通过patch嵌入层来控制特征图的尺度。
+本章方法使用渐进收缩策略，通过控制图像块嵌入表示来控制特征图的尺度。
 用$ l \in 1..T $ 表示阶段编号。 
 将第$l$个阶段补丁块大小表示为$P_{l}$，在第$l$阶段开始时，
 首先均匀划分输入特征图
@@ -568,7 +571,7 @@ $ Q_{out}^{l} $ 移出。
 
 
 本文所提出的网络模型使用一个混合损失函数来训练。
-二元交叉熵（Binary Cross Entropy，BCE）\upcite{de2005tutorial}是二元分类和分割中使用最广泛的损失函数。 但 $\mathcal L_{bce} $ 是像素级损失，这意味着它平等对待所有像素。
+二元交叉熵（Binary Cross Entropy，BCE）\upcite{de2005tutorial}是二元分类和语义分割中使用最广泛的损失函数。 但 $\mathcal L_{bce} $ 是像素级损失，这意味着它平等对待所有像素。
 在具有主导背景的图片中，前景像素的损失将会被稀释。 最近，显著性网络\upcite{qin2019basnet}中引入了交并比（Intersection over Union，IoU）损失来弥补二元交叉熵损失的不足。
 $ \mathcal L_{iou} $ 的目标是优化全局结构，而不是专注于单个像素，这样就不会受到分布不平衡的影响。 增强对齐度量\upcite{fan2018enhanced}首先被提出作为一种可以同时考虑像素级和图像级误差的评估指标，
 损失形式为 $ \mathcal L_{em} = 1 - E_{\xi} $。 
@@ -703,7 +706,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 	\label{chpt3:table:comp_sota}
 	\resizebox{\linewidth}{!}{
 		\begin{tabular}{rcccccccccccc}
-			\toprule[2pt]  %添加表格头部粗线
+			\toprule[1.5pt]  %添加表格头部粗线
 			
 			% title
 			%			\multirow{2}*{Type} & 
@@ -903,7 +906,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 			& .773 & .821 & .757 & .135 \\
 			
 			
-			\bottomrule[2pt] % end
+			\bottomrule[1.5pt] % end
 		\end{tabular}
 	}
 	%	\vspace{3cm}
@@ -920,7 +923,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 	\label{table:comp_multi_view}
 	%	\resizebox{\linewidth}{!}{
 		\begin{tabular}{crcccc}
-			\toprule[2pt]  %添加表格头部粗线
+			\toprule[1.5pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{输入类型} & \multicolumn{1}{c}{\multirow{2}*{方法}} & \multicolumn{4}{c}{DUTLF-V2 \upcite{piao2020dut}} \\
@@ -946,7 +949,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 			& ESCNet \upcite{zhang2022exploring}      &  0.931  & 0.882  & 0.852  & 0.041  \\
 			
 			
-			\bottomrule[2pt]
+			\bottomrule[1.5pt]
 		\end{tabular}
 		%}
 \end{table}
@@ -1025,13 +1028,9 @@ ESCNet\upcite{zhang2022exploring}。
 
 
 为了更直观地观察，
-图~\ref{figure:figure_comparison_1}~和
-~\ref{figure:figure_comparison_2}~
+图~\ref{figure:figure_comparison_1}~
 中可视化了所提出的方法和其他排名靠前的方法生成的一些代表性结果。
-其中图~\ref{figure:figure_comparison_1}~中，
-可视化对比了本章方法和5个其他光场显著性检测方法的显著性预测结果。
-在图~\ref{figure:figure_comparison_2}~中，
-可视化了本章方法、2个RGB-D显著性检测方法和
+可视化了本章方法和5个其他光场显著性检测方法、2个RGB-D显著性检测方法和
 2个RGB显著性检测方法的显著性预测结果。
 可以看出，本章所提出的方法的结果与真值图更加一致。 
 当面对这些具有挑战性的场景时，
@@ -1125,7 +1124,7 @@ ESCNet\upcite{zhang2022exploring}。
 	\label{chpt3:table:abl_total}
 	%	\resizebox{0.82\linewidth}{!}{
 		\begin{tabular}{cllcccc}
-			\toprule[2pt]  %添加表格头部粗线
+			\toprule[1.5pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
 			\multicolumn{1}{c}{ \multirow{2}*{实验编号}} 
@@ -1160,7 +1159,7 @@ ESCNet\upcite{zhang2022exploring}。
 			& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
 			
 			
-			\bottomrule[2pt]
+			\bottomrule[1.5pt]
 		\end{tabular}
 		% }
 \end{table}
@@ -1201,7 +1200,7 @@ ESCNet\upcite{zhang2022exploring}。
 	\label{table:abl_token_number}
 		\resizebox{0.40\linewidth}{!}{
 		\begin{tabular}{ccccc}
-			\toprule[2pt]  %添加表格头部粗线
+			\toprule[1.5pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{$M$} & \multicolumn{4}{c}{DUTLF-FS} \\ % & \multicolumn{3}{c}{HFUT} \\
@@ -1222,7 +1221,7 @@ ESCNet\upcite{zhang2022exploring}。
 			16 & 0.970 & 0.937 & 0.948 & 0.024 \\
 			32 & \textbf{0.972} & \textbf{0.941} & \textbf{0.952} & \textbf{0.022} \\ 
 			
-			\bottomrule[2pt]
+			\bottomrule[1.5pt]
 		\end{tabular}
 			}
 	
@@ -1236,7 +1235,7 @@ ESCNet\upcite{zhang2022exploring}。
 	\label{table:abl_fp}
 		\resizebox{0.42\linewidth}{!}{
 		\begin{tabular}{ccccc}
-			\toprule[2pt]  %添加表格头部粗线
+			\toprule[1.5pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{K} & \multicolumn{4}{c}{DUTLF-FS} \\ % & \multicolumn{3}{c}{HFUT} \\
@@ -1257,7 +1256,7 @@ ESCNet\upcite{zhang2022exploring}。
 			7 & 0.971 & 0.940 & 0.951 & \textbf{0.022} \\ 
 			9 & 0.971 & 0.938 & 0.951 & 0.023 \\ 
 			
-			\bottomrule[2pt]
+			\bottomrule[1.5pt]
 		\end{tabular}
 			}
 \end{table}
@@ -1273,7 +1272,7 @@ ESCNet\upcite{zhang2022exploring}。
 	\label{table:abl_methods}
 		\resizebox{0.60\linewidth}{!}{
 		\begin{tabular}{ccccc}
-			\toprule[2pt]  %添加表格头部粗线
+			\toprule[1.5pt]  %添加表格头部粗线
 			
 			% title
 			\multirow{2}*{实验设置} & \multicolumn{4}{c}{DUTLF-FS} \\  % & \multicolumn{3}{c}{HFUT} \\
@@ -1293,7 +1292,7 @@ ESCNet\upcite{zhang2022exploring}。
 			结构相似度增强        & \textbf{0.972} & \textbf{0.941} & \textbf{0.952} & \textbf{0.022} \\ 
 			%% Log(SSIM)   & \textbf{0.972} & 0.940 & 0.950 & 0.023 \\ 
 			
-			\bottomrule[2pt]
+			\bottomrule[1.5pt]
 		\end{tabular}
 		}
 \end{table}
@@ -1378,7 +1377,7 @@ ESCNet\upcite{zhang2022exploring}。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{本章小结}{The Chapter’s Conclusion}
 
-在本章中，提出了一种用于精确光场显着物体检测的聚焦感知Transformer（FPT）。 
-通过引入与焦点相关的令牌来收集图像特定的特征，并提出令牌通信模块（TCM）来传播信息并促进空间上下文建模。 
-为了增强焦点堆栈的空间特征表示，本章提出了一种聚焦感知增强（FPE）策略来帮助抑制噪声背景信息。 
+在本章中，提出了一种用于精确检测光场显著性物体的聚焦感知网络。 
+通过引入与焦点相关的令牌来收集图像特定的特征，并提出令牌通信模块来传播信息并促进空间上下文建模。 
+为了增强焦点堆栈的空间特征表示，本章提出了一种聚焦感知增强策略来帮助抑制噪声背景信息。 
 实验结果表明，本章所提出的方法可以在大多数光场显著性分割数据集上实现最先进的性能。

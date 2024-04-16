@@ -366,7 +366,7 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.75\linewidth]{figures/chapter2/multi_photo}
+	\includegraphics[width=0.80\linewidth]{figures/chapter2/multi_photo}
 	\bicaption{子孔径图像阵列形式的光场数据可视化}
 	{Visualization of light field data in the form of subaperture image arrays}  
 	\label{chapter2_fig5:multi_photo}
@@ -377,7 +377,7 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 %
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.80\linewidth]{figures/chapter2/macro_photo}
+	\includegraphics[width=0.73\linewidth]{figures/chapter2/macro_photo}
 	\bicaption{宏像素形式的光场数据可视化}
 	{Visualizing light field data in macropixel form}  
 	\label{cpt2_fig5:macro_photo}
@@ -659,7 +659,8 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 %
 %
 其中$D$表示视差，$F'$、$H$和$Z'$都是相机内参，用来计算目标$P$点的深度。
-
+从公式~\ref{cpt2_fac1:relate}~可以看出，
+相机的成像参数对于如何成像发挥着重要作用。
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -672,9 +673,8 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 
 
 
-从公式~\ref{cpt2_fac1:relate}~可以看出，
-相机的成像参数对于如何成像发挥着重要作用。
-张等研究者\upcite{zhang2022exploring}所提出的 ESCNet网络，
+
+Zhang等研究者\upcite{zhang2022exploring}所提出的 ESCNet网络，
 通过组合网络来实现光场显著性目标检测。
 先使用网络进行光场原生数据的高维特征提取，生成可靠的4D光场信息；
 再构造网络合成每一个多视角切片的显著语义信息
@@ -739,7 +739,7 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 基于Transformer架构的光场显著性目标检测网络，
 通常依赖Transformer架构的长距离建模能力，
 在网络的解码器添加Transformer块来聚合全部焦点堆栈的信息。
-以LFTransNet网络\cite{liu2023lftransnet}为例，
+以LFTransNet网络\upcite{liu2023lftransnet}为例，
 网络通过可学习的权重作为查询，输入到Transformer块中，查询
 全部焦点堆栈特征来学习一个差异化通道权重，
 经过若干层特征提取后，将这个差异化权重加权到焦点堆栈特征上，
