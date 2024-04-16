@@ -297,7 +297,7 @@ $\left \{ f_{i}^{1},f_{i}^{2},f_{i}^{3},f_{i}^{4} \right \}_{i=0}^{N}$ 。
 
 
 在以前的光场显著性检测方法中，主干网络仅以原像方式执行特征提取\upcite{piao2020exploit, liu2021light}，忽略了光场数据固有的丰富上下文信息。 相比之下，本章方法设计了一个令牌通信模块（Token Communication Module，TCM）来对全焦点和焦点堆栈进行上下文建模，如图~\ref{cpt3_fig1:token_interaction}~所示。
-TCM 由令牌交互（Token Interaction，TI）和令牌移位（Token Shift，TS）操作组成。 
+令牌通信模块由令牌交互操作（Token Interaction，TI）和令牌移位（Token Shift，TS）操作组成。 
 令牌通信模块在全焦点和焦点堆栈的焦点相关令牌之间进行交叉注意力计算，以进行信息交互。 
 令牌移位操作通过转移焦点堆栈中与焦点相关的标记，以促进上下文特征感知。 
 
@@ -665,7 +665,8 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 
 
 为了公平比较，本章所提方法遵循大多数以前的方法
-\upcite{piao2020exploit, liu2021light}使用 DUTLF-FS 和 HFUT 的训练集来训练所提出的聚焦感知Transformer网络，
+\upcite{piao2020exploit, liu2021light}使用 DUTLF-FS 和 HFUT 的训练集
+来训练本章所提出的基于聚焦感知的网络模型，
 以便与使用焦点堆栈输入训练的其他光场方法进行比较。 
 按照\upcite{wang2022lfbcnet,jing2021occlusion}使用 DUTLF-V2 的训练集来训练本章所提出的模型，
 以便与使用多视图输入训练的其他最先进的 LFSOD 方法进行比较。 
@@ -699,7 +700,105 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 
 
 
-\begin{table}[!ht]
+为了进行全面比较，本章方法将与 26 个最先进的光场显著性目标检测模型进行比较，
+包括6个光场显著性分割方法：
+DLGLRG \upcite{liu2021light}, RENet \upcite{piao2020exploit}, LFNet \upcite{zhang2020lfnet},
+MAC \upcite{zhang2020light}, MoLF \upcite{zhang2019memory}, and DLSD \upcite{piao2019deep};
+%
+%
+%
+%
+6个RGB-D显著性分割方法：
+DCF \upcite{ji2021calibrated}, CIR-Net \upcite{cong2022cir}, VST-$rgbd$  \upcite{liu2021visual},
+BBS-Net     \upcite{fan2020bbs}, SSF     \upcite{zhang2020select} and S2MA    \upcite{liu2020learning};
+%
+%
+%
+%
+%
+和14个2D显著性检测方法：
+VST-$rgb$ \upcite{liu2021visual}，
+PFSNet \upcite{ma2021pyramidal}，
+ITSD \upcite{zhou2020interactive}，
+LDF \upcite{wei2020label}，
+MINet \upcite{pang2020multi}，
+F$^{3}$Net  \upcite{wei2020f3net}， 
+EGNet   \upcite{zhao2019egnet}，
+CPD  \upcite{wu2019cascaded}，
+PoolNet \upcite{liu2019simple}，
+PiCANet \upcite{liu2018picanet}，
+PAGRN \upcite{wang2018detect}，
+C2S   \upcite{li2018contour}，
+R3Net  \upcite{deng2018r3net}
+和
+Amulet \upcite{zhang2017amulet}。
+为了保证公平比较，使用上述方法所提供的显着性预测图或预训练的权重来生成比较数据，
+并利用\upcite{liu2021visual}提供的相同评估代码。
+
+
+
+
+% 为了保证公平比较，使用上述方法所提供的显着性预测图或预训练的权重来生成比较数据，
+% 并利用\upcite{liu2021visual}提供的相同评估代码。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（1）
+定性比较：
+
+
+为了更直观地观察，
+图~\ref{figure:figure_comparison_1}~
+中可视化了本章方法和5个其他光场显著性检测方法、2个RGB-D显著性检测方法和
+2个RGB显著性检测方法的显著性预测结果。
+可以看出，本章所提出的方法的结果与真值图更加一致。 
+当面对这些具有挑战性的场景时，
+包括多个对象（第 3、4 列）和复杂场景（第 5、6 列），
+大多数 RGB 和 RGB-D 显著性检测方法无法准确检测显着对象。
+相比之下，本章所提出的方法可以成功地生成准确且稳健的显着图。
+与这些基于卷积神经网络的光场显著性目标检测方法相比，
+所提出的方法获得了更一致的预测结果和更精细的细节。
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（2）
+定量比较
+
+
+定量的比较结果如表~\ref{chpt3:table:comp_sota}~所示，
+很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了比当前最先进的方法更优越的性能，
+同时，所提出的方法可以在除了MAE的另外三个指标上超越其他方法。 
+值得一提的是，与使用大量数据集训练的 RGB 和 RGB D 的显著性检测方法相比，
+本章方法在小三倍的训练集（10553 vs. 2985 vs. 1100）下取得了显着的优势。 
+这表明本章所提方法可以有效地探索光场数据中传达的信息。 
+
+
+
+为了检验本章方法与其他使用不同光场数据输入的网络模型的性能差异，
+在 DUTLF-V2 上重新训练本章方法，
+并与其他三种使用多视角图像作为输入的光场显著性目标分割方法进行比较，
+包括 OBGNet\upcite{jing2021occlusion}、
+LFBCNet\upcite{wang2022lfbcnet}和
+ESCNet\upcite{zhang2022exploring}。 
+定量比较结果如表~\ref{table:comp_multi_view}~所示，
+本章方法可以在 DUTLF-V2 的所有四个指标上大幅实现最佳性能。 
+这证明了本章所提网络对于使用焦点堆栈作为输入的有效性以及信息提取方式的高效性。 
+
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\linewidth]{figures/chapter3/compare_with_sota}
+	\bicaption{在一些具有挑战性的场景中与最先进方法的可视化比较}
+	{Visual comparisons with state-of-the-art methods in challenging scenes}
+	\label{figure:figure_comparison_1}
+\end{figure}
+
+
+
+\begin{table}[p]
 	\bicaption{与现有显著性目标检测方法在3个光场数据集上的定量比较}
 	{Quantitative comparison with existing salient object detection methods on three light field datasets}
 	\centering
@@ -719,13 +818,13 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
 			
 			%			 subtitle
-%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
-%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  
-%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  
+			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
 			
-						& E & S & F & MAE 
-						& E & S & F & MAE 
-						& E & S & F & MAE \\
+			& E & S & F & MAE 
+			& E & S & F & MAE 
+			& E & S & F & MAE \\
 			
 			
 			% line line
@@ -921,7 +1020,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 	{Quantitative results of comparison with multi-view light field salient object detection methods}
 	\centering
 	\label{table:comp_multi_view}
-	%	\resizebox{\linewidth}{!}{
+	\resizebox{0.65\linewidth}{!}{
 		\begin{tabular}{crcccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -951,7 +1050,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-		%}
+		}
 \end{table}
 
 
@@ -959,97 +1058,9 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（1）定量比较
-
-为了进行全面比较，本章方法将与 26 个最先进的光场显著性目标检测模型进行比较，
-包括6个光场显著性分割方法：
-DLGLRG \upcite{liu2021light}, RENet \upcite{piao2020exploit}, LFNet \upcite{zhang2020lfnet},
-MAC \upcite{zhang2020light}, MoLF \upcite{zhang2019memory}, and DLSD \upcite{piao2019deep};
-%
-%
-%
-%
-6个RGB-D显著性分割方法：
-DCF \upcite{ji2021calibrated}, CIR-Net \upcite{cong2022cir}, VST-$rgbd$  \upcite{liu2021visual},
-BBS-Net     \upcite{fan2020bbs}, SSF     \upcite{zhang2020select} and S2MA    \upcite{liu2020learning};
-%
-%
-%
-%
-%
-和14个2D显著性检测方法：
-VST-$rgb$ \upcite{liu2021visual}，
-PFSNet \upcite{ma2021pyramidal}，
-ITSD \upcite{zhou2020interactive}，
-LDF \upcite{wei2020label}，
-MINet \upcite{pang2020multi}，
-F$^{3}$Net  \upcite{wei2020f3net}， 
-EGNet   \upcite{zhao2019egnet}，
-CPD  \upcite{wu2019cascaded}，
-PoolNet \upcite{liu2019simple}，
-PiCANet \upcite{liu2018picanet}，
-PAGRN \upcite{wang2018detect}，
-C2S   \upcite{li2018contour}，
-R3Net  \upcite{deng2018r3net}
-和
-Amulet \upcite{zhang2017amulet}。
 
 
 
-
-
-
-为了保证公平比较，使用上述方法所提供的显着性预测图或预训练的权重来生成比较数据，
-并利用\upcite{liu2021visual}提供的相同评估代码。
-如表~\ref{chpt3:table:comp_sota}~所示，
-很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了比当前最先进的方法更优越的性能。 同时，所提出的方法可以在除了 $ S_{\alpha} $ 的另外三个指标上超越其他方法。 值得一提的是，与使用大量数据集训练的 RGBD 和 RGB 的显著性检测方法相比，本章方法在小三倍的训练集（1100 vs. 2985 vs. 10553）下取得了显着的优势。 
-这表明本章所提方法可以有效地探索光场数据中传达的信息。 
-
-
-
-为了检验本章方法与其他使用不同光场数据输入的网络模型的性能差异，
-在 DUTLF-V2 上重新训练本章方法，
-并与其他三种使用多视图图像作为输入的光场显著性目标分割方法进行比较，
-包括 OBGNet\upcite{jing2021occlusion}、
-LFBCNet\upcite{wang2022lfbcnet}和
-ESCNet\upcite{zhang2022exploring}。 
-如表~\ref{table:comp_multi_view}~所示，
-本章方法可以在 DUTLF-V2 的所有四个指标上大幅实现最佳性能。 
-这证明了本章所提网络对于使用焦点堆栈作为输入的有效性以及信息提取方式的高效性。 
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（2）定性比较：
-
-
-为了更直观地观察，
-图~\ref{figure:figure_comparison_1}~
-中可视化了所提出的方法和其他排名靠前的方法生成的一些代表性结果。
-可视化了本章方法和5个其他光场显著性检测方法、2个RGB-D显著性检测方法和
-2个RGB显著性检测方法的显著性预测结果。
-可以看出，本章所提出的方法的结果与真值图更加一致。 
-当面对这些具有挑战性的场景时，
-包括多个对象（第 4、5 行）和复杂场景（第 6、7 行），
-大多数 RGB 和 RGB-D 显著性检测方法无法准确检测显着对象。
-相比之下，本章所提出的方法可以成功生成准确且稳健的显着图。
-与这些基于卷积神经网络的光场显著性目标检测方法相比，
-所提出的方法获得了更一致的预测结果和更精细的细节。
-
-
-
-
-\begin{figure}[b]
-	\centering
-	\includegraphics[width=\linewidth]{figures/chapter3/compare_with_sota}
-	\bicaption{在一些具有挑战性的场景中与最先进方法的可视化比较}
-	{Visual comparisons with state-of-the-art methods in challenging scenes}
-	\label{figure:figure_comparison_1}
-\end{figure}
 
 
 %\begin{figure}[b]
@@ -1086,7 +1097,7 @@ ESCNet\upcite{zhang2022exploring}。
 
 
 
-本节在表~\ref{table:abl_total}~中验证不同模型组件的有效性。
+本节在表~\ref{table:abl_total}~中定量地验证了不同模型组件的有效性。
 首先构建一个基线模型。 
 具体来说，它使用共享权重编码器来提取全聚焦图和焦点堆栈特征，
 然后在通道维度进行拼接，送入使用二维卷积网络构建的融合模块进行进一步的特征提取，
@@ -1109,12 +1120,12 @@ ESCNet\upcite{zhang2022exploring}。
 本章设置了多个实验来验证所提模块的有效性，
 具体来说，
 逐渐在基线网络中添加令牌通信模块，聚焦感知增强策略和特征融合模块
-到本章所提的聚焦感知网络中，在表~\ref{table:abl_total}~中分别以标号2,~4,~5表示。
+到本章所提的聚焦感知网络中，在表~\ref{table:abl_total}~中分别以标号3,~4,~5表示。
 如表~\ref{table:abl_total}~所示，这三个模型可以逐渐提高光场显著性目标检测性能，
 最终大幅优于基线模型。 
 
 
-\begin{table}[t]
+\begin{table}[b]
 	\bicaption{本章方法在DUTLF-FS数据集上的消融实验结果}
 	{Ablation experimental results of the proposed method on the DUTLF-FS dataset}
 	%	{在 DUTLF-FS 数据集上每个组件的消融分析}
@@ -1122,7 +1133,7 @@ ESCNet\upcite{zhang2022exploring}。
 	\centering
 	\label{table:abl_total}
 	\label{chpt3:table:abl_total}
-	%	\resizebox{0.82\linewidth}{!}{
+	\resizebox{0.93\linewidth}{!}{
 		\begin{tabular}{cllcccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
@@ -1139,7 +1150,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\midrule
 			
 			%			% 开始填写数据
-			1 & \multicolumn{2}{l}{ Baseline }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+			1 & \multicolumn{2}{l}{ 基线网络 }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
 			
 			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
 			
@@ -1161,11 +1172,13 @@ ESCNet\upcite{zhang2022exploring}。
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-		% }
+		}
 \end{table}
 
 
-\begin{figure}[b] 
+
+
+\begin{figure}[t] 
 	\includegraphics[width=0.99\linewidth]{figures/chapter3/self-comparsion-Use} 
 	\centering
 	\bicaption{消融实验的可视化结果}
@@ -1176,29 +1189,98 @@ ESCNet\upcite{zhang2022exploring}。
 \end{figure}
 
 
-\begin{figure}[b] 
-	\includegraphics[width=0.99\linewidth]{figures/chapter3/attn_cmp_turn} 
-	\centering
-	\bicaption{令牌通信模块的可视化分析}
-	{Visual analysis of token communication module}
-	%	{消融研究的可视化比较}
-	%	{Visual comparisons of ablation studies}
-	\label{chpt3:figure:attn_tcm}
-\end{figure}
 
 
-\todo 
-
-注意图的可视化:
-我们将“baseline”和“+TCM(++TS)”设置下编码器第三阶段的特征图(16x16)可视化，如图所示。我们通过在相应的注意图之间相减来生成差异图，以突出差异。我们发现，与焦点相关的标记弥补了对未聚焦的突出物体缺乏关注。当汽车被聚焦时，标记将注意力引导到标志上(切片1、2、3和6);当标志被聚焦时，标记强化了对未被聚焦的汽车的意识(切片7和9)。
 
 
-\begin{table}[!ht]
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+本节还提供了每个消融研究相应的可视化结果，
+如图~\ref{figure:self_comp}~中所示
+其中(a)表示全聚焦图像，
+(b)-(f) 分别代表基线模型、以及在基线模型基础上逐步添加
+令牌交互操作，令牌移位操作、聚焦感知增强策略和特征融合模块的显著性目标预测图，
+对应消融实验表~\ref{chpt3:table:abl_total}~中编号从1-5的不同设置的方法。
+可以发现，预测的二进制掩码表示与真值图逐渐变得更加一致。 
+显着对象的完整内容和精确的显着图边界，
+证明本章所提出的聚焦感知的网络模型可以有效过滤掉背景干扰并更多地关注显着对象。 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（2）
+令牌通信模块的消融实验分析
+
+
+
+
+此外，为了证明本章所提出的令牌通信模块中的令牌交互操作和令牌移位操作的有效性，
+在表~\ref{table:abl_total}~中添加标号为2的网络，
+表示只在基线模型上添加令牌交互操作。
+标号为3的网络，是在基线网络的基础上，添加完整的令牌通信模块。
+其相比标号为2的网络，多添加了令牌移位操作。
+从表中数据可以看出，与标号1的基线模型相比。
+模型2和模型3在 DUTLF-FS 数据集上分别使 MAE 指标降低 29.2\% 和 43.8\%。 
+证明了本文提出的令牌通信模块中的两个操作，
+即令牌交互操作和令牌移位操作，
+对促进显著性检测网络理解三维场景信息产生巨大作用。
+
+
+
+为了更直观的展示本章所提出的令牌通信模块的有效性，
+根据表~\ref{table:abl_total}~中实验编号1和3的网络设置，
+即基线网络，和在基线网络上添加了令牌通信模块的网络，
+本节分别可视化了这两个网络在编码器阶段中第三层特征图，
+原始特征图大小为16x16。
+可视化的定性结果如图~\ref{chpt3:figure:attn_tcm}~中所示，
+图中第一行和第二行分别表示了编号为1和编号为3的网络所对应的部分特征图，
+为了突出两行特征图之间的差异，
+本小节可视化了它们的差异图，具体通过相应的特征图作差来生成。
+从图~\ref{chpt3:figure:attn_tcm}~中可以看出，
+对于焦点堆栈中的切片1和切片2，
+特征图则是更多地将注意力权重放在场景图像中的绿色汽车，
+添加令牌交互模块之后，
+引导了网络将特征权重更多向右侧绿色标志牌转移。
+这个效果在切片3和切片6上表现地更为明显。
+对于焦点堆栈中切片7和切片9，网络提取的原始特征图更多地将注意力放在标志牌上，
+通过对网络添加令牌通信模块后，
+网络提取的特征图能够逐渐地将注意权重放到右侧的绿色汽车区域上。
+通过第三行所展示的前两行特征图的差异，
+显示了本章所提模块对于传递不同切片信息的巨大作用。
+
+
+
+%注意图的可视化:
+%我们将“baseline”和“+TCM(++TS)”设置下编码器第三阶段的特征图(16x16)可视化，如图所示。我们通过在相应的注意图之间相减来生成差异图，以突出差异。我们发现，与焦点相关的标记弥补了对未聚焦的突出物体缺乏关注。当汽车被聚焦时，标记将注意力引导到标志上(切片1、2、3和6);当标志被聚焦时，标记强化了对未被聚焦的汽车的意识(切片7和9)。
+
+
+ \begin{figure}[t] 
+ 	\includegraphics[width=0.99\linewidth]{figures/chapter3/attn_cmp_turn} 
+ 	\centering
+ 	\bicaption{令牌通信模块的可视化分析}
+ 	{Visual analysis of token communication module}
+ 	%	{消融研究的可视化比较}
+ 	%	{Visual comparisons of ablation studies}
+ 	\label{chpt3:figure:attn_tcm}
+ \end{figure}
+ 
+
+%\textbf{焦点相关标记的数量。} 
+
+
+
+
+\begin{table}[!t]
 	\bicaption{焦点相关令牌数量的影响， $M$表示焦点相关令牌的数量}
 	{Impact of focal-related token numbers. $M$ indicates the number of focal-related tokens}
 	\centering
 	\label{table:abl_token_number}
-		\resizebox{0.40\linewidth}{!}{
+	\resizebox{0.45\linewidth}{!}{
 		\begin{tabular}{ccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -1223,17 +1305,79 @@ ESCNet\upcite{zhang2022exploring}。
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-			}
+	}
 	
 \end{table}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（3）
+焦点相关标记的数量
 
-\begin{table}[!ht]
+
+
+为研究不同的与焦点相关标记数量对网络性能的影响，
+本章设计了不同的与焦点相关标记的数量来进行实验，
+实验结果记录在表~\ref{table:abl_token_number}~中，
+标记数量从 8 个增加到 32 个来测试本章方法。
+与使用较少的焦点相关标记 ($M$ = 8, 16) 相比，使用更多的焦点相关标记 ($M$ = 32) 可以获得更好的结果。 
+由于实验设备的显存大小和计算速度的限制，本章并没有采用更大的与焦点令牌数量进行实验。
+除非另有说明，本章的实验均使用 32 个与焦点相关的标记。
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（4）
+聚焦感知增强策略中的 $K$ 值
+
+
+本章设置了多个比较实验来选择最佳 $k$ 数，具体数据见表~\ref{table:abl_fp}。
+将 $K$ 从 1 增加到 5 时，性能逐渐提高。 
+当 $K > 5$ 时，观察到模型性能饱和并变得次优。 
+分析认为较大的 $K$ 值会引入更多不显着的背景效应。 
+考虑到性能和计算成本之间的权衡，本章方法选择 $K = 5$ 作为最终配置。
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+（5）
+聚焦感知增强方法设置
+
+
+
+为了验证不同聚焦感知增强设置的有效性，
+本章方法在随机、卷积和基于 SSIM 的选择方法之间进行了比较实验。 
+所有实验将 $K$ 数设置为 5。
+其中基于随机的选择方法是指随机从12个焦点切片特征中选取$K$个特征作为强化后的焦点堆栈特征。
+基于卷积的方式是指，先将12个焦点切片的特征在通道维度进行拼接，拼接后的维度为$12c$，
+原始每张焦点切片对应特征的通道为$c$。
+使用2D卷积在通道维度进行增强使之通道数变为$Kc$，再拆分为$K$个切片特征作为强化后的焦点堆栈特征。
+表~\ref{table:abl_methods}~中所示，
+本章方法在使用基于卷积方式进行感知增强时已经达到了与其他仅使用卷积的光场显著性目标检测方法取得相接近的性能，
+证明了本章所提出方法的优越性。
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{table}[t]
 	\bicaption{聚焦感知增强策略中使用不同$K$数的比较}
 	{Comparison of using different $K$ numbers in focal perception enhancement strategy}
 	\centering
 	\label{table:abl_fp}
-		\resizebox{0.42\linewidth}{!}{
+	\resizebox{0.45\linewidth}{!}{
 		\begin{tabular}{ccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -1258,7 +1402,7 @@ ESCNet\upcite{zhang2022exploring}。
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-			}
+	}
 \end{table}
 
 
@@ -1270,7 +1414,7 @@ ESCNet\upcite{zhang2022exploring}。
 	
 	\centering
 	\label{table:abl_methods}
-		\resizebox{0.60\linewidth}{!}{
+	\resizebox{0.60\linewidth}{!}{
 		\begin{tabular}{ccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -1294,90 +1438,55 @@ ESCNet\upcite{zhang2022exploring}。
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-		}
+	}
 \end{table}
 
 
 
 
-此外，为了证明本章所提出的令牌通信模块中的令牌交互操作和令牌移位操作的有效性，
-在表~\ref{table:abl_total}~中添加标号为2，3的网络，
-分别表示只在基线模型上添加令牌交互操作，以及基于模型2，再添加令牌移位操作的网络。
-从表中数据可以看出，与标号1的基线模型相比。
-模型2和模型3在 DUTLF-FS 数据集上分别使 MAE 指标降低 29.2\% 和 43.8\%。 
 
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-本节还在图~\ref{figure:self_comp}~中提供了每个消融研究相应的可视化结果，
-其中(a)表示全聚焦图像，
-(b)-(f) 分别代表基线模型、以及在基线模型基础上逐步添加
-令牌交互操作，令牌移位操作、聚焦感知增强策略和特征融合模块的显著性目标预测图，
-对应消融实验表~\ref{chpt3:table:abl_total}~中编号从1-5的不同设置的方法。
-可以发现，预测的二进制掩码表示与真值图逐渐变得更加一致。 
-显着对象的完整内容和精确的显着图边界，
-证明本章所提出的聚焦感知Transformer模型可以有效过滤掉背景干扰并更多地关注显着对象。 
-
-
-
-
-
-
- 
-
-%\textbf{焦点相关标记的数量。} 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（2）
-焦点相关标记的数量
-
-
-
-在表~\ref{table:abl_token_number}~中，采用不同的与焦点相关标记的数量来设计实验，
-标记数量从 8 个增加到 32 个来测试本章方法。
-与使用较少的焦点相关标记 ($M$ = 8, 16) 相比，使用更多的焦点相关标记 ($M$ = 32) 可以获得更好的结果 。 
-除非另有说明，本章的实验均使用 32 个与焦点相关的标记。 
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（3）
-聚焦感知增强策略中的 $K$ 值
-
-
-本章设置了多个比较实验来选择最佳 $k$ 数，具体数据见表~\ref{table:abl_fp}。
-将 $K$ 从 1 增加到 5 时，性能逐渐提高。 
-当 $K > 5$ 时，观察到模型性能饱和并变得次优。 
-分析认为较大的 $K$ 值会引入更多不显着的背景效应。 
-考虑到性能和计算成本之间的权衡，本章方法选择 $K = 5$ 作为最终配置。
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-（4）
-聚焦感知增强方法设置
-
-
-
-为了验证不同聚焦感知增强设置的有效性，
-本章方法在随机、卷积和基于 SSIM 的选择方法之间进行了比较实验。 
-所有实验将 $K$ 数设置为 5。
-表~\ref{table:abl_methods}~中所示，
-本章方法在使用基于卷积方式进行感知增强时已经达到了与其他光场显著性目标检测方法相当的性能，
-证明了本章所提出方法的优越性。
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSection{本章小结}{The Chapter’s Conclusion}
 
+
+
+
+
 在本章中，提出了一种用于精确检测光场显著性物体的聚焦感知网络。 
-通过引入与焦点相关的令牌来收集图像特定的特征，并提出令牌通信模块来传播信息并促进空间上下文建模。 
+通过引入与焦点相关的令牌来汇总特定于图像的特征，
+并提出令牌通信模块来传播信息并促进空间上下文建模。 
 为了增强焦点堆栈的空间特征表示，本章提出了一种聚焦感知增强策略来帮助抑制噪声背景信息。 
 实验结果表明，本章所提出的方法可以在大多数光场显著性分割数据集上实现最先进的性能。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

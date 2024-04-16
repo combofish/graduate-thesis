@@ -105,9 +105,10 @@
 近几年来，计算机视觉领域兴起，
 研究者们不在满足处理低维的传统手工特征，
 开始以梯度下降法训练的可学习深度神经网络来获取图像或视频的高级语义信息，
-引领显著性目标检测算法性能的巨大飞跃。
+引领显著性目标检测算法性能的巨大飞跃
+\upcite{1016757905.nh,1016176438.nh}。
 基于深度可学习卷积神经网络的RGB显著性目标检测方法
-\upcite{feng2019attentive,wu2019cascaded,wu2019mutual,liu2019simple,liu2018picanet,wang2018detect,hou2017deeply,liu2016dhsnet,wang2016saliency}
+\upcite{1020381659.nh,feng2019attentive,wu2019cascaded,wu2019mutual,liu2019simple,liu2018picanet,wang2018detect,hou2017deeply,liu2016dhsnet,wang2016saliency}
 提取图像的高层语义信息来预测显著性图。
 然而，在面对一些挑战性场景时，
 深度卷积神经网络很难学习到图像成像时的具体场景信息，
@@ -120,7 +121,7 @@
 随着电子传感器的发展，高精度的激光雷达开始普及，
 场景的深度信息变得更加容易获取。
 基于深度卷积神经网络的RGB-D显著性目标检测算法
-\upcite{cong2019going,li2020asif,cong2017iterative,chen2019three,piao2019depth,chen2018progressively}
+\upcite{1020302783.nh,cong2019going,li2020asif,cong2017iterative,chen2019three,piao2019depth,chen2018progressively}
 能够同时考虑每个场景中像素距离镜头的位置信息，同时也隐含了不同像素物体之间的相对物理距离信息。
 这样深度卷积神经网络能够更容易的分辨出场景中有差异的不同物体，
 相比RGB的深度卷积显著性目标检测网络有着天然的信息优势，
@@ -141,7 +142,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-随着光学成像技术的发展，出现了能够记录光线信息的光场成像相机。
+随着光学成像技术的发展，出现了能够记录光线信息的光场成像相机\upcite{CUXI202002037}。
 相对于基于CMOS传感器的2维彩色图片相机，又或者是辅助以激光雷达获取包含深度信息的RGB-D数据，
 光场数据隐含了更多现实空间中光线的信息，
 包括但不限于像素物体的深度信息，像素物体的聚焦程度以及不同像素点之间的视角差异数据。
@@ -164,7 +165,7 @@
 
 
 现有研究表明
-\upcite{piao2019deep,zhang2020light,wang2019deep,zhang2019memory,zhang2020lfnet,piao2021panet}，
+\upcite{1016026888.nh,1020420701.nh,1022766041.nh,piao2019deep,zhang2020light,wang2019deep,zhang2019memory,zhang2020lfnet,piao2021panet}，
 在光场数据上进行显著性目标检测，
 能够辨识更为复杂的场景信息，
 通过汇总光场数据中隐含的不同物理场景信息，
@@ -283,7 +284,7 @@ AFNet\upcite{feng2019attentive}开发了一种关注反馈模块，以更好地�
 EGNet\upcite{zhao2019egnet}利用关于显著边缘和显著对象的互补信息来提出边缘引导网络。
 CPDNet\upcite{wu2019cascaded}提出了一个部分解码器，用于优化高级特征生成精确的显著性预测，在提升检测性能的同时显著提高了检测速度。
 BASNet\upcite{qin2019basnet}通过顺序堆叠两个具有不同配置的
-U-Net\upcite{DBLP:journals/corr/RonnebergerFB15}实现了精细的预测模型。
+U-Net\upcite{1023770130.nh}实现了精细的预测模型。
 AADFNet\upcite{zhu2019aggregating}设计了一个基于关注密集 ASPP 的网络，以选择性地使用小膨胀速率卷积和大膨胀速率卷积来获取局部和全局显著性信息。
 GateNet\upcite{zhao2020suppress}设计了一个带有门控双分支结构，以建立不同级别特征之间的合作关系，以增加网络的可辨识性。
 U2Net\upcite{qin2020u2}提出了一种新颖的 Residual U-block (RSU)，可以在不降低特征映射分辨率的情况下获得内部多分辨率特征。
@@ -416,8 +417,8 @@ Sun等研究者\upcite{sun2021deep}构建了深度分解模块，使用深度图
 大多数方法采用先进行粗糙预测，然后在细化处理的多阶段检测方式，而且大部分研究都是基于光场焦点堆栈数据展开探索。
 %
 %
-李等人\upcite{li2014saliency}提出了第一个光场显着性数据集，并通过计算背景先验、位置先验和对比度线索来检测显着对象。
-之后，李等研究者\upcite{li2015weighted}提出了加权稀疏编码框架同时处理2D、3D和4D 显著性检测的问题，
+Li等人\upcite{li2014saliency}提出了第一个光场显着性数据集，并通过计算背景先验、位置先验和对比度线索来检测显着对象。
+之后，Li等研究者\upcite{li2015weighted}提出了加权稀疏编码框架同时处理2D、3D和4D 显著性检测的问题，
 收集非显著性区域来增强图像中其他显著的数据，
 通过循环迭代来逐渐优化显著性目标的表示。
 Zhang等人\upcite{zhang2015saliency}计算对比度显着图，

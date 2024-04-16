@@ -38,12 +38,12 @@
 %citecolor=green
 %]{hyperref}  
 
-%\usepackage{hyperref} 
-%\hypersetup{
-%	colorlinks=true,
-%	citecolor=blue,
-%	linkcolor=red,
-%	urlcolor=green}
+\usepackage{hyperref} 
+\hypersetup{
+	colorlinks=true,
+	citecolor=blue,
+	linkcolor=red,
+	urlcolor=green}
 
 
 \usepackage[UTF8]{ctex} % 使用 ctex 宏包处理中文
@@ -105,7 +105,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % 封面绘制
-%\maketitle
+\maketitle
 
 % 论文原创性声明和使用授权
 %\makeDeclareOriginal
@@ -118,7 +118,7 @@
 
 % 摘要
 %\include{chapters/abstract}
-%\include{parts/abstract}
+\include{parts/abstract}
 %\include{parts/abstract_eng}
 
 
@@ -126,16 +126,16 @@
 
 % 加入目录
 \tableofcontents
-%\tableofengcontents
+\tableofengcontents
 
 % 加入图、表索引(同时取消图表索引中章之间的垂直间隔)
-%\let\origaddvspace\addvspace
-%\renewcommand{\addvspace}[1]{}
-%\addcontentsline{toc}{chapter}{图目录}
-%\listoffigures
-%\addcontentsline{toc}{chapter}{表目录}
-%\listoftables
-%\renewcommand{\addvspace}[1]{\origaddvspace{#1}}
+\let\origaddvspace\addvspace
+\renewcommand{\addvspace}[1]{}
+\addcontentsline{toc}{chapter}{图目录}
+\listoffigures
+\addcontentsline{toc}{chapter}{表目录}
+\listoftables
+\renewcommand{\addvspace}[1]{\origaddvspace{#1}}
 
 % 主要符号表
 %\input{chapters/denotation}
@@ -149,12 +149,12 @@
 \let\cleardoublepage\clearpage
 
 
-%\include{parts/part1}
-%\include{parts/part2}
+\include{parts/part1}
+\include{parts/part2}
 \include{parts/part3}
-%\include{parts/part4}
+\include{parts/part4}
 %\include{parts/partcc}
-%\include{parts/conclusions}
+\include{parts/conclusions}
 
 
 %\include{chapters/chapter1}
@@ -167,7 +167,7 @@
 
 %% 参考文献，五号字，使用 BibTeX，包含参考文献文件.bib
 %\bibliography{reference/chap1,reference/chap2} %多个章节的参考文献
-\bibliography{reference/lfsod,reference/chap1,reference/ref_chapter2,reference/lfsod_models}
+\bibliography{reference/chap1,reference/lfsod,reference/chinese}
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -192,15 +192,15 @@
 %\include{chapters/app2} 
 
 % %(其后部分无编号)
-%\backmatter  
+\backmatter 
 
 % % 发表文章目录
 %\include{chapters/pub}
-%\include{parts/pub}
+\include{parts/pub}
 
 % % 致谢
 %\include{chapters/thanks}
-%\include{parts/thanks}
+\include{parts/thanks}
 
 
 \end{document}

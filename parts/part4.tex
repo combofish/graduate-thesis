@@ -794,12 +794,12 @@ HFUT-LFSD 共包含 255 个光场样本；
 （2）网络实现细节
 
 
-本章所提的网络结构基于MMSegmentation\upcite{mmseg2020}框架构建，
+本章所提的网络结构基于MMSegmentation框架构建，
 并使用两张GTX4090显卡进行并行训练。
 在训练过程中,本章使用 AdamW 优化器，
 学习率设置为1e-4，并通过阶梯下降措施来降低学习率，
 每10次整体迭代后学习率降台阶为原来的1/10。
-总的小批量大小为2*2。
+总的小批量大小为2。
 网络中批量归一化（BatchNorm, BN）修改为组
 归一化 （GroupNorm，GN）。
 最多进行100轮循环，所有输入的图片尺寸设置为 256x256，
@@ -847,7 +847,7 @@ BBS-Net     \upcite{fan2020bbs}, SSF\upcite{zhang2020select} and S2MA    \upcite
 %
 %
 %
-和10个2D显著性检测方法：
+和10个RGB显著性检测方法：
 VST-$rgb$ \upcite{liu2021visual}，
 PFSNet \upcite{ma2021pyramidal}，
 ITSD \upcite{zhou2020interactive}，
@@ -884,8 +884,8 @@ PiCANet \upcite{liu2018picanet}。
 定量比较
 
 
-%表~\ref{chpt4:tab:cmp_sota}~展示了
-表~4.1~展示了
+表~\ref{chpt4:tab:cmp_sota}~展示了
+%表~4.1~展示了
 本章方法与现有方法在
 DUTLF-FS、HFUT和LFSD三个数据集上的实验结果，
 使用了E-measure、S-measure、F-measure和平均绝对误差四个评估指标来比较不同网络的性能。
@@ -906,16 +906,16 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 
 %
 %
-\begin{table}[!ht]
-	\centering
-	%	\label{chpt4:table:comp_with_sota_3_1}
-	\label{chpt4:tab:cmp_sota}
+\begin{table}[p]
 	\bicaption{在3个光场公开数据集上与现有方法的定量比较}
 	{Quantitative comparison with existing methods on 3 light field public datasets}
 	%	{在3个光场数据集上与现有方法的定量比较}
 	%	{Quantitative comparison with existing methods on 3 light field datasets}
 	%	{在 3 个公开数据集上的定量比较}
 	%	{Quantitative comparisons on three light field datasets}
+	\centering
+	%	\label{chpt4:table:comp_with_sota_3_1}
+	\label{chpt4:tab:cmp_sota}
 	\resizebox{\textwidth}{!}{
 		\begin{tabular}{rcccccccccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
@@ -1208,7 +1208,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 	{Ablation experimental analysis of each component on the DUTLF-FS dataset}
 	\centering
 	\label{chpt4:tab:abl_tot}
-	%	\resizebox{0.82\linewidth}{!}{
+	\resizebox{0.95\linewidth}{!}{
 		\begin{tabular}{lcccccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
@@ -1244,19 +1244,19 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-		% }
+		 }
 \end{table}
 
 
 
 
 
-\begin{table}[!ht]
+\begin{table}[b]
 	\bicaption{视角增强注意力模块的消融实验结果}
 	{Ablation experimental results of perspective-enhanced attention module}
 	\centering
 	\label{chpt4:tab:abl_attn}
-	%	\resizebox{0.82\linewidth}{!}{
+	\resizebox{0.95\linewidth}{!}{
 		\begin{tabular}{lcccccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
@@ -1297,7 +1297,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 			
 			\bottomrule[1.5pt]
 		\end{tabular}
-		% }
+		 }
 \end{table}
 
 
@@ -1374,7 +1374,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 	{Ablation experiments on perceptual contrast learning strategies}
 	\centering
 	\label{chpt4:tab:abl_loss}
-	\resizebox{\linewidth}{!}{
+	\resizebox{0.93\linewidth}{!}{
 		\begin{tabular}{lcccccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
