@@ -38,12 +38,13 @@
 %citecolor=green
 %]{hyperref}  
 
-\usepackage{hyperref} 
-\hypersetup{
-	colorlinks=true,
-	citecolor=blue,
-	linkcolor=red,
-	urlcolor=green}
+
+%\usepackage{hyperref} 
+%\hypersetup{
+%	colorlinks=true,
+%	citecolor=blue,
+%	linkcolor=red,
+%	urlcolor=green}
 
 
 \usepackage[UTF8]{ctex} % 使用 ctex 宏包处理中文
@@ -92,11 +93,11 @@
 %% [ ] 8，图表索引
 
 %% [ ] 9，正文
-%% [ ] 9，第一章
-%% [ ] 9，第二章
-%% [ ] 9，第三章
-%% [ ] 9，第四章
-%% [ ] 10，结论
+%% [ ] 9，第一章  --9
+%% [ ] 9，第二章  --21
+%% [ ] 9，第三章  --38
+%% [ ] 9，第四章  --53
+%% [ ] 10，结论   --55
 
 %% [ ] 11，参考文献， cite --> upcite
 
@@ -108,8 +109,8 @@
 \maketitle
 
 % 论文原创性声明和使用授权
-%\makeDeclareOriginal
-%\addcontentsline{toc}{chapter}{大连理工大学学位论文版权使用授权书}
+\makeDeclareOriginal
+\addcontentsline{toc}{chapter}{大连理工大学学位论文版权使用授权书}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 前置部分
@@ -196,11 +197,11 @@
 
 % % 发表文章目录
 %\include{chapters/pub}
-%\include{parts/pub}
+\include{parts/pub}
 
 % % 致谢
 %\include{chapters/thanks}
-%\include{parts/thanks}
+\include{parts/thanks}
 
 
 \end{document}

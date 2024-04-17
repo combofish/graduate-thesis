@@ -290,7 +290,9 @@ Jiang等学者\upcite{jiang2013salient}也采用类似的方式，
 相比之下，基于深度学习的检测算法，
 能够通过学习带真值的数据集而理解不同的物理场景，
 在一些困难场景也具有很高的检测精度。
-近年来，基于编码器-解码器和特征聚合架构的显著对象检测（SOD）方法已取得了很高的性能
+近年来，基于编码器-解码器和特征聚合架构的显著对象检测
+（SOD）
+方法已取得了很高的性能
 \upcite{gupta2020salient,mao2021generative,wang2021salient}。
 MLMSNet\upcite{wu2019mutual}利用前景边界检测和边缘检测的监督。
 AFNet\upcite{feng2019attentive}开发了一种关注反馈模块，以更好地探索目标结构。
@@ -300,7 +302,7 @@ BASNet\upcite{qin2019basnet}通过顺序堆叠两个具有不同配置的
 U-Net\upcite{1023770130.nh}实现了精细的预测模型。
 AADFNet\upcite{zhu2019aggregating}设计了一个基于关注密集 ASPP 的网络，以选择性地使用小膨胀速率卷积和大膨胀速率卷积来获取局部和全局显著性信息。
 GateNet\upcite{zhao2020suppress}设计了一个带有门控双分支结构，以建立不同级别特征之间的合作关系，以增加网络的可辨识性。
-U2Net\upcite{qin2020u2}提出了一种新颖的 Residual U-block (RSU)，可以在不降低特征映射分辨率的情况下获得内部多分辨率特征。
+U2Net\upcite{qin2020u2}提出了一种新颖的 Residual U-block （RSU），可以在不降低特征映射分辨率的情况下获得内部多分辨率特征。
 MINet\upcite{zhang2020multistage}提出通过采用多阶段的精化机制来增强前馈神经网络。
 LDF\upcite{wei2020label}设计了一个双分支解码器，通过利用对象的主体和细节信息的互补性来预测显著性地图。
 SAC\upcite{9094635}实施了一个空间衰减上下文模块来通过两轮递归转换传播和聚合显著特征。
@@ -386,11 +388,11 @@ Zhang等研究者\upcite{zhang2021bts}提出了一个双向转移和选择模块
 Ji等人\upcite{ji2021calibrated}提出了校准深度中潜在噪声的方法，
 并引入了一个交叉参考模块，将校准后的深度与RGB特征融合。
 Sun等研究者\upcite{sun2021deep}构建了深度分解模块，使用深度图的几何先验来过滤RGB图像中的噪声。
-为了实现相同的目标，Zhang等人提出备选策略，通过自监督学习，
+为了实现相同的目标，Zhang等人提出基于区域的特征备选策略，通过自监督学习，
 实现能够更好地利用几何信息的辅助深度估计模块\upcite{zhang2021deep}。
 %或改进模块\upcite{piao2021critical}。
 除了确定性RGB-D显着性检测模型外，Zhang等学者\upcite{zhang2020uc}还探索了基于生成模型的显着性检测，
-以解释显着性的“主观性质”。
+以解释显著性的“主观性质”。
 
 
 
@@ -529,10 +531,14 @@ RGB 显著性目标检测\upcite{liu2021visual, siris2021scene}和
 RGBD 显著性目标检测\upcite{liu2021tritransnet, wang2021mutualformer}
 和光场显著性目标检测\upcite{liu2023lftransnet}。
 Transformer 首先由 Vaswani 等人提出\upcite{vaswani2017attention}，
-已广泛应用于自然语言处理（NLP）。
+已广泛应用于自然语言处理
+（NLP）
+。
 ViT （Vision Transformer）由 Dosovitskiy 等人提出\upcite{dosovitskiy2020image}，
 首先将Transformer应用于图像域。
-由于其强大的全局信息捕获能力，Transformer表现出了优异的性能。
+相比具有局部感受野的深度卷积神经网络，
+Transformer由于其强大的全局信息捕获能力，
+基于Transformer架构的网络在不同视角任务上表现出了优异的性能。
 最近的工作探索了将 Transformer 应用于各种视觉任务：
 图像分类\upcite{chen2020generative, dosovitskiy2020image}、
 目标检测\upcite{zhu2020deformable, dai2021up, sun2021rethinking}、
@@ -570,8 +576,8 @@ Wang等人\upcite{wang2021mutualformer}提出了一种基于Transformer的多模
 
 
 
-随着十年多以来，深度卷积神经网络逐步发展迭代，
-使得基于卷积神经网络构建的光场显著性目标检测算法，
+随着十年多以来，机器学习和人工智能的发展，
+基于深度卷积神经网络构建的光场显著性目标检测算法，
 可以提取光场可视化表示中的显著语义特征，
 提升了显著性目标检测的算法性能。
 但是由于光场的高维数据表示，
@@ -754,7 +760,7 @@ Wang等人\upcite{wang2021mutualformer}提出了一种基于Transformer的多模
 %
 %
 面对如何高效的利用光场数据中全聚焦图和焦点堆栈两个模态的差异信息，
-本文提出了一种视角增强网络探索光场数据的方法。
+本文提出了一种基于视角增强的网络来探索光场数据的方法。
 %
 %
 该方法主要包含两个主要部分：视角增强注意力模块和感知对比学习策略。

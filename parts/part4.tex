@@ -71,11 +71,11 @@
 
 
 
-王等人\upcite{wang2023tenet}通过拼接焦点堆栈和全聚焦图特征，
+Wang等学者\upcite{wang2023tenet}通过拼接焦点堆栈和全聚焦图特征，
 一并送入Transformer编码器来建立光场整体结构的感知模型。
 如图~\ref{cpt4_fig1:task2_ins}~(a)~所示，
 但是，这种方式弱化了全聚焦图片特征和散焦图片特征之间的模态差异，两个模态之间的融合依然依赖后续的融合模块。
-刘等人\upcite{liu2023lftransnet}只在焦点堆栈支路使用了Transformer结构。该方法聚合多尺度的焦点堆栈特征构造注意力矩阵，用一个可学习的权重来作为查询矩阵。通过注意力运算来汇总不同切片对显著性检测的贡献。
+Liu等研究者\upcite{liu2023lftransnet}只在焦点堆栈支路使用了Transformer结构。该方法聚合多尺度的焦点堆栈特征构造注意力矩阵，用一个可学习的权重来作为查询矩阵。通过注意力运算来汇总不同切片对显著性检测的贡献。
 网络结构如图~\ref{cpt4_fig1:task2_ins}~(b)~所示。
 这种方法没有充分考虑两个模态之间的差异，仅在单焦点堆栈模态起到特征强化效果，只能考虑有限的特征表达。
 % 
@@ -115,7 +115,7 @@
 
 为了证实本章所提方法的性能优势，
 本章在三个公开基准数据集上进行实验测试，
-包括大连理工大学提出的DUTLF-FS、合肥工业大学提出的HFUT
+包括合肥工业大学提出的HFUT、大连理工大学提出的DUTLF-FS
 以及美国杜克大学提出的LFSD数据集。
 为探索光场数据的应用提供了新的范式。
 
@@ -183,7 +183,7 @@
 
 
 本章所提的模型前向过程如图~\ref{cpt4_fig1:chpt4_overview}~所示。
-具体来说，通过输入图像大小为$W \times H$的RGB图像$I_{0}$和
+通过输入图像大小为$W \times H$的RGB图像$I_{0}$和
 焦点堆栈$\left \{  I_{1},I_{2},I_{3},\cdots,I_{12} \right \} $，
 分别输入编码器中以提取分辨率为$\frac{W}{2 \times 2^{l}} \times \frac{H}{2  \times 2^{l}} $ 
 的特征$\left \{ F_{i}^{l},~l=1,2,3,4 \right \}$，
@@ -274,8 +274,9 @@ $ e_{pos}\in \mathbb{R}^{H_{l}W_{l}\times C} $。
 
 对全聚焦特征$ F_{0}^{4} $和
 焦点堆栈特征$ \left \{ F_{i}^{4}, i=1,2, \cdots, 12 \right \}$
-进行自注意力计算以增强其模态内的特征表示。
+进行自注意力计算以增强其自身模态的特征表示。
 自注意力最早来源于Transformer架构\upcite{vaswani2017attention}，
+它的核心思想是，
 给定一个查询元素（例如,输出句子中的目标单词）和一组关
 键元素（例如,输入句子中的源单词）,多头注意力模块根据衡量查询密钥对兼容性
 的注意力自适应地聚合关键内容。
@@ -343,9 +344,16 @@ $A_{mqk} \propto exp \left \{
 也需要相比卷积网络更多的训练次数来学习到对局部特征的归纳偏置\upcite{sun2021rethinking}。
 局部特征足以更新查询特征，并且可以通过自注意力收集上下文信息\upcite{cheng2022masked}。
 标准的交叉注意力（带残差路径）计算公式如下：
+%\begin{equation}
+%	X_{l}=Softmax(Q_{l}K_{l}^{T})V_{l} + X_{l-1}
+%\end{equation}
+%
 \begin{equation}
-	X_{l}=Softmax(Q_{l}K_{l}^{T})V_{l} + X_{l-1}
+	X_{l}=Softmax(    \frac{Q_{l}K_{l}^{T}}{\sqrt{d_{k}}} )V_{l} + X_{l-1}
 \end{equation}
+%
+%
+%
 其中，$l$是层索引，$X_{l} \in \mathbb{R}^{N\times C}$
 是指在$l^{th}$层和
 $ Q_{l} = f_{Q} \left ( X_{l-1} \right ) \in \mathbb{R}^{N \times C} $
@@ -357,6 +365,8 @@ $H_{l}$和$W_{l}$是图像特征的空间分辨率。
 $f_{Q} (\cdot),~f_{K}(\cdot) $和$ f_{V}(\cdot) $是线性变换。
 $ Softmax(\cdot) $ 函数将输入的权重矩阵映射为 $(0,~1)$之间的分布，
 并且使得输出值的累计和为1，从而满足概率性质，即对概率最大的元素加强注意。
+$d_{k}$是查询和密钥的通道维度，
+$\sqrt{d_{k}}$是控制$softmax$的放缩系数。
 
 
 
@@ -409,23 +419,36 @@ $ Softmax(\cdot) $ 函数将输入的权重矩阵映射为 $(0,~1)$之间的分�
 % 
 % 
 掩码注意力通过以下方式调节注意力矩阵：
+%
+%
+%
+%
+%
+%
 \begin{equation}
-	X_{l}=softmax(M_{l-1} ~+~Q_{l}K_{l}^{T})V_{l} + X_{l-1}
+X_{l}=softmax(\frac{M_{l-1} ~+~Q_{l}K_{l}^{T}}{ \sqrt{d_{k}}} )~ V_{l} + X_{l-1}
 \end{equation}
+%
+%
+%
+%
+%
+%
+%\begin{equation}
+%	X_{l}=softmax(M_{l-1} ~+~Q_{l}K_{l}^{T})V_{l} + X_{l-1}
+%\end{equation}
 % 
 % 
 此外，在特征位置$(x,~y)$的注意力掩码$M_{l-1}$是从另一个模态的特征提取的共有表示。
-%
-%
-%
-%
-%
-%
-\par 
-%
-%
-%
-%
+$d_{k}$是查询和密钥的通道维度，
+$\sqrt{d_{k}}$是控制$softmax$的放缩系数。
+
+
+
+
+
+
+
 根据交叉注意力的方式不同，注意力掩码有两个生成方式，
 对于全聚焦图特征$F_{0}^{l}$与焦点堆栈特征的交叉注意力，
 使用来自焦点堆栈的共有表示来强化注意力权重。
@@ -513,19 +536,16 @@ M^{l}\left ( F\left ( x, ~y \right )  \right ) =
 $K_{l}$ 
 和
 $V_{l}$是来自全聚焦支路的特征 $F_{0}^{l}$。
-%
-%
-%
-%
-%
-\par
-%
-%
-%
-%
-语义分割任务中，上下文特征已经被证明对图像分割很重要
+
+
+
+
+
+
+在语义分割任务中，上下文特征已经被研究学者证明对图像分割很重要
 \upcite{chen2017deeplab,chen2017rethinking,zhao2017pyramid}，
-高分辨率的语义特征对提高模型性能具有显著帮助，特别是小物体的分割。
+高分辨率的语义特征对提高模型性能具有辅助作用，
+特别是对于小物体、低对比度场景的分割，则显得更有帮助。
 本章方法在特征融合阶段对于骨干网络中获取的最低尺度特征$\left \{ F_{i}^{0}, i = 0, 1, \cdots, 12 \right \}$加以考虑。
 特征融合模块获取
 视角增强模块的输出$\left \{ E_{i}^{l}, i = 0, 1, \cdots, 12 \right \}$
@@ -725,13 +745,25 @@ $\mathcal{L}_{NCE} $
 有助于规范嵌入空间，
 提高类内紧凑性和类间可分离性。
 因此总体训练目标是：
+%
+%
+%
+%
 \begin{equation}
-	\mathcal{L}_{total} = \sum_{i}^{} \mathcal{L}_{sal}^{i} + \mathcal{L}_{NCE}^{i}
-%	\mathcal{L}^{SEG}=\sum_{i}\left ( 
-%	\mathcal{L}_{i}^{CE} + 
-%	\lambda \mathcal{L}_{i}^{NCE}  
-%	\right ) 
+%	\mathcal{L}_{total} =  \mathcal{L}_{sal}+ \mathcal{L}_{NCE}
+	\mathcal{L}_{total} =  \mathcal{L}_{sal}+ \lambda  ~ \mathcal{L}_{NCE}
 \end{equation}
+%
+%
+%
+%
+%\begin{equation}
+%	\mathcal{L}_{total} = \sum_{i}^{} \mathcal{L}_{sal}^{i} + \mathcal{L}_{NCE}^{i}
+%%	\mathcal{L}^{SEG}=\sum_{i}\left ( 
+%%	\mathcal{L}_{i}^{CE} + 
+%%	\lambda \mathcal{L}_{i}^{NCE}  
+%%	\right ) 
+%\end{equation}
 % 
 % 
 % 
@@ -740,7 +772,7 @@ $\mathcal{L}_{NCE} $
 学习到的像素嵌入变得更加紧凑且分离良好。
 这表明，通过利用二元交叉熵损失和成对比度量损失的优势，
 显著性分割网络可以生成更具辨别力的特征，
-从而产生更有希望的结果。
+从而产生更精确的结果。
 
 
 
@@ -776,9 +808,9 @@ $\mathcal{L}_{NCE} $
 
 
 本章使用了光场领域常用的三个基准数据集：
-大连理工大学提出的DUT-LFSD\upcite{zhang2019memory}、
-合肥工业大学提出的HFUT-LFSD\upcite{zhang2017saliency}
-以及美国杜克大学提出的LFSD\upcite{li2014saliency}。
+美国杜克大学提出的LFSD\upcite{li2014saliency}、
+大连理工大学提出的DUT-LFSD\upcite{zhang2019memory}
+以及合肥工业大学提出的HFUT-LFSD\upcite{zhang2017saliency}。
 DUT-LFSD 包含室内和室外场景共 1462 张光场样本；
 HFUT-LFSD 共包含 255 个光场样本；
 而 LFSD 只包含 100 个光场样本。
@@ -788,7 +820,7 @@ HFUT-LFSD 共包含 255 个光场样本；
 本章采用了与 ERNet\upcite{piao2020exploit}相同的训练策略来构建训练数据集。
 即，
 本章组合了DUT-LFSD和HFUT-LFSD两个数据集的训练集共1100张图片，
-并采用随机裁剪、翻转、明亮变换等数据增强来扩充数据集。
+并采用随机裁剪、翻转、明亮变换和随机添加高斯噪声等数据增强来扩充数据集。
 其他的所有图片作为测试集，本章在不同数据集上进行同一训练和分开测试。
 
 
@@ -799,13 +831,17 @@ HFUT-LFSD 共包含 255 个光场样本；
 本章所提的网络结构基于MMSegmentation框架构建，
 并使用两张GTX4090显卡进行并行训练。
 在训练过程中,本章使用 AdamW 优化器，
-学习率设置为1e-4，并通过阶梯下降措施来降低学习率，
-每10次整体迭代后学习率降台阶为原来的1/10。
+初始学习率设置为1e-4，
+并使用
+$lr = lr_{0} \times (1- epoch/ max\_epoch)^{power}$
+来动态调整学习率，
+其中$epoch$代表当前的迭代次数，$max\_epoch$表示总迭代次数，实验中设置为100，
+$power$是控制学习率下降速度的系数，通常大于1，实验中设置为2。
 总的小批量大小为2。
 网络中批量归一化（BatchNorm, BN）修改为组
 归一化 （GroupNorm，GN）。
-最多进行100轮循环，所有输入的图片尺寸设置为 256x256，
-得到预测图后双线性插值到原图大小进行评估比对。
+所有输入的图片尺寸设置为 256x256，
+得到预测图后通过双线性插值到原图大小进行评估比对。
 
 
 
@@ -831,33 +867,38 @@ HFUT-LFSD 共包含 255 个光场样本；
 
 
 
-本节将本章方法与其他数据增强方法进行了比较。
-为了进行全面比较，本节将本章方法与 23 个最先进的模型进行比较，
-包括7个光场显著性分割方法：
-LFTransNet \upcite{liu2023lftransnet}，
-DLGLRG \upcite{liu2021light}, RENet \upcite{piao2020exploit}, LFNet \upcite{zhang2020lfnet},
-MAC \upcite{zhang2020light}, MoLF \upcite{zhang2019memory}, and DLSD \upcite{piao2019deep};
+本节将本章方法与其他方法进行了比较。
+为了进行全面比较，本节将本章方法与 24 个最先进的模型进行比较，
+包括8个光场显著性分割方法：
+LFTransNet \upcite{liu2023lftransnet}、
+DLGLRG \upcite{liu2021light}、 RENet \upcite{piao2020exploit}、
+PANet \upcite{piao2021panet}、
+LFNet \upcite{zhang2020lfnet}、
+MAC \upcite{zhang2020light}、MoLF \upcite{zhang2019memory} and DLSD \upcite{piao2019deep}；
 %
 %
 %
 %
 6个RGB-D显著性分割方法：
-DCF \upcite{ji2021calibrated}, CIR-Net\upcite{cong2022cir}, VST-$rgbd$  \upcite{liu2021visual},
-BBS-Net     \upcite{fan2020bbs}, SSF\upcite{zhang2020select} and S2MA    \upcite{liu2020learning};
+DCF \upcite{ji2021calibrated}、
+CIR-Net\upcite{cong2022cir}、 
+VST-$rgbd$  \upcite{liu2021visual}、
+BBS-Net     \upcite{fan2020bbs}、 
+SSF\upcite{zhang2020select} and S2MA    \upcite{liu2020learning}；
 %
 %
 %
 %
 %
 和10个RGB显著性检测方法：
-VST-$rgb$ \upcite{liu2021visual}，
-PFSNet \upcite{ma2021pyramidal}，
-ITSD \upcite{zhou2020interactive}，
-LDF \upcite{wei2020label}，
-MINet \upcite{pang2020multi}，
-F$^{3}$Net  \upcite{wei2020f3net}， 
-EGNet   \upcite{zhao2019egnet}，
-CPD  \upcite{wu2019cascaded}，
+VST-$rgb$ \upcite{liu2021visual}、
+PFSNet \upcite{ma2021pyramidal}、
+ITSD \upcite{zhou2020interactive}、
+LDF \upcite{wei2020label}、
+MINet \upcite{pang2020multi}、
+F$^{3}$Net  \upcite{wei2020f3net}、 
+EGNet   \upcite{zhao2019egnet}、
+CPD  \upcite{wu2019cascaded}、
 PoolNet \upcite{liu2019simple}和
 PiCANet \upcite{liu2018picanet}。
 
@@ -901,7 +942,7 @@ DUTLF-FS、HFUT和LFSD三个数据集上的实验结果，
 LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方法。
 特别是在困难场景最多的的HFUT数据集上，
 在E-measure指标上提升了3.8\%，
-在平均绝对误差上降低了 16.1\%.
+在平均绝对误差上降低了 16.1\%。
 对E-measure指标的提升说明了，
 与现有的光场显著性目标检测方法相比，本章可以生成与真值更加相似的预测图。
 
@@ -1167,7 +1208,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 不同场景的显著性预测的可视化效果。
 在第1行中，本章方法能够更准确的预测出简单场景中显著性物体的边界。
 举例来说，LFTransNet\upcite{liu2023lftransnet}和
-\upcite{liu2021light}等光场显著性检测算法可以准确定位目标，
+DLGLRG\upcite{liu2021light}等光场显著性检测算法可以准确定位目标，
 但是容易受到低对比度的背景噪声影响，从而无法得出完整的显著性预测。
 图中第2行和第3行显示了网络能够在物体有轮廓的时候，
 辨识出包含在显著性物体内部的非显著性区域，如领带的中间背景区域，
@@ -1177,9 +1218,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 再如带有阴影区域的物体（图中第5行），本章所提的方法能够忽略物体影子的干扰，
 做出正确的显著性检测。
 图中第6行显示了在大物体场景下，本章所提方法能够注意到所有显著性的区域。
-在有强干扰的场景下，如图中第7行，本章方法能够忽略同样清晰但是非显著书籍的干扰。
-
-
+在有强干扰的场景下，如图中第7行，本章方法能够忽略同样清晰但是非显著的书籍干扰。
 这些结果显示出本章所提出的基于视角增强模块的光场数据探索方法，能够更有效地利用多焦点数据，准确定位显著区域，
 并在特征整合中突出显著区域、抑制非显著区域。
 
@@ -1396,7 +1435,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 			
 			
 			二元交叉熵损失   & 0.965 & 0.931 & 0.943 & 0.027 & 0.885 & 0.840 & 0.810 & 0.056  \\
-			像素对比学习损失 			
+			+像素对比学习损失 			
 			& \textbf{0.971} & \textbf{0.940} & \textbf{0.949} & \textbf{0.022} 
 			& \textbf{0.902} & \textbf{0.852} & \textbf{0.823} & \textbf{0.052}  \\
 			
