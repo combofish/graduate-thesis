@@ -44,27 +44,20 @@
 光场的定义最早由A.Gershun\upcite{gershun1939light}教授提出，是空间中光线集合的完备表示，采集并显示光场就能在视觉上重现真实世界。
 1991年，MIT的Edward H.Adelson教授和James R.Bergen\upcite{adelson1991plenoptic}教授指出人眼对光线的视觉感知可以认为是沿着单一函数的一个或多个方向的局部变化，描述了光照射到观察面的信息结构。
 一旦定义了这个函数，各种潜在的视觉属性（如运动、颜色和方向）的测量就能够自动分离出来。
-这个函数被称为全光函数，具有七个维度表示，具体公式如下：
-\begin{equation}
-	P(x,y,z,\theta,\varphi,\lambda,t)
-\end{equation}
-其中$(x,y,z)$表示发光物体的空间位置，$(\theta,\varphi)$分别表示传播光线入射的垂直角度和水平角度，$\lambda$表示传播光线的波长，发光物体所发射的光线信息随时时间$t$的推移而变化。
-然而，这种能够记录空间中光线信息的七维全光函数过于复杂、数据量大，难以记录和存储，在实际计算中并未得到应用。
-需要对其进行简化处理。
+这个函数被称为全光函数，具有七个维度表示，具体公式为$P(x,y,z,\theta,\varphi,\lambda,t)$，
+其中$(x,y,z)$表示发光物体的空间位置，$(\theta,\varphi)$
+分别表示传播光线入射的垂直角度和水平角度，$\lambda$表示传播光线的波长，
+发光物体所发射的光线信息随时时间$t$的推移而变化。
+然而，这种能够记录空间中光线信息的七维全光函数过于复杂、数据量大，难以记录和存储，
+在实际计算中并未得到应用。需要对其进行简化处理。
 McMillan等\upcite{mcmillan2023plenoptic}在七维全光函数的基础上提出了
-简化波长$\lambda$和时间$t$的更为方便的五维光场模型。
-\begin{equation}
-	P(x,y,z,\theta,\varphi)
-\end{equation}
-
-
+简化波长$\lambda$和时间$t$的更为方便的五维光场模型$P(x,y,z,\theta,\varphi)$。
+\par
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% Split paragraphs
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \begin{figure}[b]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figures/chapter2/double_plane_model.drawio}
@@ -73,8 +66,6 @@ McMillan等\upcite{mcmillan2023plenoptic}在七维全光函数的基础上提出
 	{Light field biplane four-parameter model\upcite{levoy2023light}}  
 	\label{chapter2_fig1:double_plane}
 \end{figure}
-
-
 五维光场模型通过记录红、绿、蓝三原色来简化波长$\lambda$，以及通过记录不同帧来简化时间$t$。
 实际上，光线在空间传播中，因传播距离而造成的信息损耗微乎其微，光场模型还可以进一步简化。
 Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场模型，
@@ -84,21 +75,14 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 假设光线在没有遮挡物和散射介质的区域，忽略光线在传播过程中波长和时间维度的变化，
 则任意一个包含位置和方向信息的光线都可以用双平面参数来表示，
 空间中的光线穿过这两个平面分别相交于点$(u, v)$和点$(s, t)$，
-光线即可用四维光场函数表示，其模型参数如下：
-\begin{equation}
-	P(u, v, x, y)
-\end{equation}
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%% Split paragraphs
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+光线即可用四维光场函数表示，其模型参数为$P(u, v, x, y)$。
+%
+%
+%
+\par
+%
+%
+%
 在光场成像设备中，可以用$(u, v)$表示光线与微透镜阵列的交点，用$(s, t)$表示光线与CCD传感器探测面的交点。
 一条光线在整个四维空间中对应着光场的一个采样点。四维光场理论的推出为全光相机、相机阵列等设备提供了理论基础。目前，大多数单体全光相机和相机阵列的光场采集设备都遵循着四维光场理论。
 %
@@ -489,7 +473,13 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 
 
 
-
+\begin{figure}[b]
+	\centering
+	\includegraphics[width=0.90\linewidth]{figures/chapter2/re_focus}
+	\bicaption{光场重聚焦的成像原理\upcite{hahne2021plenopticam}}
+	{Imaging principle of light field refocusing\upcite{hahne2021plenopticam}}  
+	\label{chpt2:fig:refocus}
+\end{figure}
 
 
 
@@ -522,21 +512,46 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 
 
 
+
+
+
 （4）
 焦点堆栈
-
-
-
+\par
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% Split paragraphs
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 焦点堆栈是由不同散焦图片组成。
 是目前常用的光场数据的中间表示格式。
+不同散焦图片是由原始数据进行重聚焦生成的。
+重聚焦就是移动像平面，让光线在新的平面重新进行积分运算，
+因为光场所拍摄的原始数据记录来每条光线的方向，所以，
+在移动像平面的时候，可以对光线进行重积分，
+在图~\ref{chpt2:fig:refocus}~中以二维情况为例，
+$P(u,s)$为采集到的光场，$U$和$S$分别表示主镜头孔径所在的平面和微透镜阵列所在的平面，
+两个平面之间的距离为$l$。选择新的对焦平面${S}' $，与$U$平面之间的距离为${l}' $，
+令${l}' =\alpha * l  $。
+${S}' $平面上所成的像等于$U-{S}' $之间的积分：
+\begin{equation}
+I\left ( {S}'  \right )  = \int {P}'\left ( u, s' \right ) ds 
+\end{equation}
+对于同一条光线来说，有$P\left ( u,s \right ) = P' \left ( u, s' \right ) $，
+再根据光线与各平面的交点坐标可以得到如下关系：
+$ \frac{{s}' - u}{{l}'} = \frac{s - u}{l} $，
+令${l}' = \alpha l$，变换后得到：
+$s = \frac{{s}'}{\alpha } + u\left ( 1 - \frac{1}{\alpha }  \right )  $，
+将其带入上述公式，得到：
+\begin{equation}
+	I({s}') = \int P(u,s) du = \int P(u, \frac{s'}{\alpha } + u(1-\frac{1}{\alpha }))du
+\end{equation}
+扩展到四维情况：
+\begin{equation}
+	I(s',t') = \iint P(u, v, u + \frac{s' - u}{\alpha }, v + \frac{t' - v}{\alpha })
+\end{equation}
+
+
 不同的散焦图片具有局部聚焦的效果，如图~\ref{cpt2_fig7:focal_stack}~所示，
 根据景深的不同，即不同散焦图片实际所属的聚焦平面的远近不同，
 来依次排列出焦点堆栈。
@@ -675,51 +690,37 @@ Levoy等\upcite{levoy2023light}忽略掉传播距离维度$z$得到四维光场�
 其中$D$表示视差，$F'$、$H$和$Z'$都是相机内参，用来计算目标$P$点的深度。
 从公式~\ref{cpt2_fac1:relate}~可以看出，
 相机的成像参数对于如何成像发挥着重要作用。
-
-
+\par
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% Split paragraphs
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.85\linewidth]{figures/chapter2/multi_images_fssod}
+	\includegraphics[width=1\linewidth]{figures/chapter2/multi_images_fssod}
 	\bicaption{基于多视角图像的光场显著性目标检测模型\upcite{jing2021occlusion}}
 	{Light field salient object detection model based on multi-view images\upcite{jing2021occlusion}}  
 	\label{chpt2:figure:model_of_multi_inputs}
 \end{figure}
-
-
-
-
 现有基于多视角输入的光场显著性检测网络如图~\ref{chpt2:figure:model_of_multi_inputs}~所示。
 Jing等学者提出OBGNet\upcite{jing2021occlusion}，从水平和垂直的多视角图中提取遮挡边界特征，
+即极视角图，
 同时设计了一种级联解码器，用于生成显著边缘预测和显著对象预测来细化相互编码过程中的特征。
 Zhang等人\upcite{zhang2020multi}提出MTCNet，
-通过0、45、90、135四个角度的多视角图片导出深度的显著特征，并通过3D卷积建模多视角图像之间的视差相关性，
+通过0、45、90、135四个角度的多视角图片导出深度的显著特征，
+并通过3D卷积建模多视角图像之间的视差相关性，
 在解码阶段，提出了特征增强的显著对象生成器来集成这些互补的显着特征，从而产生光场的最终显着对象预测。
 Zhang等研究者\upcite{zhang2022exploring}所提出的 ESCNet网络，
 通过组合网络来实现光场显著性目标检测。
 先使用网络进行光场原生数据的高维特征提取，生成可靠的4D光场信息；
 再构造网络合成每一个多视角切片的显著语义信息
 充分利用多个视点之间的空间相关性，构造基于信息整合的光场显著性目标检测网络。
-
-
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% Split paragraphs
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \BiSubsection{基于焦点堆栈的显著性目标检测原理}
 {Principles of Salient Object Detection via Focus Stack}

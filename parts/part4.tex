@@ -947,6 +947,243 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 与现有的光场显著性目标检测方法相比，本章可以生成与真值更加相似的预测图。
 
 
+%%
+%%
+%\begin{table}[p]
+%	\bicaption{在3个光场公开数据集上与现有方法的定量比较}
+%	{Quantitative comparison with existing methods on 3 light field public datasets}
+%	%	{在3个光场数据集上与现有方法的定量比较}
+%	%	{Quantitative comparison with existing methods on 3 light field datasets}
+%	%	{在 3 个公开数据集上的定量比较}
+%	%	{Quantitative comparisons on three light field datasets}
+%	\centering
+%	%	\label{chpt4:table:comp_with_sota_3_1}
+%	\label{chpt4:tab:cmp_sota}
+%	\resizebox{\textwidth}{!}{
+%		\begin{tabular}{rcccccccccccc}
+%			\toprule[1.5pt]  %添加表格头部粗线
+%			
+%			% title
+%			%			\multirow{2}*{Type} & 
+%			\multicolumn{1}{c}{ \multirow{2}*{方法} } & 
+%			\multicolumn{4}{c}{DUTLF-FS \upcite{zhang2019memory} } &
+%			\multicolumn{4}{c}{HFUT \upcite{zhang2017saliency} } &
+%			\multicolumn{4}{c}{LFSD \upcite{li2014saliency} } \\
+%			
+%			% next line
+%			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
+%			
+%			%			%			 subtitle
+%			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
+%			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$  
+%			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			
+%			& E & S & F & MAE 
+%			& E & S & F & MAE 
+%			& E & S & F & MAE \\
+%			
+%			
+%			% line line
+%			\midrule
+%			
+%			%			\multirow{8}*{\textit{Light field}}
+%			
+%			% 开始填数据
+%			
+%			%			Ours	 
+%			%			&  {\textbf{.973}} & \textbf{ {.946}} 	& \textbf{ {.954}} & \textbf{ {.020}} 
+%			%			& \textbf{ {.871}} &	\textbf{ {.828}} 			&\textbf{	 {.784}} & {\textcolor{red}{.064}} 
+%			%			& \textbf{ {.919}} &	\textcolor{blue}{.860} 			&	\textbf{ {.873}} &	\textbf{ {.064}} 
+%			%			\\
+%			
+%			Ours
+%			& \textbf{.971} & \textcolor{red}{.940}  & \textbf{.949}    & \textbf{.022} 
+%			& \textbf{.902} & \textbf{.852} 		 & \textbf{.823}    & \textbf{.052}  
+%			& \textcolor{red}{.919} & \textcolor{blue}{.864} & \textcolor{red}{.873} & \textcolor{red}{.064}
+%			\\
+%			
+%			LFTrans \upcite{liu2023lftransnet}
+%			& \textcolor{red}{.962} & \textbf{.941} & \textcolor{red}{.937} & \textbf{.022}
+%			& \textcolor{red}{.869} & \textcolor{red}{.838} & \textcolor{red}{.775} & \textcolor{red}{.062}
+%			& \textbf{.925} & \textbf{.905} & \textbf{.900} & \textbf{.047}
+%			\\
+%			
+%			DLGLRG \upcite{liu2021light} 
+%			& \textcolor{blue}{.958} & {\textcolor{red}{.928}} 			& {\textcolor{blue}{.934}} & {\textcolor{red}{.029}} 
+%			&	.839 &	.766 &	.698 &	.070 
+%			& \textcolor{blue}{.906} &	\textcolor{red}{.866} &	\textcolor{blue}{.870} &	.069
+%			\\
+%			
+%			ERNet \upcite{piao2020exploit}
+%			& .947 & .899 & .908 & .039 
+%			&	.841 &	.778 &	.722 &	.082 
+%			&	.888 &	.834 &	.850 &	.082 
+%			\\
+%			
+%			PANet \upcite{piao2021panet} 
+%			& .939 & .908 & .903 & .038 
+%			& .845 & .795 & .738 & .074 
+%			& .892 & .849 & .849 & .076
+%			\\
+%			
+%			LFNet	 \upcite{zhang2020lfnet} 
+%			& .929 & .878 & .890 & .053
+%			&	.846 &	.782 &	.718 &	.073 
+%			&	.885 &	.820 &	.824 &	.092 \\
+%			
+%			MAC	 \upcite{zhang2020light} 
+%			& .863	& .804	& .792	& .102	
+%			&   .797 & .731 & .667 & .107 
+%			& .832 & .782 & .776 & .127 \\
+%			
+%			MoLF	 \upcite{zhang2019memory} 
+%			& .938 & .887 & .902 & .051 
+%			&	.852 &	.789 &	.729 &	.075 
+%			&	.888 &	.830 &	.834 &	.089 \\
+%			
+%			DLSD	\upcite{piao2019deep}
+%			& .891	& .841	& .801	& .076	
+%			&   .783 & .741 & .615 & .098 
+%			& .806 & .737 & .715 & .147 \\
+%			
+%			\midrule % end lfsod
+%			
+%			% start rgb-d
+%			%			\multirow{6}*{\textit{RGB-D}}
+%			
+%			DCF \upcite{ji2021calibrated} 
+%			%			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
+%			%			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+%			
+%			& .954 & .921 & .927 & \textcolor{blue}{.031}
+%			& .856 & \textcolor{blue}{.812} & \textcolor{blue}{.768} & \textcolor{blue}{.065}
+%			& .881 & .809 & .821 & .096 \\
+%			
+%			CIR-Net \upcite{cong2022cir}
+%			& .950 & .916 & .921 & .038 
+%			& \textcolor{blue}{.862} & .800 & .742 & \textcolor{red}{.062}
+%			& .874 & .820 & .816 & .098 \\ 
+%			
+%			VST-$rgbd$  \upcite{liu2021visual} 
+%			& .952 & .920 & .921 & .036 
+%			& .843 & .807 & .754 & .086 
+%			& .851 & .792 & .786 & .110 
+%			\\
+%			
+%			%			& -  & 2022  & \\
+%			%			& -  & 2022  & \\
+%			
+%			BBS-Net     \upcite{fan2020bbs} 
+%			& .900 & .865 & .852 & .066 
+%			& .801 & .751 & .676 & .073 
+%			& .901 & .860 & .858 & .072 \\ 
+%			
+%			SSF     \upcite{zhang2020select} 
+%			& .922 & .879 & .887 & .050 
+%			& .816 & .725 & .647 & .090 
+%			& .901 & .859 & .868 & \textcolor{blue}{.067} \\ 
+%			
+%			S2MA    \upcite{liu2020learning} 
+%			& .839 & .787 & .754 & 	.102 
+%			& .777 & .729 & .650 & .112 
+%			& .873 & .837 &	.835 & .094 \\
+%			
+%			
+%			\midrule % end rgb-d
+%			%			\multirow{7}*{\textit{RGB}}
+%			
+%			VST-$rgb$ \upcite{liu2021visual} 
+%			& .939 & .910 & .911 & .047
+%			& .831 & .808 & .763 & .093 
+%			& .865 & .797 & .817 & .123 
+%			\\ 
+%			
+%			PFSNet \upcite{ma2021pyramidal}
+%			& .912 & .883 & .879 & .057 
+%			& .835 & .800 & .752 & .088 
+%			& .805 & .749 & .727 & .145 
+%			\\ 
+%			
+%			
+%			ITSD \upcite{zhou2020interactive} 
+%			& .930 & .899 & .899 & .052 
+%			& .839 & .805 & .759 & .089 
+%			& .879 & .847 & .840 & .088 
+%			\\ 
+%			
+%			
+%			
+%			LDF \upcite{wei2020label} 
+%			& .898 & .873 & .861 & .061 
+%			& .804 & .780 & .708 & .093 
+%			& .843 & .821 & .803 & .096 
+%			\\ 
+%			
+%			
+%			MINet \upcite{pang2020multi} 
+%			& .916 & .890 & .882 & .050 
+%			& .816 & .792 & .720 & .086 
+%			& .861 & .834 & .828 & .091 
+%			\\ 
+%			
+%			F$^{3}$Net  \upcite{wei2020f3net}
+%			& .900 & .888 & .882 & .057 
+%			& .815 & .777 & .718 & .095 
+%			& .824 & .806 & .797 & .106 
+%			\\ 
+%			
+%			
+%			EGNet   \upcite{zhao2019egnet}
+%			& .914 & .886 & .870 & .053 
+%			& .794 & .772 & .672 & .094 
+%			& .776 & .784 & .762 & .118 
+%			\\ 
+%			
+%			CPD  \upcite{wu2019cascaded}
+%			& .867 & .911 & .866 & .058 
+%			& .772 & .820 & .701 & .086 
+%			& .759 & .820 & .759 & .126 \\
+%			
+%			PoolNet \upcite{liu2019simple}
+%			& .889 & .919 & .868 & .051 
+%			& .776 & .802 & .683 & .092 
+%			& .789 & .800 & .769 & .118 \\
+%			
+%			PiCANet \upcite{liu2018picanet}
+%			& .829 & .892 & .821 & .083 
+%			& .726 & .781 & .618 & .115 
+%			& .729 & .780 & .671 & .158 \\
+%			
+%			%			
+%			%			PAGRN \upcite{wang2018detect}
+%			%			& .822 & .878 & .828 & .084 
+%			%			& .717 & .773 & .635 & .114 
+%			%			& .727 & .805 & .725 & .147 \\
+%			%			
+%			%			C2S   \upcite{li2018contour}
+%			%			& .844 & .874 & .791 & .084 
+%			%			& .763 & .786 & .650 & .111 
+%			%			& .806 & .820 & .749 & .113 \\
+%			%			
+%			%			R3Net  \upcite{deng2018r3net}
+%			%			& .833 & .819 & .783 & .113 
+%			%			& .727 & .728 & .625 & .151 
+%			%			& .789 & .838 & .781 & .128 \\
+%			%			
+%			%			Amulet \upcite{zhang2017amulet}
+%			%			& .847 & .882 & .805 & .030 
+%			%			& .767 & .760 & .636 & .110  
+%			%			& .773 & .821 & .757 & .135 \\
+%			%			
+%			
+%			\bottomrule[1.5pt] % end
+%		\end{tabular}
+%	}
+%\end{table}
+%%
+%%
+
+
 %
 %
 \begin{table}[p]
@@ -997,21 +1234,21 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 			%			\\
 			
 			Ours
-			& \textbf{.971} & \textcolor{red}{.940}  & \textbf{.949}    & \textbf{.022} 
+			& \textbf{.971} & \underline{.940}  & \textbf{.949}    & \textbf{.022} 
 			& \textbf{.902} & \textbf{.852} 		 & \textbf{.823}    & \textbf{.052}  
-			& \textcolor{red}{.919} & \textcolor{blue}{.864} & \textcolor{red}{.873} & \textcolor{red}{.064}
+			& \underline{.919} & \dashuline{.864} & \underline{.873} & \underline{.064}
 			\\
 			
 			LFTrans \upcite{liu2023lftransnet}
-			& \textcolor{red}{.962} & \textbf{.941} & \textcolor{red}{.937} & \textbf{.022}
-			& \textcolor{red}{.869} & \textcolor{red}{.838} & \textcolor{red}{.775} & \textcolor{red}{.062}
+			& \underline{.962} & \textbf{.941} & \underline{.937} & \textbf{.022}
+			& \underline{.869} & \underline{.838} & \underline{.775} & \underline{.062}
 			& \textbf{.925} & \textbf{.905} & \textbf{.900} & \textbf{.047}
 			\\
 			
 			DLGLRG \upcite{liu2021light} 
-			& \textcolor{blue}{.958} & {\textcolor{red}{.928}} 			& {\textcolor{blue}{.934}} & {\textcolor{red}{.029}} 
+			& \dashuline{.958} & {\dashuline{.928}} 			& {\dashuline{.934}} & {\underline{.029}} 
 			&	.839 &	.766 &	.698 &	.070 
-			& \textcolor{blue}{.906} &	\textcolor{red}{.866} &	\textcolor{blue}{.870} &	.069
+			& \dashuline{.906} &	\underline{.866} &	\dashuline{.870} &	.069
 			\\
 			
 			ERNet \upcite{piao2020exploit}
@@ -1052,16 +1289,16 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 			%			\multirow{6}*{\textit{RGB-D}}
 			
 			DCF \upcite{ji2021calibrated} 
-			%			& \textcolor{blue}{.954} & \textcolor{blue}{.921} & \textcolor{blue}{.927} & \textcolor{blue}{.031} 
-			%			& \textcolor{blue}{.856} & {\textcolor{red}{.812}} & {\textcolor{red}{.768}} & \textcolor{blue}{.065} 
+			%			& \dashuline{.954} & \dashuline{.921} & \dashuline{.927} & \dashuline{.031} 
+			%			& \dashuline{.856} & {\underline{.812}} & {\underline{.768}} & \dashuline{.065} 
 			
-			& .954 & .921 & .927 & \textcolor{blue}{.031}
-			& .856 & \textcolor{blue}{.812} & \textcolor{blue}{.768} & \textcolor{blue}{.065}
+			& .954 & .921 & .927 & \dashuline{.031}
+			& .856 & \dashuline{.812} & \dashuline{.768} & \dashuline{.065}
 			& .881 & .809 & .821 & .096 \\
 			
 			CIR-Net \upcite{cong2022cir}
 			& .950 & .916 & .921 & .038 
-			& \textcolor{blue}{.862} & .800 & .742 & \textcolor{red}{.062}
+			& \dashuline{.862} & .800 & .742 & \underline{.062}
 			& .874 & .820 & .816 & .098 \\ 
 			
 			VST-$rgbd$  \upcite{liu2021visual} 
@@ -1081,7 +1318,7 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 			SSF     \upcite{zhang2020select} 
 			& .922 & .879 & .887 & .050 
 			& .816 & .725 & .647 & .090 
-			& .901 & .859 & .868 & \textcolor{blue}{.067} \\ 
+			& .901 & .859 & .868 & \dashuline{.067} \\ 
 			
 			S2MA    \upcite{liu2020learning} 
 			& .839 & .787 & .754 & 	.102 
@@ -1182,7 +1419,6 @@ LFTransNet\upcite{liu2023lftransnet}相媲美的性能，显著优于其他方�
 \end{table}
 %
 %
-
 
 
 
