@@ -97,7 +97,7 @@ Zhang等研究者\upcite{zhang2021geometry}使用图神经网络来聚合不同�
 \BiSection{方法介绍}{Method Introduction}
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.95\linewidth]{figures/chapter3/overview_1}
+	\includegraphics[width=1.\linewidth]{figures/chapter3/overview_1}
 	\bicaption{光场显著性目标检测网络结构图}
 	{The architecture of light field salient object detection network}  
 	\label{cpt3_fig1:overview}
@@ -605,8 +605,8 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 \upcite{piao2020exploit, liu2021light}使用 DUTLF-FS 和 HFUT 的训练集
 来训练本章所提出的基于聚焦感知的网络模型，
 以便与使用焦点堆栈输入训练的其他光场方法进行比较。 
-按照目前最先进的方法\upcite{wang2022lfbcnet,jing2021occlusion}使用 DUTLF-V2 的训练集来训练本章所提出的模型，
-以便与使用多视图输入训练的其他最先进的 LFSOD 方法进行比较。 
+按照近期的方法\upcite{wang2022lfbcnet,jing2021occlusion}使用 DUTLF-V2 的训练集来训练本章所提出的模型，
+以便与使用多视图输入训练的其他最近的光场显著性检测方法进行比较。 
 将每个图像的大小调整为 $256 \times 256$，以便于在训练和测试中实现，
 并且通过随机翻转、裁剪和旋转来增强训练数据。
 使用预训练的 PVT-B2\upcite{wang2022pvt}模型初始化主干网络，
@@ -640,7 +640,7 @@ DUTLF-FS包含1462个样本，分别分为1000个训练样本和462个测试样�
 \BiSubsection{对比实验}{Comparative Experiment}
 %
 %
-为了进行全面比较，本章方法将与 27 个最先进的光场显著性目标检测模型进行比较，
+为了进行全面比较，本章方法将与 27 个最近的显著性目标检测模型进行比较，
 包括7个光场显著性分割方法：
 DLGLRG \upcite{liu2021light}、
 ERNet \upcite{piao2020exploit},
@@ -721,7 +721,7 @@ Amulet \upcite{zhang2017amulet}。
 %
 \indent
 定量的比较结果如表~\ref{chpt3:table:comp_sota}~所示，
-很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了比当前最先进的方法更优越的性能，
+很明显，所提出的方法在 DUTLF-FS 和 HFUT 数据集上实现了与近期不同方法相比更优越的性能，
 同时，所提出的方法可以在除了MAE的另外三个指标上超越其他方法。 
 值得一提的是，与使用大量数据集训练的 RGB 和 RGB-D 的显著性检测方法相比，
 本章方法在小三倍的训练集（10553 vs. 2985 vs. 1100）下取得了显着的优势。 
@@ -745,7 +745,7 @@ ESCNet\upcite{zhang2022exploring}。
 \begin{figure}[p]
 	\centering
 	\includegraphics[width=\linewidth]{figures/chapter3/compare_with_sota}
-	\bicaption{在一些具有挑战性的场景中与最先进方法的可视化比较}
+	\bicaption{在一些具有挑战性的场景中与最近方法的可视化比较}
 	{Visual comparisons with state-of-the-art methods in challenging scenes}
 	\label{figure:figure_comparison_1}
 \end{figure}
@@ -768,7 +768,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\multicolumn{4}{c}{LFSD \upcite{li2014saliency} } \\
 			
 			% next line
-			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
+%			\cmidrule(r){2-5} \cmidrule(r){6-9} \cmidrule(r){10-13}
 			
 			%			 subtitle
 			%			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ 
@@ -831,7 +831,7 @@ ESCNet\upcite{zhang2022exploring}。
 			&   .783 & .741 & .615 & .098 
 			& .806 & .737 & .715 & .147 \\
 			
-			\midrule[1pt] % end lfsod
+%			\midrule[1pt] % end lfsod
 			
 			% start rgb-d
 			%			\multirow{6}*{\textit{RGB-D}}
@@ -871,7 +871,7 @@ ESCNet\upcite{zhang2022exploring}。
 			& .873 & .837 &	.835 & .094 \\
 			
 			
-			\midrule[1pt] 
+%			\midrule[1pt] 
 			
 			%			\multirow{7}*{\textit{RGB}}
 			
@@ -979,7 +979,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\multirow{2}*{输入类型} & \multicolumn{1}{c}{\multirow{2}*{方法}} & \multicolumn{4}{c}{DUTLF-V2 \upcite{piao2020dut}} \\
 			
 			% next line
-			\cmidrule(r){3-6} 
+%			\cmidrule(r){3-6} 
 			
 			% subtitle
 			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow$ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
@@ -991,12 +991,12 @@ ESCNet\upcite{zhang2022exploring}。
 			%								 &  0.9598 & 0.9227 & 0.9173 & 0.0256 \\
 			% multiview
 			
-			\midrule[1pt]
+%			\midrule[1pt]
 			
-			\multirow{3}*{多视角图}
-			& OBGNet \upcite{jing2021occlusion}      &  0.940  & 0.896  & 0.885  & 0.037  \\
-			& LFBCNet \upcite{wang2022lfbcnet}    &  0.940  & 0.890  & 0.870  & -      \\
-			& ESCNet \upcite{zhang2022exploring}      &  0.931  & 0.882  & 0.852  & 0.041  \\
+%			\multirow{3}*{多视角图}
+			多视角图 & OBGNet \upcite{jing2021occlusion}      &  0.940  & 0.896  & 0.885  & 0.037  \\
+			多视角图 & LFBCNet \upcite{wang2022lfbcnet}    &  0.940  & 0.890  & 0.870  & -      \\
+			多视角图 & ESCNet \upcite{zhang2022exploring}      &  0.931  & 0.882  & 0.852  & 0.041  \\
 			
 			
 			\bottomrule[1.5pt]
@@ -1064,40 +1064,57 @@ ESCNet\upcite{zhang2022exploring}。
 	\centering
 	\label{table:abl_total}
 	\label{chpt3:table:abl_total}
-	\resizebox{0.93\linewidth}{!}{
-		\begin{tabular}{cllcccc}
+	\resizebox{0.73\linewidth}{!}{
+		\begin{tabular}{cccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			%%  \multicolumn{1}{c}{ \multirow{2}*{Methods} }
 			
 			\multicolumn{1}{c}{ \multirow{2}*{实验编号}} 
-			& \multicolumn{2}{c}{ \multirow{2}*{设置}}	
+			& \multicolumn{1}{c}{ \multirow{2}*{设置}}	
 			& \multicolumn{4}{c}{DUTLF-FS} \\
 			
-			\cmidrule(r){4-7} 
+%			\cmidrule(r){4-7} 
 			
-			& & & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
+%			&
+			& & $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
 			
 			
 			\midrule
 			
 			%			% 开始填写数据
-			1 & \multicolumn{2}{l}{ 基线网络 }     & 0.947 & 0.894 & 0.901 & 0.048 \\ 
+			1 & 
+			基线网络
+%			\multicolumn{1}{r}{ 基线网络 } 
+			& 0.947 & 0.894 & 0.901 & 0.048 \\ 
 			
 			%		 			\multicolumn{2}{l}{+Token} 	 & 0.959 & 0.918 & 0.926 & 0.037 \\ 
 			
-			\midrule
+%			\midrule
 			
-			2 & \multicolumn{1}{l}{ \multirow{2}*{+令牌通信模块}}	
+			2 & 
+%			\multicolumn{1}{l}{ \multirow{2}*{+}}	
+%			令牌通信模块
+			+令牌交互操作
+%			& 
+%			\multicolumn{1}{c}{+令牌交互操作}  
+			& 0.961 & 0.923 & 0.932 & 0.034 \\ 
+			3 & 
+%			令牌通信模块
+			++令牌移位操作
+%			& 
+%			\multicolumn{1}{c}{++令牌移位操作} 
+			& 0.968 & 0.933 & 0.944 & 0.027 \\
 			
-			& \multicolumn{1}{c}{+令牌交互操作}  & 0.961 & 0.923 & 0.932 & 0.034 \\ 
-			3 & & \multicolumn{1}{c}{++令牌移位操作} & 0.968 & 0.933 & 0.944 & 0.027 \\
+%			\midrule
 			
-			\midrule
-			
-			4 & \multicolumn{2}{l}{++~~~聚焦感知增强} 		
+			4 & 
+			+++聚焦感知增强
+%			\multicolumn{2}{l}{+++~~~聚焦感知增强} 		
 			& \textbf{0.972} & 0.941 & 0.952 & 0.022 \\
 			
-			5 & \multicolumn{2}{l}{+++特征融合模块} 		
+			5 & 
+			++++特征融合模块
+%			\multicolumn{2}{l}{++++特征融合模块} 		
 			& \textbf{0.972} & \textbf{0.942} & \textbf{0.953} & \textbf{0.021} \\ 
 			
 			
@@ -1192,7 +1209,7 @@ ESCNet\upcite{zhang2022exploring}。
 %
 %
 \begin{figure}[t] 
- 	\includegraphics[width=0.99\linewidth]{figures/chapter3/attn_cmp_turn} 
+ 	\includegraphics[width=1.\linewidth]{figures/chapter3/attn_cmp_turn} 
  	\centering
  	\bicaption{令牌通信模块的可视化分析}
  	{Visual analysis of token communication module}
@@ -1208,7 +1225,7 @@ ESCNet\upcite{zhang2022exploring}。
 	{Impact of focal-related token numbers. $M$ indicates the number of focal-related tokens}
 	\centering
 	\label{table:abl_token_number}
-	\resizebox{0.45\linewidth}{!}{
+	\resizebox{0.48\linewidth}{!}{
 		\begin{tabular}{ccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -1216,7 +1233,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\multirow{2}*{$M$} & \multicolumn{4}{c}{DUTLF-FS} \\ % & \multicolumn{3}{c}{HFUT} \\
 			
 			% next line
-			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
+%			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
 			
 			% subtitle
 			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$\\
@@ -1314,7 +1331,7 @@ ESCNet\upcite{zhang2022exploring}。
 	{Comparison of using different $K$ numbers in focal perception enhancement strategy}
 	\centering
 	\label{table:abl_fp}
-	\resizebox{0.45\linewidth}{!}{
+	\resizebox{0.48\linewidth}{!}{
 		\begin{tabular}{ccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -1322,7 +1339,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\multirow{2}*{K} & \multicolumn{4}{c}{DUTLF-FS} \\ % & \multicolumn{3}{c}{HFUT} \\
 			
 			% next line
-			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
+%			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
 			
 			% subtitle
 			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$\\
@@ -1351,7 +1368,7 @@ ESCNet\upcite{zhang2022exploring}。
 	
 	\centering
 	\label{table:abl_methods}
-	\resizebox{0.60\linewidth}{!}{
+	\resizebox{0.63\linewidth}{!}{
 		\begin{tabular}{ccccc}
 			\toprule[1.5pt]  %添加表格头部粗线
 			
@@ -1359,7 +1376,7 @@ ESCNet\upcite{zhang2022exploring}。
 			\multirow{2}*{实验设置} & \multicolumn{4}{c}{DUTLF-FS} \\  % & \multicolumn{3}{c}{HFUT} \\
 			
 			% next line
-			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
+%			\cmidrule(r){2-5} % \cmidrule(r){5-7} % \cmidrule(r){7-8} 
 			
 			% subtitle
 			& $E_{\phi}^{max}\uparrow$ & $S_{\alpha }\uparrow $ & $F_{\beta}^{max}\uparrow$ & MAE$\downarrow$ \\
